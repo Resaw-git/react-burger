@@ -12,6 +12,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  min-width: 1280px;
+  justify-content: space-around;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

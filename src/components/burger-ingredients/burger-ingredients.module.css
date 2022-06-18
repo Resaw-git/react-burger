@@ -1,0 +1,23 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+  max-width: 600px;
+  max-height: 921px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.items {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+
