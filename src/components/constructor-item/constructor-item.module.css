@@ -1,0 +1,51 @@
+.block {
+  width: 568px;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.box {
+  position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 533px;
+    height: 100%;
+    background: #1c1c21;
+    justify-content: flex-start;
+}
+
+.text {
+  width: 240px;
+}
+
+.price {
+  width: 65px;
+  text-align: right;
+}
+
+.dots {
+  position: absolute;
+  left: -30px;
+}
+
+.top {
+  border-radius: 88px 88px 40px 40px;
+}
+
+.middle {
+  border-radius: 40px;
+}
+
+.bottom {
+  border-radius: 40px 40px 88px 88px;
+}
+
+.smallImage {
+  transform: scale(0.55555);
+  width: 130px;
+}

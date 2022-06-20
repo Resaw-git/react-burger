@@ -1,57 +1,63 @@
 import React from "react";
 import {
-  ConstructorElement,
-  Typography,
-  Box,
+  CurrencyIcon,
+  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
-import data from "../../utils/data.json"
+import data from "../../utils/data.json";
 
 const BurgerConstructor = () => {
-  console.log(data)
+  const renderElements = (data) => {
+    return data.map((e) => {
+      return (
+        (e.type === "sauce" || e.type === "main") && (
+          <ConstructorItem
+            key={e._id}
+            position="middle"
+            text={e.name}
+            price={e.price}
+            img={e.image_mobile}
+          />
+        )
+      );
+    });
+  };
+
+  const totalPrice = (data) => {
+    let result = 0;
+    data.map((e) => {
+      result += e.price;
+    });
+    return result;
+  };
+
   return (
     <div className={styles.main}>
-      <div>
-        <div className={styles.elements}>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={data[0].name + " (верх)"}
-            price={data[0].price}
-            thumbnail={data[0].image}
-          />
-          <ConstructorElement
-            text={data[5].name}
-            price={data[5].price}
-            thumbnail={data[5].image}
-          />
-          <ConstructorElement
-            text={data[4].name}
-            price={data[4].price}
-            thumbnail={data[4].image}
-          />
-          <ConstructorElement
-            text={data[7].name}
-            price={data[7].price}
-            thumbnail={data[7].image}
-          />
-          <ConstructorElement
-            text={data[8].name}
-            price={data[8].price}
-            thumbnail={data[8].image}
-          />
-          <ConstructorElement
-            text={data[8].name}
-            price={data[8].price}
-            thumbnail={data[8].image}
-          />
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={data[0].name + " (низ)"}
-            price={data[0].price}
-            thumbnail={data[0].image}
-          />
+      <div className={styles.elements}>
+        <ConstructorItem
+          position="top"
+          img={data[0].image_mobile}
+          text={data[0].name + " (верх)"}
+          price={data[0].price}
+        />
+        <div className={styles.scroll}>{renderElements(data)}</div>
+        <ConstructorItem
+          position="bottom"
+          img={data[0].image_mobile}
+          text={data[0].name + " (низ)"}
+          price={data[0].price}
+        />
+        <div className={styles.block}>
+          <p className="text text_type_digits-medium mr-4">
+            {totalPrice(data)}
+          </p>
+          <div className={styles.bigIcon + " mr-10"}>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button type="primary" size="large">
+            Оформить заказ
+          </Button>
         </div>
       </div>
     </div>

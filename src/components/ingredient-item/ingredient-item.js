@@ -2,15 +2,14 @@ import React from "react";
 import {
   Counter,
   CurrencyIcon,
-  Typography,
-  Box,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
 
-const InggredientItem = (props) => {
+const IngredientItem = (props) => {
+  
   return (
     <div className={styles.block}>
-    {props.count && <Counter count={1} size="default" />}
+      <Counter  count={1} size="default" />
       <img alt={props.name} src={props.img} className={styles.img} />
       <div className={styles.price}>
         <p className="text text_type_digits-default pr-2">{props.price}</p>
@@ -23,4 +22,4 @@ const InggredientItem = (props) => {
   );
 };
 
-export default InggredientItem;
+export default IngredientItem;

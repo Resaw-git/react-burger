@@ -13,8 +13,12 @@ root.render(
     <AppHeader />
     <main className="main">
       <div className="container">
-        <BurgerIngredients />
-        <BurgerConstructor />
+        <section>
+          <BurgerIngredients />
+        </section>
+        <section>
+          <BurgerConstructor />
+        </section>
       </div>
     </main>
   </React.StrictMode>

@@ -19,7 +19,7 @@ body {
 
 .container {
   display: flex;
-  min-width: 1280px;
+  width: 1280px;
   justify-content: space-around;
 }
 

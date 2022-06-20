@@ -1,11 +1,11 @@
-.wrap {
+.warp {
     display: flex;
     flex-direction: column;
 }
 
 .main {
   max-width: 600px;
-  max-height: 921px;
+  max-height: 75vh;
   display: flex;
   flex-direction: column;
 
@@ -17,7 +17,24 @@
   flex-wrap: wrap;
   margin-top: 24px;
   margin-left: 16px;
-  margin-right: 16px;
+  margin-right: 8px;
+}
+
+.scroll {
+  min-height: 565px;
+  overflow-y: scroll;
+  scrollbar-color: #8585AD #2F2F37;
+  scrollbar-width: thin;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
 }
 
 
