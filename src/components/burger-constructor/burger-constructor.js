@@ -27,7 +27,7 @@ const BurgerConstructor = () => {
   const totalPrice = (data) => {
     let result = 0;
     data.map((e) => {
-      result += e.price;
+      return result += e.price;
     });
     return result;
   };
@@ -63,5 +63,7 @@ const BurgerConstructor = () => {
     </div>
   );
 };
+
+
 
 export default BurgerConstructor;
