@@ -2,9 +2,11 @@ import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
-import data from "../../utils/data.json";
 
-const BurgerIngredients = () => {
+
+const BurgerIngredients = ({data}) => {
+  const [current, setCurrent] = React.useState("one");
+  if (data) {
   const renderElements = (data, category) => {
     const type =
       (category === "Булки" && "bun") ||
@@ -34,7 +36,7 @@ const BurgerIngredients = () => {
       </>
     );
   };
-  const [current, setCurrent] = React.useState("one");
+
   return (
     <div className={styles.warp}>
       <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
@@ -58,6 +60,6 @@ const BurgerIngredients = () => {
       </div>
     </div>
   );
-};
+};}
 
 export default BurgerIngredients;

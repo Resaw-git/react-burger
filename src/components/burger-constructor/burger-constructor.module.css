@@ -12,7 +12,7 @@
 }
 
 .block {
-    margin-top: 25px;
+    margin-top: 15px;
     width: 568px;
     height: 80px;
     display: flex;
@@ -27,7 +27,7 @@
 
 .scroll {
     display: grid;
-    gap: 15px;
+    gap: 18px;
     max-height: 475px;
     overflow-y: scroll;
     scrollbar-color: #8585AD #2F2F37;

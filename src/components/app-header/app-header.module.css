@@ -45,5 +45,5 @@
     display: flex;
     align-items: center;
     flex-grow: 1.55;
-    justify-content: end;
+    justify-content: flex-end;
 }

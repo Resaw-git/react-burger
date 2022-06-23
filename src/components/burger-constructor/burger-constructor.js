@@ -5,9 +5,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
-import data from "../../utils/data.json";
 
-const BurgerConstructor = () => {
+
+const BurgerConstructor = ({data}) => {
+  if (data) {
   const renderElements = (data) => {
     return data.map((e) => {
       return (
@@ -62,7 +63,7 @@ const BurgerConstructor = () => {
       </div>
     </div>
   );
-};
+};}
 
 
 
