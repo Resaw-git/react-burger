@@ -20,6 +20,12 @@
   margin-right: 8px;
 }
 
+.tabs {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
 .scroll {
   min-height: 565px;
   overflow-y: scroll;

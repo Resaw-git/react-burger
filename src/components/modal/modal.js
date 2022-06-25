@@ -16,7 +16,7 @@ const Modal = ({ children, setVisible, header }) => {
   React.useEffect(() => {
     document.addEventListener("keydown", escapeModal);
     return () => {
-      document.addEventListener("keydown", escapeModal);
+      document.removeEventListener("keydown", escapeModal);
     };
   }, []);
 

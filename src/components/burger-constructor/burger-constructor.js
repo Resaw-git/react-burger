@@ -6,6 +6,7 @@ import {
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
+import ingredientType from "../../utils/types"
 
 const BurgerConstructor = ({ data, modal, content }) => {
   const getContent = () => {
@@ -71,23 +72,8 @@ const BurgerConstructor = ({ data, modal, content }) => {
 
 export default BurgerConstructor;
 
-const dataPropTypes = PropTypes.shape({
-  calories: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  fat: PropTypes.number,
-  image: PropTypes.string,
-  image_large: PropTypes.string,
-  image_mobile: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  __v: PropTypes.number,
-  _id: PropTypes.string.isRequired,
-});
-
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
   modal: PropTypes.func.isRequired,
   content: PropTypes.func.isRequired,
 };

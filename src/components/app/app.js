@@ -8,6 +8,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
+
 const URL = "https://norma.nomoreparties.space/api/ingredients";
 
 const App = () => {
@@ -46,7 +47,12 @@ const App = () => {
   React.useEffect(() => {
     setData({ ...data, isLoading: true, hasError: false });
     fetch(URL)
-      .then((res) => res.ok && res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
       .then((data) => setData({ ...data, data, isLoading: false }))
       .catch((err) => {
         setData({ ...data, hasError: true, isLoading: false });
