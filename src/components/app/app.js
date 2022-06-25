@@ -4,50 +4,97 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Loader from "../loader/loader";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+
+const URL = "https://norma.nomoreparties.space/api/ingredients";
 
 const App = () => {
-  const url = "https://norma.nomoreparties.space/api/ingredients";
-  const [state, setState] = React.useState({
+  const [data, setData] = React.useState({
     isLoading: false,
     hasError: false,
     data: [],
   });
 
+  const arrIngredients = data.data.data;
+
+  const [modal, setModal] = React.useState(false);
+  const [modalContent, setModalContent] = React.useState({
+    header: "",
+    content: "",
+  });
+
+  const [info, setInfo] = React.useState({});
+
+  const toggleModal = () => setModal(!modal);
+  const getInfoItem = (id) => {
+    setInfo(arrIngredients.find((item) => item._id === id));
+  };
+  const getModalContent = (content) => {
+    if (content === "info") {
+      setModalContent({
+        ...modalContent,
+        header: "Детали ингредиента",
+        content,
+      });
+    } else {
+      setModalContent({ ...modalContent, header: "", content });
+    }
+  };
+
   React.useEffect(() => {
-    setState({ ...state, isLoading: true, hasError: false, });
-    setTimeout(() => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => setState({ ...state, data, isLoading: false }))
-        .catch((e) => {
-          setState({ ...state, hasError: true, isLoading: false });
-          console.log(e);
-        });
-    }, 3000);
+    setData({ ...data, isLoading: true, hasError: false });
+    fetch(URL)
+      .then((res) => res.ok && res.json())
+      .then((data) => setData({ ...data, data, isLoading: false }))
+      .catch((err) => {
+        setData({ ...data, hasError: true, isLoading: false });
+        console.log(err);
+      });
   }, []);
 
   return (
     <>
+      {modal && (
+        <Modal setVisible={toggleModal} header={modalContent.header}>
+          {(modalContent.content === "info" && (
+            <IngredientDetails infoItem={info} />
+          )) || <OrderDetails numberOrder={"034536"} />}
+        </Modal>
+      )}
+
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.container}>
-          {state.isLoading && (
+          {data.isLoading && (
             <div className={styles.info}>
               <Loader />
             </div>
           )}
-          {state.hasError && (
+          {data.hasError && (
             <div className={styles.info}>
-              <p className="text text_type_main-large">Произошла ошибка получения данных</p>
+              <p className="text text_type_main-large">
+                Произошла ошибка получения данных
+              </p>
             </div>
           )}
-          {!state.isLoading && !state.hasError && (
+          {!data.hasError && arrIngredients && (
             <>
               <section>
-                <BurgerIngredients data={state.data.data} />
+                <BurgerIngredients
+                  data={arrIngredients}
+                  modal={toggleModal}
+                  info={getInfoItem}
+                  content={getModalContent}
+                />
               </section>
               <section>
-                <BurgerConstructor data={state.data.data} />
+                <BurgerConstructor
+                  data={arrIngredients}
+                  modal={toggleModal}
+                  content={getModalContent}
+                />
               </section>
             </>
           )}

@@ -2,11 +2,11 @@ import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
+import PropTypes from "prop-types";
 
-
-const BurgerIngredients = ({data}) => {
+const BurgerIngredients = ({ data, modal, info, content }) => {
   const [current, setCurrent] = React.useState("one");
-  if (data) {
+
   const renderElements = (data, category) => {
     const type =
       (category === "Булки" && "bun") ||
@@ -16,10 +16,14 @@ const BurgerIngredients = ({data}) => {
       return (
         e.type === type && (
           <IngredientItem
+            modal={modal}
             key={e._id}
+            id={e._id}
+            info={info}
             name={e.name}
             price={e.price}
             img={e.image_large}
+            content={content}
           />
         )
       );
@@ -31,7 +35,6 @@ const BurgerIngredients = ({data}) => {
         ) : (
           <h2 className="text text_type_main-medium mt-10">{category}</h2>
         )}
-
         <div className={styles.items}>{result}</div>
       </>
     );
@@ -60,6 +63,28 @@ const BurgerIngredients = ({data}) => {
       </div>
     </div>
   );
-};}
+};
 
 export default BurgerIngredients;
+
+const dataPropTypes = PropTypes.shape({
+  calories: PropTypes.number,
+  carbohydrates: PropTypes.number,
+  fat: PropTypes.number,
+  image: PropTypes.string,
+  image_large: PropTypes.string,
+  image_mobile: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  __v: PropTypes.number,
+  _id: PropTypes.string.isRequired,
+});
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+  modal: PropTypes.func.isRequired,
+  content: PropTypes.func.isRequired,
+  info: PropTypes.func.isRequired,
+};

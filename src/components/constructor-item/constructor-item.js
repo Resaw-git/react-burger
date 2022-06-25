@@ -6,6 +6,7 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
+import PropTypes from "prop-types";
 
 const ConstructorItem = (props) => {
   const setPosition = (pos) => {
@@ -47,3 +48,10 @@ const ConstructorItem = (props) => {
 };
 
 export default ConstructorItem;
+
+ConstructorItem.propTypes = {
+  position: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  img: PropTypes.string.isRequired,
+};

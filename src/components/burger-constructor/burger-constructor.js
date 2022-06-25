@@ -5,10 +5,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
+import PropTypes from "prop-types";
 
+const BurgerConstructor = ({ data, modal, content }) => {
+  const getContent = () => {
+    content("order");
+    modal();
+  };
 
-const BurgerConstructor = ({data}) => {
-  if (data) {
   const renderElements = (data) => {
     return data.map((e) => {
       return (
@@ -28,7 +32,7 @@ const BurgerConstructor = ({data}) => {
   const totalPrice = (data) => {
     let result = 0;
     data.map((e) => {
-      return result += e.price;
+      return (result += e.price);
     });
     return result;
   };
@@ -53,18 +57,37 @@ const BurgerConstructor = ({data}) => {
           <p className="text text_type_digits-medium mr-4">
             {totalPrice(data)}
           </p>
-          <div className={styles.bigIcon + " mr-10"}>
+          <div className={[styles.bigIcon, "mr-10"].join(" ")}>
             <CurrencyIcon type="primary" />
           </div>
-          <Button type="primary" size="large">
+          <Button onClick={getContent} type="primary" size="large">
             Оформить заказ
           </Button>
         </div>
       </div>
     </div>
   );
-};}
-
-
+};
 
 export default BurgerConstructor;
+
+const dataPropTypes = PropTypes.shape({
+  calories: PropTypes.number,
+  carbohydrates: PropTypes.number,
+  fat: PropTypes.number,
+  image: PropTypes.string,
+  image_large: PropTypes.string,
+  image_mobile: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  __v: PropTypes.number,
+  _id: PropTypes.string.isRequired,
+});
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+  modal: PropTypes.func.isRequired,
+  content: PropTypes.func.isRequired,
+};
