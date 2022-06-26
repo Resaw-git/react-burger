@@ -1,0 +1,23 @@
+.block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 272px;
+    height: 208px;
+    align-items: center;
+}
+
+.img {
+    width: 240px;
+    height: 120px;
+}
+
+.price {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.name {
+    text-align: center;
+}

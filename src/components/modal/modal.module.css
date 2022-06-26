@@ -1,0 +1,22 @@
+.modal {
+  position: fixed;
+  background: #1C1C21;
+  left: calc(50% - 720px/2);
+  top: calc(50% - 540px/2);
+  width: 720px;
+  min-height: 540px;
+  border: 1px solid #4C4CFF33;
+  border-radius: 40px;
+}
+
+.cross {
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  cursor: pointer;
+}
+
+.header {
+  margin-top: 40px;
+  margin-left: 40px;
+}
