@@ -7,18 +7,22 @@ import Loader from "../loader/loader";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchIngredients } from "../../services/actions/ingredients";
 
 
-const URL = "https://norma.nomoreparties.space/api/ingredients";
 
 const App = () => {
-  const [data, setData] = React.useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
+  const {ingredientsArray} = useSelector((store) => store.ingredients);
+  const {ingredientsFailed} = useSelector((store) => store.ingredients);
+  const {ingredientsRequest} = useSelector((store) => store.ingredients);
 
-  const arrIngredients = data.data.data;
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
 
   const [modal, setModal] = React.useState(false);
   const [modalContent, setModalContent] = React.useState({
@@ -30,7 +34,7 @@ const App = () => {
 
   const toggleModal = () => setModal(!modal);
   const getInfoItem = (id) => {
-    setInfo(arrIngredients.find((item) => item._id === id));
+    setInfo(ingredientsArray.find((item) => item._id === id));
   };
   const getModalContent = (content) => {
     if (content === "info") {
@@ -43,22 +47,6 @@ const App = () => {
       setModalContent({ ...modalContent, header: "", content });
     }
   };
-
-  React.useEffect(() => {
-    setData({ ...data, isLoading: true, hasError: false });
-    fetch(URL)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((data) => setData({ ...data, data, isLoading: false }))
-      .catch((err) => {
-        setData({ ...data, hasError: true, isLoading: false });
-        console.log(err);
-      });
-  }, []);
 
   return (
     <>
@@ -73,23 +61,22 @@ const App = () => {
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.container}>
-          {data.isLoading && (
+          {ingredientsRequest && (
             <div className={styles.info}>
               <Loader />
             </div>
           )}
-          {data.hasError && (
+          {ingredientsFailed && (
             <div className={styles.info}>
               <p className="text text_type_main-large">
                 Произошла ошибка получения данных
               </p>
             </div>
           )}
-          {!data.hasError && arrIngredients && (
+          {!ingredientsFailed && ingredientsArray.length > 0 && (
             <>
               <section>
                 <BurgerIngredients
-                  data={arrIngredients}
                   modal={toggleModal}
                   info={getInfoItem}
                   content={getModalContent}
@@ -97,7 +84,6 @@ const App = () => {
               </section>
               <section>
                 <BurgerConstructor
-                  data={arrIngredients}
                   modal={toggleModal}
                   content={getModalContent}
                 />

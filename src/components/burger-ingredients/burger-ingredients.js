@@ -3,17 +3,19 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import PropTypes from "prop-types";
-import ingredientType from "../../utils/types"
+import { useSelector } from "react-redux";
 
-const BurgerIngredients = ({ data, modal, info, content }) => {
+const BurgerIngredients = ({ modal, info, content }) => {
+  const { ingredientsArray } = useSelector((store) => store.ingredients);
+
   const [current, setCurrent] = React.useState("one");
 
-  const renderElements = (data, category) => {
+  const renderElements = (ingredients, category) => {
     const type =
       (category === "Булки" && "bun") ||
       (category === "Соусы" && "sauce") ||
       (category === "Начинки" && "main");
-    const result = data.map((e) => {
+    const result = ingredients.map((e) => {
       return (
         e.type === type && (
           <IngredientItem
@@ -21,9 +23,6 @@ const BurgerIngredients = ({ data, modal, info, content }) => {
             key={e._id}
             id={e._id}
             info={info}
-            name={e.name}
-            price={e.price}
-            img={e.image_large}
             content={content}
           />
         )
@@ -31,11 +30,14 @@ const BurgerIngredients = ({ data, modal, info, content }) => {
     });
     return (
       <>
-        {category === "Булки" ? (
-          <h2 className="text text_type_main-medium">{category}</h2>
-        ) : (
-          <h2 className="text text_type_main-medium mt-10">{category}</h2>
-        )}
+        <h2
+          className={
+            "text text_type_main-medium" +
+            (category !== "Булки" ? " mt-10" : "")
+          }
+        >
+          {category}
+        </h2>
         <div className={styles.items}>{result}</div>
       </>
     );
@@ -57,9 +59,9 @@ const BurgerIngredients = ({ data, modal, info, content }) => {
           </Tab>
         </div>
         <div className={styles.scroll}>
-          {renderElements(data, "Булки")}
-          {renderElements(data, "Соусы")}
-          {renderElements(data, "Начинки")}
+          {renderElements(ingredientsArray, "Булки")}
+          {renderElements(ingredientsArray, "Соусы")}
+          {renderElements(ingredientsArray, "Начинки")}
         </div>
       </div>
     </div>
@@ -68,10 +70,7 @@ const BurgerIngredients = ({ data, modal, info, content }) => {
 
 export default BurgerIngredients;
 
-
-
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
   modal: PropTypes.func.isRequired,
   content: PropTypes.func.isRequired,
   info: PropTypes.func.isRequired,

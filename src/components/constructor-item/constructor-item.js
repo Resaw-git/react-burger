@@ -7,14 +7,31 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+  TOTAL_SUM,
+  addBun
+} from "../../services/actions/constructor";
 
 const ConstructorItem = (props) => {
+  const { ingredientsArray } = useSelector((store) => store.ingredients);
+  const dispatch = useDispatch()
+
+
+
+  const element = ingredientsArray.find((el) => el._id === props.id && el);
+
+  React.useEffect(() => {
+    dispatch(addBun(element));
+  }, [])
+
   const setPosition = (pos) => {
     const position =
       (pos === "top" && styles.top) ||
       (pos === "middle" && styles.middle) ||
       styles.bottom;
-
     return position;
   };
 
@@ -28,13 +45,18 @@ const ConstructorItem = (props) => {
         )}
 
         <div className={styles.smallImage}>
-          <img src={props.img} alt={props.text} />
+          <img src={element.image_mobile} alt={element.name} />
         </div>
         <div className={styles.text}>
-          <p className="text text_type_main-default mr-5">{props.text}</p>
+          <p className="text text_type_main-default mr-5">
+            {element.name +
+              ((props.position === "top" && " (верх)") ||
+                (props.position === "bottom" && " (низ)") ||
+                "")}
+          </p>
         </div>
         <div className={styles.price}>
-          <p className="text text_type_digits-default mr-2">{props.price}</p>
+          <p className="text text_type_digits-default mr-2">{element.price}</p>
         </div>
 
         <CurrencyIcon />
@@ -51,7 +73,4 @@ export default ConstructorItem;
 
 ConstructorItem.propTypes = {
   position: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  img: PropTypes.string.isRequired,
 };
