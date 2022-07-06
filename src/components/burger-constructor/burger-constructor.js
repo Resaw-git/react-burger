@@ -7,6 +7,7 @@ import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
+import { GET_ORDER } from "../../services/actions/order";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -15,8 +16,9 @@ const BurgerConstructor = () => {
   const openModal = () => {
     dispatch({
       type: MODAL_OPEN,
-      item: "",
-      header: "",
+    });
+    dispatch({
+      type: GET_ORDER,
     });
   };
 

@@ -2,13 +2,13 @@ import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = () => {
   const { ingredientsArray } = useSelector((store) => store.ingredients);
 
-  const [current, setCurrent] = React.useState("one");
+  const [current, setCurrent] = React.useState("bun");
 
   const renderElements = (ingredients, category) => {
     const type =
@@ -16,14 +16,7 @@ const BurgerIngredients = () => {
       (category === "Соусы" && "sauce") ||
       (category === "Начинки" && "main");
     const result = ingredients.map((e) => {
-      return (
-        e.type === type && (
-          <IngredientItem
-            key={e._id}
-            id={e._id}
-          />
-        )
-      );
+      return e.type === type && <IngredientItem key={e._id} id={e._id} />;
     });
     return (
       <>
@@ -40,25 +33,46 @@ const BurgerIngredients = () => {
     );
   };
 
+  const [bunRef, inViewBun] = useInView({
+    threshold: 0.8,
+  });
+  const [sauceRef, inViewSauce] = useInView({
+    threshold: 0.6,
+  });
+  const [mainRef, inViewMain] = useInView({
+    threshold: 0.2,
+  });
+
+  React.useEffect(() => {
+    if (inViewBun) {
+      setCurrent("bun");
+    } else if (inViewSauce) {
+      setCurrent("sauce");
+    } else if (inViewMain) {
+      setCurrent("main");
+    }
+  }, [inViewBun, inViewSauce, inViewMain]);
+
+
   return (
     <div className={styles.warp}>
       <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
       <div className={styles.main}>
         <div className={styles.tabs}>
-          <Tab value="one" active={current === "one"} onClick={setCurrent}>
+          <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
             Булки
           </Tab>
-          <Tab value="two" active={current === "two"} onClick={setCurrent}>
+          <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
             Соусы
           </Tab>
-          <Tab value="three" active={current === "three"} onClick={setCurrent}>
+          <Tab value="main" active={current === "main"} onClick={setCurrent}>
             Начинки
           </Tab>
         </div>
         <div className={styles.scroll}>
-          {renderElements(ingredientsArray, "Булки")}
-          {renderElements(ingredientsArray, "Соусы")}
-          {renderElements(ingredientsArray, "Начинки")}
+          <div ref={bunRef}>{renderElements(ingredientsArray, "Булки")}</div>
+          <div ref={sauceRef}>{renderElements(ingredientsArray, "Соусы")}</div>
+          <div ref={mainRef}>{renderElements(ingredientsArray, "Начинки")}</div>
         </div>
       </div>
     </div>
@@ -66,5 +80,3 @@ const BurgerIngredients = () => {
 };
 
 export default BurgerIngredients;
-
-

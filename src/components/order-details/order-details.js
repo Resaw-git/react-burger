@@ -1,17 +1,9 @@
 import React from "react";
 import styles from "./order-details.module.css";
-import { GET_ORDER } from "../../services/actions/order";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  const dispatch = useDispatch()
-  const { orderNumber } = useSelector(store => store.order)
-
-  React.useEffect(() => {
-    dispatch({
-      type: GET_ORDER
-    });
-  }, [dispatch]);
+  const { orderNumber } = useSelector((store) => store.order);
 
   return (
     <div className={styles.main}>
@@ -33,4 +25,3 @@ const OrderDetails = () => {
 };
 
 export default OrderDetails;
-
