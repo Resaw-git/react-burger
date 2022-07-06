@@ -4,22 +4,26 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { MODAL_OPEN } from "../../services/actions/modal";
 
 const IngredientItem = (props) => {
   const { ingredientsArray } = useSelector((store) => store.ingredients);
-  const throwProps = () => {
-    props.info(props.id);
-    props.content("info");
-    props.modal();
+
+  const element = ingredientsArray.find((el) => el._id === props.id && el);
+
+  const dispatch = useDispatch();
+
+  const modal = () => {
+    dispatch({
+      type: MODAL_OPEN,
+      item: element,
+      header: "Детали ингредиента",
+    });
   };
 
-  const element = ingredientsArray.find((el) => el._id === props.id && el)
-
   return (
-    <div className={styles.block} onClick={throwProps}>
+    <div className={styles.block} onClick={modal}>
       <Counter count={1} size="default" />
       <img alt={element.name} src={element.image} className={styles.img} />
       <div className={styles.price}>
@@ -34,9 +38,3 @@ const IngredientItem = (props) => {
 };
 
 export default IngredientItem;
-
-IngredientItem.propTypes = {
-  info: PropTypes.func.isRequired,
-  content: PropTypes.func.isRequired,
-  modal: PropTypes.func.isRequired,
-};

@@ -1,20 +1,20 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
-import ingredientType from "../../utils/types"
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ infoItem }) => {
+const IngredientDetails = () => {
+  const { modalData } = useSelector((store) => store.modal);
   return (
     <div className={styles.main}>
-      <img src={infoItem.image_large} alt={"ingredient"} />
-      <p className="text text_type_main-medium mt-4">{infoItem.name}</p>
+      <img src={modalData.image_large} alt={"ingredient"} />
+      <p className="text text_type_main-medium mt-4">{modalData.name}</p>
       <div className={styles.details + " mt-8"}>
         <div className={styles.nutrition}>
           <p className="text text_type_main-default text_color_inactive">
             Калории,ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive mt-2">
-            {infoItem.calories}
+            {modalData.calories}
           </p>
         </div>
         <div className={styles.nutrition}>
@@ -22,7 +22,7 @@ const IngredientDetails = ({ infoItem }) => {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive mt-2">
-            {infoItem.proteins}
+            {modalData.proteins}
           </p>
         </div>
         <div className={styles.nutrition}>
@@ -30,7 +30,7 @@ const IngredientDetails = ({ infoItem }) => {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive mt-2">
-            {infoItem.fat}
+            {modalData.fat}
           </p>
         </div>
         <div className={styles.nutrition}>
@@ -38,7 +38,7 @@ const IngredientDetails = ({ infoItem }) => {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive mt-2">
-            {infoItem.carbohydrates}
+            {modalData.carbohydrates}
           </p>
         </div>
       </div>
@@ -47,7 +47,3 @@ const IngredientDetails = ({ infoItem }) => {
 };
 
 export default IngredientDetails;
-
-IngredientDetails.propTypes = {
-  infoItem: ingredientType.isRequired,
-};

@@ -5,7 +5,7 @@ import IngredientItem from "../ingredient-item/ingredient-item";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-const BurgerIngredients = ({ modal, info, content }) => {
+const BurgerIngredients = () => {
   const { ingredientsArray } = useSelector((store) => store.ingredients);
 
   const [current, setCurrent] = React.useState("one");
@@ -19,11 +19,8 @@ const BurgerIngredients = ({ modal, info, content }) => {
       return (
         e.type === type && (
           <IngredientItem
-            modal={modal}
             key={e._id}
             id={e._id}
-            info={info}
-            content={content}
           />
         )
       );
@@ -70,8 +67,4 @@ const BurgerIngredients = ({ modal, info, content }) => {
 
 export default BurgerIngredients;
 
-BurgerIngredients.propTypes = {
-  modal: PropTypes.func.isRequired,
-  content: PropTypes.func.isRequired,
-  info: PropTypes.func.isRequired,
-};
+

@@ -10,12 +10,11 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients";
 
-
-
 const App = () => {
-  const {ingredientsArray} = useSelector((store) => store.ingredients);
-  const {ingredientsFailed} = useSelector((store) => store.ingredients);
-  const {ingredientsRequest} = useSelector((store) => store.ingredients);
+  const { ingredientsArray, ingredientsFailed, ingredientsRequest } =
+    useSelector((store) => store.ingredients);
+
+  const { modalOpen, header } = useSelector(store => store.modal);
 
   const dispatch = useDispatch();
 
@@ -23,41 +22,15 @@ const App = () => {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
-
-  const [modal, setModal] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState({
-    header: "",
-    content: "",
-  });
-
-  const [info, setInfo] = React.useState({});
-
-  const toggleModal = () => setModal(!modal);
-  const getInfoItem = (id) => {
-    setInfo(ingredientsArray.find((item) => item._id === id));
-  };
-  const getModalContent = (content) => {
-    if (content === "info") {
-      setModalContent({
-        ...modalContent,
-        header: "Детали ингредиента",
-        content,
-      });
-    } else {
-      setModalContent({ ...modalContent, header: "", content });
-    }
-  };
-
   return (
     <>
-      {modal && (
-        <Modal setVisible={toggleModal} header={modalContent.header}>
-          {(modalContent.content === "info" && (
-            <IngredientDetails infoItem={info} />
-          )) || <OrderDetails numberOrder={"034536"} />}
+    { modalOpen &&
+      (
+        <Modal>
+        {header ? <IngredientDetails /> : <OrderDetails />}
         </Modal>
-      )}
-
+      )
+    }
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.container}>
@@ -76,17 +49,10 @@ const App = () => {
           {!ingredientsFailed && ingredientsArray.length > 0 && (
             <>
               <section>
-                <BurgerIngredients
-                  modal={toggleModal}
-                  info={getInfoItem}
-                  content={getModalContent}
-                />
+                <BurgerIngredients />
               </section>
               <section>
-                <BurgerConstructor
-                  modal={toggleModal}
-                  content={getModalContent}
-                />
+                <BurgerConstructor />
               </section>
             </>
           )}

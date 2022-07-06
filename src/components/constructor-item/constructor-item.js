@@ -8,24 +8,31 @@ import {
 import styles from "./constructor-item.module.css";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  ADD_INGREDIENT,
-  DELETE_INGREDIENT,
-  TOTAL_SUM,
-  addBun
-} from "../../services/actions/constructor";
+import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../../services/actions/constructor";
 
 const ConstructorItem = (props) => {
   const { ingredientsArray } = useSelector((store) => store.ingredients);
-  const dispatch = useDispatch()
-
-
+  const { list } = useSelector((store) => store.constructorList);
+  const dispatch = useDispatch();
 
   const element = ingredientsArray.find((el) => el._id === props.id && el);
 
-  React.useEffect(() => {
-    dispatch(addBun(element));
-  }, [])
+  const add = (element) => {
+    dispatch({
+      type: ADD_INGREDIENT,
+      item: element,
+    });
+  };
+
+  const del = (id) => {
+    dispatch({
+      type: DELETE_INGREDIENT,
+      id: id
+    })
+  }
+
+  const test = () => {add(element)}
+  const test1 = () => {del("60d3b41abdacab0026a733cd")}
 
   const setPosition = (pos) => {
     const position =
@@ -45,7 +52,7 @@ const ConstructorItem = (props) => {
         )}
 
         <div className={styles.smallImage}>
-          <img src={element.image_mobile} alt={element.name} />
+          <img src={element.image_mobile} alt={element.name} onClick={test}/>
         </div>
         <div className={styles.text}>
           <p className="text text_type_main-default mr-5">
@@ -61,7 +68,7 @@ const ConstructorItem = (props) => {
 
         <CurrencyIcon />
         <div className="mr-5"></div>
-        {(props.position === "middle" && <DeleteIcon type="primary" />) || (
+        {(props.position === "middle" && <DeleteIcon type="primary" onClick={test1} />) || (
           <LockIcon type="secondary" />
         )}
       </div>
