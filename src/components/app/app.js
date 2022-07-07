@@ -9,12 +9,14 @@ import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 const App = () => {
   const { ingredientsArray, ingredientsFailed, ingredientsRequest } =
     useSelector((store) => store.ingredients);
 
-  const { modalOpen, header } = useSelector(store => store.modal);
+  const { modalOpen, header } = useSelector((store) => store.modal);
 
   const dispatch = useDispatch();
 
@@ -24,13 +26,9 @@ const App = () => {
 
   return (
     <>
-    { modalOpen &&
-      (
-        <Modal>
-        {header ? <IngredientDetails /> : <OrderDetails />}
-        </Modal>
-      )
-    }
+      {modalOpen && (
+        <Modal>{header ? <IngredientDetails /> : <OrderDetails />}</Modal>
+      )}
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.container}>
@@ -47,14 +45,14 @@ const App = () => {
             </div>
           )}
           {!ingredientsFailed && ingredientsArray.length > 0 && (
-            <>
+            <DndProvider backend={HTML5Backend}>
               <section>
                 <BurgerIngredients />
               </section>
               <section>
                 <BurgerConstructor />
               </section>
-            </>
+            </DndProvider>
           )}
         </div>
       </main>

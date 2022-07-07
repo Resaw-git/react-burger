@@ -1,8 +1,8 @@
 .block {
-  width: 568px;
+  width: 582px;
   height: 80px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   margin-right: 10px;
@@ -10,13 +10,19 @@
 
 .box {
   position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 533px;
-    height: 100%;
-    background: #1c1c21;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 533px;
+  height: 100%;
+  background: #1c1c21;
+  justify-content: flex-start;
+}
+
+.empty_box {
+  composes: box;
+  justify-content: center;
+  text-align: center;
 }
 
 .text {

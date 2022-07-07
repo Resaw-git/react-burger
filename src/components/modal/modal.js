@@ -39,7 +39,7 @@ const Modal = ({ children }) => {
           <h2 className="text text_type_main-large">{header}</h2>
         </header>
         <div className={styles.cross}>
-          <CloseIcon onClick={modalClose} />
+          <CloseIcon type="primary" onClick={modalClose} />
         </div>
         {children}
       </div>

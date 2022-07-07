@@ -15,9 +15,11 @@ const BurgerIngredients = () => {
       (category === "Булки" && "bun") ||
       (category === "Соусы" && "sauce") ||
       (category === "Начинки" && "main");
-    const result = ingredients.map((e) => {
-      return e.type === type && <IngredientItem key={e._id} id={e._id} />;
-    });
+
+    const result = ingredients.map(
+      (e) => e.type === type && <IngredientItem key={e._id} id={e._id} />
+    );
+
     return (
       <>
         <h2
@@ -34,10 +36,10 @@ const BurgerIngredients = () => {
   };
 
   const [bunRef, inViewBun] = useInView({
-    threshold: 0.8,
+    threshold: 0.5,
   });
   const [sauceRef, inViewSauce] = useInView({
-    threshold: 0.6,
+    threshold: 0.5,
   });
   const [mainRef, inViewMain] = useInView({
     threshold: 0.2,
@@ -52,7 +54,6 @@ const BurgerIngredients = () => {
       setCurrent("main");
     }
   }, [inViewBun, inViewSauce, inViewMain]);
-
 
   return (
     <div className={styles.warp}>

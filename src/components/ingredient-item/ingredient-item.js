@@ -6,13 +6,44 @@ import {
 import styles from "./ingredient-item.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
+import { useDrag } from "react-dnd";
 
 const IngredientItem = (props) => {
   const { ingredientsArray } = useSelector((store) => store.ingredients);
+  const { constructorBun, constructorIng } = useSelector(
+    (store) => store.constructorList
+  );
 
   const element = ingredientsArray.find((el) => el._id === props.id && el);
 
+  const counter = React.useMemo(() => {
+    let count = 0;
+
+    if (element.type !== "bun") {
+      constructorIng.map((e) => {
+        if (e._id === element._id) {
+          ++count;
+        }
+      });
+    } else {
+      constructorBun.map((e) => {
+        if (e._id === element._id) {
+          return count = 2;
+        }
+      });
+    }
+    return count;
+  }, [constructorIng, constructorBun]);
+
   const dispatch = useDispatch();
+
+  const [{ isDrag }, dragRef] = useDrag({
+    type: "ingredient",
+    item: element,
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
+  });
 
   const modal = () => {
     dispatch({
@@ -23,8 +54,10 @@ const IngredientItem = (props) => {
   };
 
   return (
-    <div className={styles.block} onClick={modal}>
-      <Counter count={1} size="default" />
+    <div className={styles.block} onClick={modal} ref={dragRef}>
+      {counter !== 0 && (
+        <Counter count={counter} size="default" />
+      )}
       <img alt={element.name} src={element.image} className={styles.img} />
       <div className={styles.price}>
         <p className="text text_type_digits-default pr-2">{element.price}</p>
