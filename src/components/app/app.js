@@ -11,14 +11,27 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+import {MODAL_CLOSE} from "../../services/actions/modal";
+import {RESET_ORDER} from "../../services/actions/order";
 
 const App = () => {
   const { ingredientsArray, ingredientsFailed, ingredientsRequest } =
     useSelector((store) => store.ingredients);
 
+  const { orderRequest } = useSelector((store) => store.order);
+
   const { modalOpen, header } = useSelector((store) => store.modal);
 
   const dispatch = useDispatch();
+
+    const modalClose = () => {
+      dispatch({
+        type: MODAL_CLOSE,
+      });
+      dispatch({
+        type: RESET_ORDER
+      })
+    };
 
   React.useEffect(() => {
     dispatch(fetchIngredients());
@@ -27,7 +40,15 @@ const App = () => {
   return (
     <>
       {modalOpen && (
-        <Modal>{header ? <IngredientDetails /> : <OrderDetails />}</Modal>
+        <Modal onClose={modalClose}>
+          {orderRequest ? (
+            <Loader />
+          ) : header ? (
+            <IngredientDetails />
+          ) : (
+            <OrderDetails />
+          )}
+        </Modal>
       )}
       <AppHeader />
       <main className={styles.main}>

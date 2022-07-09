@@ -2,7 +2,7 @@ import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   ADD_BUN,
-  REORDER_INGREDIENT,
+  REORDER_INGREDIENT, RESET_INGREDIENTS,
 } from "../actions/constructor";
 
 const initialState = {
@@ -34,11 +34,18 @@ export const constructorReducer = (state = initialState, action) => {
     }
     case REORDER_INGREDIENT: {
       const data = [...state.constructorIng];
-      data.splice(action.hoverIndex , 0, data.splice(action.dragIndex, 1)[0]);
+      data.splice(action.hoverIndex, 0, data.splice(action.dragIndex, 1)[0]);
 
       return {
         ...state,
-        constructorIng: data
+        constructorIng: data,
+      };
+    }
+    case RESET_INGREDIENTS: {
+      return {
+        ...state,
+        constructorBun: [],
+        constructorIng: [],
       };
     }
     default: {

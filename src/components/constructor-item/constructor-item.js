@@ -43,32 +43,27 @@ const ConstructorItem = ({ el, index, position }) => {
       if (!ref.current) {
         return;
       }
-      // Индекс перемещаемого элемента
+
       const dragIndex = item.index;
-      // Индекс текущего элемента (над которым находится курсор при dnd)
       const hoverIndex = index;
 
-      // Выходим, если индексы сопадают
       if (dragIndex === hoverIndex) {
         return;
       }
 
-      // Получаем положение текущего элемента относительно экрана
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      // Получаем центр текущего элемента по вертикали
+
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      // Получаем положение курсора
+
       const clientOffset = monitor.getClientOffset();
-      // Получает положение курсора относительно текущего элемента
+
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      // Выходим, если перемещаемый элемент ниже, чем 50% от высоты текущего
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
 
-      // Выходим, если перемещаемый элемент выше, чем 50% от высоты текущего
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
@@ -79,7 +74,6 @@ const ConstructorItem = ({ el, index, position }) => {
         hoverIndex: hoverIndex,
       });
 
-      // Сразу меняем индекс перемещаемого элемента
       item.index = hoverIndex;
     },
   });
@@ -87,7 +81,6 @@ const ConstructorItem = ({ el, index, position }) => {
   const [{ isDragging }, drag] = useDrag({
     type: "constructor",
     item: () => {
-      // Определяем элемент
       return { id: el._id, index };
     },
     collect: (monitor) => ({
@@ -138,7 +131,7 @@ const ConstructorItem = ({ el, index, position }) => {
           </div>
           <div className={styles.text}>
             <p className="text text_type_main-default mr-5">
-              {constructorBun[0].name}
+              {constructorBun[0].name + (position === "top" ? " (верх)" : " (низ)")}
             </p>
           </div>
           <div className={styles.price}>
@@ -146,7 +139,7 @@ const ConstructorItem = ({ el, index, position }) => {
               {constructorBun[0].price}
             </p>
           </div>
-          <CurrencyIcon type="primary"/>
+          <CurrencyIcon type="primary" />
           <div className="mr-5"></div>
           <LockIcon type="secondary" />
         </div>
@@ -165,7 +158,7 @@ const ConstructorItem = ({ el, index, position }) => {
           <div className={styles.price}>
             <p className="text text_type_digits-default mr-2">{el.price}</p>
           </div>
-          <CurrencyIcon type="primary"/>
+          <CurrencyIcon type="primary" />
           <div className="mr-5"></div>
           <DeleteIcon type="primary" onClick={deleteIng} />
         </div>
