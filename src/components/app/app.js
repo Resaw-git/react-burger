@@ -7,102 +7,73 @@ import Loader from "../loader/loader";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-
-
-const URL = "https://norma.nomoreparties.space/api/ingredients";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchIngredients } from "../../services/actions/ingredients";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+import {MODAL_CLOSE} from "../../services/actions/modal";
+import {RESET_ORDER} from "../../services/actions/order";
 
 const App = () => {
-  const [data, setData] = React.useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
+  const { ingredientsArray, ingredientsFailed, ingredientsRequest } =
+    useSelector((store) => store.ingredients);
 
-  const arrIngredients = data.data.data;
+  const { orderRequest } = useSelector((store) => store.order);
 
-  const [modal, setModal] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState({
-    header: "",
-    content: "",
-  });
+  const { modalOpen, header } = useSelector((store) => store.modal);
 
-  const [info, setInfo] = React.useState({});
+  const dispatch = useDispatch();
 
-  const toggleModal = () => setModal(!modal);
-  const getInfoItem = (id) => {
-    setInfo(arrIngredients.find((item) => item._id === id));
-  };
-  const getModalContent = (content) => {
-    if (content === "info") {
-      setModalContent({
-        ...modalContent,
-        header: "Детали ингредиента",
-        content,
+    const modalClose = () => {
+      dispatch({
+        type: MODAL_CLOSE,
       });
-    } else {
-      setModalContent({ ...modalContent, header: "", content });
-    }
-  };
+      dispatch({
+        type: RESET_ORDER
+      })
+    };
 
   React.useEffect(() => {
-    setData({ ...data, isLoading: true, hasError: false });
-    fetch(URL)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((data) => setData({ ...data, data, isLoading: false }))
-      .catch((err) => {
-        setData({ ...data, hasError: true, isLoading: false });
-        console.log(err);
-      });
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <>
-      {modal && (
-        <Modal setVisible={toggleModal} header={modalContent.header}>
-          {(modalContent.content === "info" && (
-            <IngredientDetails infoItem={info} />
-          )) || <OrderDetails numberOrder={"034536"} />}
+      {modalOpen && (
+        <Modal onClose={modalClose}>
+          {orderRequest ? (
+            <Loader />
+          ) : header ? (
+            <IngredientDetails />
+          ) : (
+            <OrderDetails />
+          )}
         </Modal>
       )}
-
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.container}>
-          {data.isLoading && (
+          {ingredientsRequest && (
             <div className={styles.info}>
               <Loader />
             </div>
           )}
-          {data.hasError && (
+          {ingredientsFailed && (
             <div className={styles.info}>
               <p className="text text_type_main-large">
                 Произошла ошибка получения данных
               </p>
             </div>
           )}
-          {!data.hasError && arrIngredients && (
-            <>
+          {!ingredientsFailed && ingredientsArray.length > 0 && (
+            <DndProvider backend={HTML5Backend}>
               <section>
-                <BurgerIngredients
-                  data={arrIngredients}
-                  modal={toggleModal}
-                  info={getInfoItem}
-                  content={getModalContent}
-                />
+                <BurgerIngredients />
               </section>
               <section>
-                <BurgerConstructor
-                  data={arrIngredients}
-                  modal={toggleModal}
-                  content={getModalContent}
-                />
+                <BurgerConstructor />
               </section>
-            </>
+            </DndProvider>
           )}
         </div>
       </main>

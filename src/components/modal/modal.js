@@ -4,12 +4,15 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
 
-const Modal = ({ children, setVisible, header }) => {
+const Modal = ({ children, onClose }) => {
+  const { header } = useSelector((store) => store.modal);
+
   const escapeModal = (e) => {
     if (e.key === "Escape") {
       e.preventDefault();
-      setVisible();
+      onClose();
     }
   };
 
@@ -22,15 +25,13 @@ const Modal = ({ children, setVisible, header }) => {
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay setVisible={setVisible} />
+      <ModalOverlay onClose={onClose} />
       <div className={styles.modal}>
-        {header && (
-          <header className={styles.header}>
-            <h2 className="text text_type_main-large">{header}</h2>
-          </header>
-        )}
+        <header className={styles.header}>
+          <h2 className="text text_type_main-large">{header}</h2>
+        </header>
         <div className={styles.cross}>
-          <CloseIcon onClick={setVisible} />
+          <CloseIcon type="primary" onClick={onClose} />
         </div>
         {children}
       </div>
@@ -43,6 +44,5 @@ export default Modal;
 
 Modal.propTypes = {
   children: PropTypes.object.isRequired,
-  setVisible: PropTypes.func.isRequired,
-  header: PropTypes.string,
+  onClose: PropTypes.func.isRequired
 };

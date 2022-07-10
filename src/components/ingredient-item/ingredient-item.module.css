@@ -5,6 +5,8 @@
     width: 272px;
     height: 208px;
     align-items: center;
+    user-select: none;
+    cursor: pointer;
 }
 
 .img {

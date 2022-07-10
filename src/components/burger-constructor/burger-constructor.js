@@ -5,63 +5,88 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
-import PropTypes from "prop-types";
-import ingredientType from "../../utils/types"
+import { useDispatch, useSelector } from "react-redux";
+import { MODAL_OPEN } from "../../services/actions/modal";
+import { fetchOrder } from "../../services/actions/order";
+import { v4 as uuidv4 } from "uuid";
+import { useDrop } from "react-dnd";
+import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
 
-const BurgerConstructor = ({ data, modal, content }) => {
-  const getContent = () => {
-    content("order");
-    modal();
+const BurgerConstructor = () => {
+  const { constructorIng, constructorBun } = useSelector(
+    (store) => store.constructorList
+  );
+
+  const dispatch = useDispatch();
+
+  const [, dragRef] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      if (item.type === "bun") {
+        dispatch({
+          type: ADD_BUN,
+          item: {
+            ...item,
+            id: uuidv4(),
+          },
+        });
+      } else {
+        dispatch({
+          type: ADD_INGREDIENT,
+          item: {
+            ...item,
+            id: uuidv4(),
+          },
+        });
+      }
+    },
+  });
+
+  const getIngredientsId = (ingredients, bun) => {
+    return [...ingredients, ...bun].map((e) => e._id);
   };
 
-  const renderElements = (data) => {
-    return data.map((e) => {
-      return (
-        (e.type === "sauce" || e.type === "main") && (
-          <ConstructorItem
-            key={e._id}
-            position="middle"
-            text={e.name}
-            price={e.price}
-            img={e.image_mobile}
-          />
-        )
-      );
+  const openOrderModal = () => {
+    dispatch({
+      type: MODAL_OPEN,
     });
+    dispatch(fetchOrder(getIngredientsId(constructorIng, constructorBun)));
   };
 
-  const totalPrice = (data) => {
-    let result = 0;
-    data.map((e) => {
-      return (result += e.price);
-    });
-    return result;
+  const getTotalSum = (ingredients, bun) => {
+    const arr = [...ingredients, ...bun];
+    return arr.reduce((accum, current) => {
+      if (current.type === "bun") {
+        return accum + current.price * 2;
+      }
+      return accum + current.price;
+    }, 0);
   };
 
   return (
-    <div className={styles.main}>
+    <div className={styles.main} ref={dragRef}>
       <div className={styles.elements}>
-        <ConstructorItem
-          position="top"
-          img={data[0].image_mobile}
-          text={data[0].name + " (верх)"}
-          price={data[0].price}
-        />
-        <div className={styles.scroll}>{renderElements(data)}</div>
-        <ConstructorItem
-          position="bottom"
-          img={data[0].image_mobile}
-          text={data[0].name + " (низ)"}
-          price={data[0].price}
-        />
+        <ConstructorItem position={"top"} />
+        <div className={styles.scroll}>
+          {(constructorIng.length > 0 &&
+            constructorIng.map((e, index) => (
+              <ConstructorItem
+                position={"middle"}
+                el={e}
+                key={e.id}
+                index={index}
+              />
+            ))) || <ConstructorItem position={"middle"} />}
+        </div>
+        <ConstructorItem position={"bottom"} />
         <div className={styles.block}>
           <p className="text text_type_digits-medium mr-4">
-            {totalPrice(data)}
+            {getTotalSum(constructorIng, constructorBun)}
           </p>
-          <div className={[styles.bigIcon, "mr-10"].join(" ")}>
+          <div className={styles.bigIcon + " mr-10"}>
             <CurrencyIcon type="primary" />
           </div>
-          <Button onClick={getContent} type="primary" size="large">
+          <Button onClick={constructorBun.length > 0 ? openOrderModal : null} type="primary" size="large">
             Оформить заказ
           </Button>
         </div>
@@ -71,9 +96,3 @@ const BurgerConstructor = ({ data, modal, content }) => {
 };
 
 export default BurgerConstructor;
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-  modal: PropTypes.func.isRequired,
-  content: PropTypes.func.isRequired,
-};

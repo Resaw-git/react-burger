@@ -2,7 +2,7 @@
   position: fixed;
   background: #1C1C21;
   left: calc(50% - 720px/2);
-  top: calc(50% - 540px/2);
+  top: calc(50% - 75vh/2);
   width: 720px;
   min-height: 540px;
   border: 1px solid #4C4CFF33;
