@@ -52,7 +52,7 @@
     justify-content: flex-end;
   }
 
-  .page_box {
+  .form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,7 +68,7 @@
     transition: all .3s ease-in;
     background: transparent;
     color: #4c4cff;
-    font-family: 'Jet Brains Mono';
+    font-family: 'Jet Brains Mono', sans-serif;
     font-size: 16px;
     line-height: 1.5;
     font-weight: normal;

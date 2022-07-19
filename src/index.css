@@ -17,3 +17,7 @@ code {
     monospace;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
