@@ -1,12 +1,12 @@
 import {baseURL, login} from "../api";
-import { checkReponse } from "../check-response";
+import { checkResponse } from "../check-response";
 import { setCookie } from "../cookies";
 
 export const GET_LOGIN_REQUEST = "GET_LOGIN_REQUEST";
 export const GET_LOGIN_SUCCESS = "GET_LOGIN_SUCCESS";
 export const GET_LOGIN_FAILED = "GET_LOGIN_FAILED";
 
-export const authentication = (form, dispatch) => {
+export const autorization = (form, dispatch) => {
     dispatch({
         type: GET_LOGIN_REQUEST,
     });
@@ -20,7 +20,7 @@ export const authentication = (form, dispatch) => {
             password: form.password,
         })
     })
-        .then(checkReponse)
+        .then(checkResponse)
         .then((res) => {
             if(res && res.success) {
                 setCookie("accessToken", res.accessToken);

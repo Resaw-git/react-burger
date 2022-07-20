@@ -6,7 +6,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData } from "../services/actions/user";
+import {getUserData, refreshToken} from "../services/actions/user";
 
 export const Profile = () => {
   const [form, setForm] = useState({ name: "", password: "", email: "" });
@@ -20,7 +20,7 @@ export const Profile = () => {
     if (userName && userEmail) {
       setForm({ ...form, name: userName, email: userEmail });
     }
-  }, [userName, userEmail]);
+  }, [dispatch, userName, userEmail]);
 
   const onChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -37,7 +37,6 @@ export const Profile = () => {
 
   const saveChange = e => {
     e.preventDefault()
-    console.log('test')
   }
 
   return (

@@ -1,5 +1,5 @@
 import { baseURL, orders } from "../api";
-import { checkReponse } from "../check-response";
+import { checkResponse } from "../check-response";
 import { RESET_INGREDIENTS } from "./constructor";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
@@ -19,7 +19,7 @@ export const fetchOrder = (data) => {
         ingredients: data,
       }),
     })
-      .then(checkReponse)
+      .then(checkResponse)
       .then((res) => {
         dispatch({
           type: GET_ORDER_SUCCESS,

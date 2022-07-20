@@ -1,5 +1,5 @@
 import {baseURL, register} from "../api";
-import { checkReponse } from "../check-response";
+import { checkResponse } from "../check-response";
 import { getCookie } from "../cookies";
 
 export const GET_REGISTER_REQUEST = "GET_REGISTER_REQUEST";
@@ -22,7 +22,7 @@ export const registration = (form, dispatch) => {
             email: form.email,
         })
     })
-      .then(checkReponse)
+      .then(checkResponse)
       .then((res) => {
           if(res && res.success) {
               dispatch({

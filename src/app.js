@@ -10,6 +10,7 @@ import {
   NotFound404,
   Profile,
 } from "./pages";
+import ProtectedRoute from "./pages/protected-route";
 
 const App = () => {
   return (
@@ -31,9 +32,9 @@ const App = () => {
         <Route path="/reset-password" exact={true}>
           <ResetPassword />
         </Route>
-        <Route path="/profile" exact={true}>
+        <ProtectedRoute path="/profile" exact={true}>
           <Profile />
-        </Route>
+        </ProtectedRoute>
         <Route>
           <NotFound404 />
         </Route>
