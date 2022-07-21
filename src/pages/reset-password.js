@@ -8,32 +8,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import {Link, Redirect, useHistory} from "react-router-dom";
 import Loader from "../components/loader/loader";
+import {resetPassword} from "../services/actions/reset-password";
 
 export const ResetPassword = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [form, setForm] = useState({ code: "", password: ""});
+  const [redirect, setRedirect] = useState(false);
+  const [form, setForm] = useState({ token: "", password: ""});
   const inputRef = React.useRef(null);
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
     useSelector((store) => store.user);
-  const { email } = useSelector(store => store.resetPassword)
+  const { sendSuccess, resetSuccess } = useSelector(store => store.reset)
 
   useEffect(() => {
     if (!jwtInvalid) {
       dispatch(getUserData());
     }
-  }, []);
+    if (jwtExpired) {
+      dispatch(refreshToken());
+    }
+    if (resetSuccess) {
+      setRedirect(true);
+    }
+  }, [dispatch, jwtExpired, jwtInvalid, resetSuccess]);
 
-  if (jwtExpired) {
-    dispatch(refreshToken());
-  }
 
-  if (history.length === 1 || !email) {
+  if (history.length === 1 || !sendSuccess) {
       return <Redirect to="/forgot-password"/>
   }
 
   if (userSuccess) {
     return <Redirect to="/profile" />;
+  }
+
+  if (redirect) {
+    return <Redirect to="/login" />;
   }
 
   const onChange = (e) => {
@@ -45,6 +54,11 @@ export const ResetPassword = () => {
     alert("Icon Click Callback");
   };
 
+  const changePassword = (e) => {
+    e.preventDefault()
+    dispatch(resetPassword(form))
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -54,7 +68,7 @@ export const ResetPassword = () => {
           </div>
         )}
         {userFailed && (
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={changePassword}>
             <p className="text text_type_main-medium">Восстановление пароля</p>
             <div className={"mb-6"} />
             <Input
@@ -75,8 +89,8 @@ export const ResetPassword = () => {
               type={"text"}
               placeholder={"Введите код из письма"}
               onChange={onChange}
-              value={form.code}
-              name={"code"}
+              value={form.token}
+              name={"token"}
               ref={inputRef}
               onIconClick={onIconClick}
               error={false}

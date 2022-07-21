@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import AppHeader from "./components/app-header/app-header";
 import {
   Constructor,
@@ -10,9 +10,26 @@ import {
   NotFound404,
   Profile,
 } from "./pages";
-import ProtectedRoute from "./pages/protected-route";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const ProtectedRoute = ({ children, ...rest }) => {
+    const { loginSuccess } = useSelector((store) => store.login);
+
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          loginSuccess ? (
+            children
+          ) : (
+            <Redirect to={{ pathname: "/login", state: { from: location } }} />
+          )
+        }
+      />
+    );
+  };
+
   return (
     <>
       <AppHeader />

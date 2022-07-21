@@ -25,6 +25,7 @@ export const loginReducer = (state = initialState, action) => {
                 loginMessage: "",
                 loginRequest: false,
                 loginSuccess: true,
+                loginFailed: false,
             };
         }
         case GET_LOGIN_FAILED: {
@@ -32,6 +33,7 @@ export const loginReducer = (state = initialState, action) => {
                 ...state,
                 loginMessage: action.message,
                 loginRequest: false,
+                loginSuccess: false,
                 loginFailed: true,
             };
         }

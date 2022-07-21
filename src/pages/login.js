@@ -27,11 +27,10 @@ export const Login = () => {
     if (!jwtInvalid) {
       dispatch(getUserData());
     }
-  }, []);
-
-  if (jwtExpired) {
-    dispatch(refreshToken());
-  }
+    if (jwtExpired) {
+      dispatch(refreshToken());
+    }
+  }, [dispatch, jwtInvalid, jwtExpired]);
 
   const onChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -50,11 +49,6 @@ export const Login = () => {
   if (loginSuccess) {
     return <Redirect to={"/profile"} />;
   }
-
-  const test = () => {
-    refreshToken();
-    dispatch(getUserData());
-  };
 
   return (
     <main className={styles.main}>
