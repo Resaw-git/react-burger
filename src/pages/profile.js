@@ -13,15 +13,18 @@ import {
   refreshToken,
   userLogout,
 } from "../services/actions/user";
-import { NavLink } from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
+import {SET_USER_SUCCESS} from "../services/actions/order";
 
 export const Profile = () => {
+  const history = useHistory()
   const timerRef = useRef(null);
   const [form, setForm] = useState({ name: "", password: "", email: "" });
   const inputRef = React.useRef(null);
   const dispatch = useDispatch();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
     useSelector((store) => store.user);
+  const {userAccess} = useSelector(store => store.order)
 
   useEffect(() => {
     if (!jwtInvalid) {
@@ -61,6 +64,14 @@ export const Profile = () => {
   const logout = () => {
     dispatch(userLogout());
   };
+
+  if (userAccess) {
+    dispatch({
+      type: SET_USER_SUCCESS,
+      userAccess: false
+    })
+   history.push('/')
+  }
 
   return (
     <main className={styles.main}>

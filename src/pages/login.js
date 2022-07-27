@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
-import { Link, Redirect } from "react-router-dom";
+import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,

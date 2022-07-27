@@ -28,7 +28,6 @@ export const autorization = (form, dispatch) => {
                 dispatch({
                     type: GET_LOGIN_SUCCESS,
                 });
-                console.log(res)
             }
         })
         .catch((error) => {

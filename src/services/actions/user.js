@@ -44,7 +44,6 @@ export const getUserData = () => {
             type: GET_USER_FAILED,
           });
         }
-        console.log(error);
       });
   };
 };
@@ -66,7 +65,6 @@ export const refreshToken = () => {
           setCookie("accessToken", res.accessToken);
           localStorage.setItem("refreshToken", res.refreshToken);
           dispatch(getUserData())
-          console.log(res);
         }
       })
       .catch((error) => {
@@ -79,7 +77,6 @@ export const refreshToken = () => {
             type: GET_USER_FAILED,
           });
         }
-        console.log(error);
       });
   };
 };
@@ -101,11 +98,12 @@ export const userLogout = () => {
           if (res && res.success) {
             deleteCookie("accessToken");
             dispatch(getUserData())
-            console.log(res);
           }
         })
         .catch((error) => {
-          console.log(error);
+          dispatch({
+            type: GET_USER_FAILED,
+          });
         });
   };
 };
@@ -136,7 +134,6 @@ export const editUserData = (form) => {
           dispatch({
             type: GET_USER_FAILED,
           });
-          console.log(error);
         });
   };
 };

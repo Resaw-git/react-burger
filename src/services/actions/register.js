@@ -29,7 +29,6 @@ export const registration = (form, dispatch) => {
                   type: GET_REGISTER_SUCCESS,
                   message: res.message,
               });
-              console.log(res)
           }
       })
       .catch((error) => {
