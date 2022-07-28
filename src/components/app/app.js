@@ -1,82 +1,90 @@
-import React from "react";
-import styles from "./app.module.css";
+import React, {useEffect} from "react";
+import {
+  Switch,
+  Route,
+  useLocation,
+  useHistory,
+} from "react-router-dom";
 import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import Loader from "../loader/loader";
+import {
+  Constructor,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  NotFound404,
+  Profile,
+} from "../../pages";
+import { useDispatch, useSelector } from "react-redux";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import {closeModalIng, closeModalOrd} from "../../services/actions/modal";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchIngredients } from "../../services/actions/ingredients";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-import {MODAL_CLOSE} from "../../services/actions/modal";
-import {RESET_ORDER} from "../../services/actions/order";
+import {ProtectedRoute} from "../protected-route/protected-route";
+import {fetchIngredients} from "../../services/actions/ingredients";
 
 const App = () => {
-  const { ingredientsArray, ingredientsFailed, ingredientsRequest } =
-    useSelector((store) => store.ingredients);
-
-  const { orderRequest } = useSelector((store) => store.order);
-
-  const { modalOpen, header } = useSelector((store) => store.modal);
-
+  const history = useHistory();
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  const { modalOpen } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
 
-    const modalClose = () => {
-      dispatch({
-        type: MODAL_CLOSE,
-      });
-      dispatch({
-        type: RESET_ORDER
-      })
-    };
+  const modalCloseIng = () => {
+    closeModalIng(dispatch, history)
+  }
 
-  React.useEffect(() => {
+  const modalCloseOrd = () => {
+    closeModalOrd(dispatch)
+  }
+
+  useEffect(() => {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
   return (
     <>
-      {modalOpen && (
-        <Modal onClose={modalClose}>
-          {orderRequest ? (
-            <Loader />
-          ) : header ? (
-            <IngredientDetails />
-          ) : (
-            <OrderDetails />
-          )}
-        </Modal>
-      )}
       <AppHeader />
-      <main className={styles.main}>
-        <div className={styles.container}>
-          {ingredientsRequest && (
-            <div className={styles.info}>
-              <Loader />
-            </div>
+      <Switch>
+        <Route path="/" exact={true}>
+          <Constructor />
+          {modalOpen && (
+            <Modal onClose={modalCloseOrd}>
+              <OrderDetails />
+            </Modal>
           )}
-          {ingredientsFailed && (
-            <div className={styles.info}>
-              <p className="text text_type_main-large">
-                Произошла ошибка получения данных
-              </p>
-            </div>
+        </Route>
+        <Route path="/login" exact={true}>
+          <Login />
+        </Route>
+        <Route path="/register" exact={true}>
+          <Register />
+        </Route>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPassword />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPassword />
+        </Route>
+        <Route path="/ingredients/:id" exact={true}>
+          {background ? (
+            <>
+              <Constructor />
+              <Modal onClose={modalCloseIng}>
+                <IngredientDetails bg={background}/>
+              </Modal>
+            </>
+          ) : (
+            <IngredientDetails bg={background}/>
           )}
-          {!ingredientsFailed && ingredientsArray.length > 0 && (
-            <DndProvider backend={HTML5Backend}>
-              <section>
-                <BurgerIngredients />
-              </section>
-              <section>
-                <BurgerConstructor />
-              </section>
-            </DndProvider>
-          )}
-        </div>
-      </main>
+        </Route>
+        <ProtectedRoute path="/profile" exact={true}>
+          <Profile />
+        </ProtectedRoute>
+        <Route>
+          <NotFound404 />
+        </Route>
+      </Switch>
     </>
   );
 };

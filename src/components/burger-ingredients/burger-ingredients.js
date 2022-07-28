@@ -17,7 +17,7 @@ const BurgerIngredients = () => {
       (category === "Начинки" && "main");
 
     const result = ingredients.map(
-      (e) => e.type === type && <IngredientItem key={e._id} id={e._id} />
+      e => e.type === type && <IngredientItem key={e._id} id={e._id} />
     );
 
     return (

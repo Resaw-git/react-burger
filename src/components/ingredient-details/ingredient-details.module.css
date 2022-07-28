@@ -1,3 +1,10 @@
+.wrapper {
+    display: flex;
+    height: calc(100vh - 88px);
+    justify-content: center;
+    align-items: center;
+}
+
 .main {
     display: flex;
     flex-direction: column;

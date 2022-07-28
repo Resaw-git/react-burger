@@ -7,8 +7,11 @@ import styles from "./ingredient-item.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { useDrag } from "react-dnd";
+import {useHistory, useLocation} from "react-router-dom";
 
 const IngredientItem = (props) => {
+  const history = useHistory()
+  const location = useLocation()
   const { ingredientsArray } = useSelector((store) => store.ingredients);
   const { constructorBun, constructorIng } = useSelector(
     (store) => store.constructorList
@@ -46,10 +49,9 @@ const IngredientItem = (props) => {
   });
 
   const modal = () => {
+    history.push(`ingredients/${props.id}`, {background: location})
     dispatch({
       type: MODAL_OPEN,
-      item: element,
-      header: "Детали ингредиента",
     });
   };
 

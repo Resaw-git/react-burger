@@ -7,15 +7,19 @@ import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
-import { fetchOrder } from "../../services/actions/order";
+import { fetchOrder, SET_USER_SUCCESS } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
+  const history = useHistory();
   const { constructorIng, constructorBun } = useSelector(
     (store) => store.constructorList
   );
+
+  const { loginSuccess } = useSelector((store) => store.login);
 
   const dispatch = useDispatch();
 
@@ -47,10 +51,19 @@ const BurgerConstructor = () => {
   };
 
   const openOrderModal = () => {
-    dispatch({
-      type: MODAL_OPEN,
-    });
-    dispatch(fetchOrder(getIngredientsId(constructorIng, constructorBun)));
+    if (!loginSuccess) {
+      dispatch({
+        type: SET_USER_SUCCESS,
+        userAccess: true,
+      });
+      history.push("/login");
+
+    } else {
+      dispatch({
+        type: MODAL_OPEN,
+      });
+      dispatch(fetchOrder(getIngredientsId(constructorIng, constructorBun)));
+    }
   };
 
   const getTotalSum = (ingredients, bun) => {
@@ -86,7 +99,11 @@ const BurgerConstructor = () => {
           <div className={styles.bigIcon + " mr-10"}>
             <CurrencyIcon type="primary" />
           </div>
-          <Button onClick={constructorBun.length > 0 ? openOrderModal : null} type="primary" size="large">
+          <Button
+            onClick={constructorBun.length > 0 ? openOrderModal : null}
+            type="primary"
+            size="large"
+          >
             Оформить заказ
           </Button>
         </div>
