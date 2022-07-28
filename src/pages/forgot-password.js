@@ -9,17 +9,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
 import { sendEmail } from "../services/actions/reset-password";
+import {useForm} from "../hooks/use-form";
 
 export const ForgotPassword = () => {
   const dispatch = useDispatch();
   const inputRef = React.useRef(null);
   const [redirect, setRedirect] = useState(false);
-  const [form, setForm] = useState({ email: "" });
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
     useSelector((store) => store.user);
   const { message, sendSuccess, sendFailed } = useSelector(
     (store) => store.reset
   );
+
+  const {values, handleChange} = useForm({email: ""});
 
   useEffect(() => {
     if (!jwtInvalid) {
@@ -41,10 +43,6 @@ export const ForgotPassword = () => {
     return <Redirect to="/reset-password" />;
   }
 
-  const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
@@ -52,7 +50,7 @@ export const ForgotPassword = () => {
 
   const resetPassword = (e) => {
     e.preventDefault();
-    dispatch(sendEmail(form));
+    dispatch(sendEmail(values));
   };
 
   return (
@@ -70,8 +68,8 @@ export const ForgotPassword = () => {
             <Input
               type={"text"}
               placeholder={"E-mail"}
-              onChange={onChange}
-              value={form.email}
+              onChange={handleChange}
+              value={values.email}
               name={"email"}
               ref={inputRef}
               onIconClick={onIconClick}

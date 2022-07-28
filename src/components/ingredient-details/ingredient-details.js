@@ -1,19 +1,13 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
-import {fetchIngredients} from "../../services/actions/ingredients";
 import PropTypes from "prop-types";
 
 const IngredientDetails = ({bg}) => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const [data, setData] = React.useState("");
   const { ingredientsArray } = useSelector((store) => store.ingredients);
-
-  React.useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
 
   React.useEffect(() => {
     setData(ingredientsArray.find((el) => el._id === id));

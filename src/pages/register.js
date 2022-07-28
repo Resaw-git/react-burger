@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./style.module.css";
-import { Link, Redirect } from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,
@@ -10,11 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { registration } from "../services/actions/register";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
+import { useForm } from "../hooks/use-form";
 
 export const Register = () => {
+  const location = useLocation()
   const timerRef = useRef(null);
   const [redirect, setRedirect] = useState(false);
-  const [form, setForm] = useState({ name: "", password: "", email: "" });
+
   const inputRef = React.useRef(null);
   const dispatch = useDispatch();
   const { registerMessage, registerSuccess, registerFailed } = useSelector(
@@ -24,9 +26,15 @@ export const Register = () => {
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
     useSelector((store) => store.user);
 
+  const { values, handleChange, setValues } = useForm({
+    name: "",
+    password: "",
+    email: "",
+  });
+
   useEffect(() => {
     if (registerSuccess) {
-      setForm({ name: "", password: "", email: "" });
+      setValues({ name: "", password: "", email: "" });
       timerRef.current = setTimeout(() => {
         setRedirect(true);
       }, 1250);
@@ -41,16 +49,12 @@ export const Register = () => {
   }
 
   if (userSuccess) {
-    return <Redirect to="/profile" />;
+    return <Redirect to={location.state?.from || "/"} />;
   }
 
   if (redirect) {
     return <Redirect to="/login" />;
   }
-
-  const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
@@ -59,7 +63,7 @@ export const Register = () => {
 
   const sendForm = (e) => {
     e.preventDefault();
-    registration(form, dispatch);
+    registration(values, dispatch);
   };
 
   return (
@@ -77,8 +81,8 @@ export const Register = () => {
             <Input
               type={"text"}
               placeholder={"Имя"}
-              onChange={onChange}
-              value={form.name}
+              onChange={handleChange}
+              value={values.name}
               name={"name"}
               ref={inputRef}
               onIconClick={onIconClick}
@@ -90,8 +94,8 @@ export const Register = () => {
             <Input
               type={"text"}
               placeholder={"E-mail"}
-              onChange={onChange}
-              value={form.email}
+              onChange={handleChange}
+              value={values.email}
               name={"email"}
               ref={inputRef}
               onIconClick={onIconClick}
@@ -101,8 +105,8 @@ export const Register = () => {
             />
             <div className={"mb-6"} />
             <PasswordInput
-              onChange={onChange}
-              value={form.password}
+              onChange={handleChange}
+              value={values.password}
               name={"password"}
             />
             {registerSuccess && (

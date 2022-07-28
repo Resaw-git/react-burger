@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./style.module.css";
-import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,
@@ -10,10 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { autorization } from "../services/actions/login";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
+import { useForm } from "../hooks/use-form";
 
 export const Login = () => {
-  const [form, setForm] = useState({ password: "", email: "" });
+  const location = useLocation()
+
+  const { values, handleChange } = useForm({ password: "", email: "" });
   const inputRef = React.useRef(null);
+
   const dispatch = useDispatch();
   const { loginMessage, loginSuccess, loginFailed } = useSelector(
     (store) => store.login
@@ -32,10 +36,6 @@ export const Login = () => {
     }
   }, [dispatch, jwtInvalid, jwtExpired]);
 
-  const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
@@ -43,11 +43,11 @@ export const Login = () => {
 
   const auth = (e) => {
     e.preventDefault();
-    autorization(form, dispatch);
+    autorization(values, dispatch);
   };
 
   if (loginSuccess) {
-    return <Redirect to={"/profile"} />;
+    return <Redirect to={location.state?.from || "/"} />;
   }
 
   return (
@@ -65,8 +65,8 @@ export const Login = () => {
             <Input
               type={"text"}
               placeholder={"E-mail"}
-              onChange={onChange}
-              value={form.email}
+              onChange={handleChange}
+              value={values.email}
               name={"email"}
               ref={inputRef}
               onIconClick={onIconClick}
@@ -76,8 +76,8 @@ export const Login = () => {
             />
             <div className={"mb-6"} />
             <PasswordInput
-              onChange={onChange}
-              value={form.password}
+              onChange={handleChange}
+              value={values.password}
               name={"password"}
             />
             {loginFailed && (

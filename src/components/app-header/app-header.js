@@ -11,7 +11,12 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 const AppHeader = () => {
   const location = useLocation();
   const isActive = (route, location) => {
-    return location.pathname === route ? "primary" : "secondary";
+    const reg = location.pathname.match(/^\/[a-z]*/)
+    if (reg) {
+      return route === reg[0] ? "primary" : "secondary"
+      }
+
+    return route === location.pathname ? "primary" : "secondary";
   };
 
   return (

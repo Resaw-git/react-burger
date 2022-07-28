@@ -6,19 +6,25 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData, refreshToken } from "../services/actions/user";
-import {Link, Redirect, useHistory} from "react-router-dom";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import Loader from "../components/loader/loader";
-import {resetPassword} from "../services/actions/reset-password";
+import { resetPassword } from "../services/actions/reset-password";
+import { useForm } from "../hooks/use-form";
 
 export const ResetPassword = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const location = useLocation();
   const [redirect, setRedirect] = useState(false);
-  const [form, setForm] = useState({ token: "", password: ""});
   const inputRef = React.useRef(null);
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
     useSelector((store) => store.user);
-  const { sendSuccess, resetSuccess } = useSelector(store => store.reset)
+  const { sendSuccess, resetSuccess } = useSelector((store) => store.reset);
+
+  const { values, handleChange } = useForm({
+    token: "",
+    password: "",
+  });
 
   useEffect(() => {
     if (!jwtInvalid) {
@@ -32,22 +38,17 @@ export const ResetPassword = () => {
     }
   }, [dispatch, jwtExpired, jwtInvalid, resetSuccess]);
 
-
   if (history.length === 1 || !sendSuccess) {
-      return <Redirect to="/forgot-password"/>
+    return <Redirect to="/forgot-password" />;
   }
 
   if (userSuccess) {
-    return <Redirect to="/profile" />;
+    return <Redirect to={location.state?.from || "/"} />;
   }
 
   if (redirect) {
     return <Redirect to="/login" />;
   }
-
-  const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
@@ -55,9 +56,9 @@ export const ResetPassword = () => {
   };
 
   const changePassword = (e) => {
-    e.preventDefault()
-    dispatch(resetPassword(form))
-  }
+    e.preventDefault();
+    dispatch(resetPassword(values));
+  };
 
   return (
     <main className={styles.main}>
@@ -72,24 +73,24 @@ export const ResetPassword = () => {
             <p className="text text_type_main-medium">Восстановление пароля</p>
             <div className={"mb-6"} />
             <Input
-                type={"text"}
-                placeholder={"Введите новый пароль"}
-                onChange={onChange}
-                value={form.password}
-                icon={"ShowIcon"}
-                name={"password"}
-                ref={inputRef}
-                onIconClick={onIconClick}
-                error={false}
-                errorText={"Ошибка"}
-                size={"default"}
+              type={"text"}
+              placeholder={"Введите новый пароль"}
+              onChange={handleChange}
+              value={values.password}
+              icon={"ShowIcon"}
+              name={"password"}
+              ref={inputRef}
+              onIconClick={onIconClick}
+              error={false}
+              errorText={"Ошибка"}
+              size={"default"}
             />
             <div className={"mb-6"} />
             <Input
               type={"text"}
               placeholder={"Введите код из письма"}
-              onChange={onChange}
-              value={form.token}
+              onChange={handleChange}
+              value={values.token}
               name={"token"}
               ref={inputRef}
               onIconClick={onIconClick}

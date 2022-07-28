@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./style.module.css";
 import {
   Input,
@@ -15,23 +15,25 @@ import {
 } from "../services/actions/user";
 import {NavLink, useHistory} from "react-router-dom";
 import {SET_USER_SUCCESS} from "../services/actions/order";
+import {useForm} from "../hooks/use-form";
 
 export const Profile = () => {
   const history = useHistory()
   const timerRef = useRef(null);
-  const [form, setForm] = useState({ name: "", password: "", email: "" });
   const inputRef = React.useRef(null);
   const dispatch = useDispatch();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
     useSelector((store) => store.user);
   const {userAccess} = useSelector(store => store.order)
 
+  const {values, handleChange, setValues} = useForm({name: "", password: "", email: ""});
+
   useEffect(() => {
     if (!jwtInvalid) {
       dispatch(getUserData());
     }
     if (userName && userEmail) {
-      setForm({ ...form, name: userName, email: userEmail });
+      setValues({ ...values, name: userName, email: userEmail });
     }
     if (jwtExpired) {
       dispatch(refreshToken());
@@ -43,9 +45,6 @@ export const Profile = () => {
     }
   }, [dispatch, userName, userEmail, jwtInvalid, jwtExpired, editSuccess]);
 
-  const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
@@ -53,12 +52,12 @@ export const Profile = () => {
   };
 
   const cancelChange = () => {
-    setForm({ ...form, name: userName, email: userEmail });
+    setValues({ ...values, name: userName, email: userEmail });
   };
 
   const saveChange = (e) => {
     e.preventDefault();
-    dispatch(editUserData(form));
+    dispatch(editUserData(values));
   };
 
   const logout = () => {
@@ -109,8 +108,8 @@ export const Profile = () => {
           <Input
             type={"text"}
             placeholder={"Имя"}
-            onChange={onChange}
-            value={form.name}
+            onChange={handleChange}
+            value={values.name}
             name={"name"}
             ref={inputRef}
             onIconClick={onIconClick}
@@ -122,8 +121,8 @@ export const Profile = () => {
           <Input
             type={"text"}
             placeholder={"E-mail"}
-            onChange={onChange}
-            value={form.email}
+            onChange={handleChange}
+            value={values.email}
             name={"email"}
             ref={inputRef}
             onIconClick={onIconClick}
@@ -133,13 +132,13 @@ export const Profile = () => {
           />
           <div className={"mb-6"} />
           <PasswordInput
-            onChange={onChange}
-            value={form.password}
+            onChange={handleChange}
+            value={values.password}
             name={"password"}
             autocomplete="current-password"
           />
           <div className={"mb-6"} />
-          {(form.name !== userName || form.email !== userEmail) && (
+          {(values.name !== userName || values.email !== userEmail) && (
             <div className={styles.buttons}>
               <Button onClick={cancelChange} type="secondary" size="medium">
                 Отмена
