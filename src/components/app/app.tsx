@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, FC} from "react";
 import {
   Switch,
   Route,
@@ -22,11 +22,13 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import {ProtectedRoute} from "../protected-route/protected-route";
 import {fetchIngredients} from "../../services/actions/ingredients";
+import {ILocation} from "../../utils/types";
 
-const App = () => {
+const App: FC = () => {
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<ILocation>();
   const background = location.state && location.state.background;
+  // @ts-ignore
   const { modalOpen } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
 
@@ -39,6 +41,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(fetchIngredients());
   }, [dispatch]);
 
@@ -71,11 +74,11 @@ const App = () => {
             <>
               <Constructor />
               <Modal onClose={modalCloseIng}>
-                <IngredientDetails bg={background}/>
+                <IngredientDetails bg={background} />
               </Modal>
             </>
           ) : (
-            <IngredientDetails bg={background}/>
+            <IngredientDetails bg={background} />
           )}
         </Route>
         <ProtectedRoute path="/profile" exact={true}>
