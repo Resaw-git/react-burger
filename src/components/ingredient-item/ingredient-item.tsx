@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -8,28 +8,35 @@ import { useSelector, useDispatch } from "react-redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { useDrag } from "react-dnd";
 import {useHistory, useLocation} from "react-router-dom";
+import {IIngredient} from "../../utils/types";
 
-const IngredientItem = (props) => {
+interface IComponentProps {
+  id: string;
+}
+
+const IngredientItem: FC<IComponentProps> = ({ id}) => {
   const history = useHistory()
   const location = useLocation()
+  // @ts-ignore
   const { ingredientsArray } = useSelector((store) => store.ingredients);
   const { constructorBun, constructorIng } = useSelector(
+      // @ts-ignore
     (store) => store.constructorList
   );
 
-  const element = ingredientsArray.find((el) => el._id === props.id && el);
+  const element = ingredientsArray.find((el: IIngredient) => el._id === id && el);
 
   const counter = React.useMemo(() => {
     let count = 0;
 
     if (element.type !== "bun") {
-      constructorIng.map((e) => {
+      constructorIng.map((e: IIngredient) => {
         if (e._id === element._id) {
           ++count;
         }
       });
     } else {
-      constructorBun.map((e) => {
+      constructorBun.map((e: IIngredient) => {
         if (e._id === element._id) {
           return count = 2;
         }
@@ -49,7 +56,7 @@ const IngredientItem = (props) => {
   });
 
   const modal = () => {
-    history.push(`ingredients/${props.id}`, {background: location})
+    history.push(`ingredients/${id}`, {background: location})
     dispatch({
       type: MODAL_OPEN,
     });

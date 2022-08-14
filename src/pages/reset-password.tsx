@@ -1,36 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, {FormEvent, useEffect, useRef, useState} from "react";
 import styles from "./style.module.css";
 import {
   Input,
-  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button} from "../utils/UI";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import Loader from "../components/loader/loader";
 import { resetPassword } from "../services/actions/reset-password";
 import { useForm } from "../hooks/use-form";
+import {ILocation} from "../utils/types";
 
 export const ResetPassword = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation<ILocation>();
   const [redirect, setRedirect] = useState(false);
-  const inputRef = React.useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
-    useSelector((store) => store.user);
+      // @ts-ignore
+      useSelector((store) => store.user);
+  // @ts-ignore
   const { sendSuccess, resetSuccess } = useSelector((store) => store.reset);
 
   const { values, handleChange } = useForm({
-    token: "",
+    name: "",
     password: "",
+    email: "",
+    token: "",
   });
 
   useEffect(() => {
     if (!jwtInvalid) {
+      // @ts-ignore
       dispatch(getUserData());
     }
     if (jwtExpired) {
+      // @ts-ignore
       dispatch(refreshToken());
     }
     if (resetSuccess) {
@@ -51,12 +58,13 @@ export const ResetPassword = () => {
   }
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     alert("Icon Click Callback");
   };
 
-  const changePassword = (e) => {
+  const changePassword = (e: FormEvent) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(resetPassword(values));
   };
 

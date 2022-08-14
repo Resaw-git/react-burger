@@ -1,47 +1,52 @@
-import React, { useEffect } from "react";
+import React, {FormEvent, FC, useEffect} from "react";
 import styles from "./style.module.css";
 import {Link, Redirect, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,
-  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button} from "../utils/UI";
 import { useDispatch, useSelector } from "react-redux";
 import { autorization } from "../services/actions/login";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
 import { useForm } from "../hooks/use-form";
+import {ILocation} from "../utils/types";
 
-export const Login = () => {
-  const location = useLocation()
+export const Login: FC = () => {
+  const location = useLocation<ILocation>()
 
-  const { values, handleChange } = useForm({ password: "", email: "" });
-  const inputRef = React.useRef(null);
+  const { values, handleChange } = useForm({ name: "", password: "", email: "", token: "" });
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
-  const { loginMessage, loginSuccess, loginFailed } = useSelector(
+    const { loginMessage, loginSuccess, loginFailed } = useSelector(
+  // @ts-ignore
     (store) => store.login
   );
 
   const { jwtExpired, jwtInvalid, userRequest, userFailed } = useSelector(
-    (store) => store.user
+      // @ts-ignore
+      (store) => store.user
   );
 
   useEffect(() => {
     if (!jwtInvalid) {
-      dispatch(getUserData());
+        // @ts-ignore
+        dispatch(getUserData());
     }
     if (jwtExpired) {
-      dispatch(refreshToken());
+        // @ts-ignore
+        dispatch(refreshToken());
     }
   }, [dispatch, jwtInvalid, jwtExpired]);
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     alert("Icon Click Callback");
   };
 
-  const auth = (e) => {
+  const auth = (e: FormEvent) => {
     e.preventDefault();
     autorization(values, dispatch);
   };

@@ -1,7 +1,6 @@
-import React from "react";
+import React, {FC} from "react";
 import {
-  CurrencyIcon,
-  Button,
+  CurrencyIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
@@ -12,20 +11,25 @@ import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
 import { useHistory } from "react-router-dom";
+import {IIngredient} from "../../utils/types";
+import {Button} from "../../utils/UI";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
   const history = useHistory();
+
   const { constructorIng, constructorBun } = useSelector(
+      // @ts-ignore
     (store) => store.constructorList
   );
 
+  // @ts-ignore
   const { loginSuccess } = useSelector((store) => store.login);
 
   const dispatch = useDispatch();
 
   const [, dragRef] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: IIngredient) {
       if (item.type === "bun") {
         dispatch({
           type: ADD_BUN,
@@ -46,7 +50,7 @@ const BurgerConstructor = () => {
     },
   });
 
-  const getIngredientsId = (ingredients, bun) => {
+  const getIngredientsId = (ingredients: IIngredient[], bun: IIngredient[]) => {
     return [...ingredients, ...bun].map((e) => e._id);
   };
 
@@ -62,11 +66,12 @@ const BurgerConstructor = () => {
       dispatch({
         type: MODAL_OPEN,
       });
+      // @ts-ignore
       dispatch(fetchOrder(getIngredientsId(constructorIng, constructorBun)));
     }
   };
 
-  const getTotalSum = (ingredients, bun) => {
+  const getTotalSum = (ingredients: IIngredient[], bun: IIngredient[]) => {
     const arr = [...ingredients, ...bun];
     return arr.reduce((accum, current) => {
       if (current.type === "bun") {
@@ -82,7 +87,7 @@ const BurgerConstructor = () => {
         <ConstructorItem position={"top"} />
         <div className={styles.scroll}>
           {(constructorIng.length > 0 &&
-            constructorIng.map((e, index) => (
+            constructorIng.map((e: IIngredient, index: number) => (
               <ConstructorItem
                 position={"middle"}
                 el={e}
@@ -100,9 +105,10 @@ const BurgerConstructor = () => {
             <CurrencyIcon type="primary" />
           </div>
           <Button
-            onClick={constructorBun.length > 0 ? openOrderModal : null}
+            onClick={openOrderModal}
             type="primary"
             size="large"
+            disabled={constructorBun.length === 0}
           >
             Оформить заказ
           </Button>

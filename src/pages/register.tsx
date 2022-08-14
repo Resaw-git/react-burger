@@ -1,50 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {FormEvent, useEffect, useRef, useState} from "react";
 import styles from "./style.module.css";
 import {Link, Redirect, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,
-  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button } from "../utils/UI";
 import { useDispatch, useSelector } from "react-redux";
 import { registration } from "../services/actions/register";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
 import { useForm } from "../hooks/use-form";
+import {ILocation} from "../utils/types";
 
 export const Register = () => {
-  const location = useLocation()
-  const timerRef = useRef(null);
+  const location = useLocation<ILocation>()
+  const timerRef = useRef(0);
   const [redirect, setRedirect] = useState(false);
-
-  const inputRef = React.useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const { registerMessage, registerSuccess, registerFailed } = useSelector(
+      // @ts-ignore
     (store) => store.register
   );
 
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
+      // @ts-ignore
     useSelector((store) => store.user);
 
   const { values, handleChange, setValues } = useForm({
     name: "",
     password: "",
     email: "",
+    token: ""
   });
 
   useEffect(() => {
     if (registerSuccess) {
-      setValues({ name: "", password: "", email: "" });
-      timerRef.current = setTimeout(() => {
+      setValues({ name: "", password: "", email: "", token: "" });
+      timerRef.current = window.setTimeout(() => {
         setRedirect(true);
       }, 1250);
     }
     if (!jwtInvalid) {
+      // @ts-ignore
       dispatch(getUserData());
     }
   }, [registerSuccess]);
 
   if (jwtExpired) {
+    // @ts-ignore
     dispatch(refreshToken());
   }
 
@@ -57,11 +62,11 @@ export const Register = () => {
   }
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     alert("Icon Click Callback");
   };
 
-  const sendForm = (e) => {
+  const sendForm = (e: FormEvent) => {
     e.preventDefault();
     registration(values, dispatch);
   };

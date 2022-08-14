@@ -5,14 +5,14 @@ import { useParams } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
 
 interface IComponentProps {
-  bg?: string
+  bg?: string | unknown
 }
 
 interface IParams {
   id: string;
 }
 
-const IngredientDetails: FC<any> = ({ bg }: IComponentProps) => {
+const IngredientDetails: FC<IComponentProps> = ({ bg }) => {
   const { id }: IParams = useParams();
   const [data, setData] = React.useState<IIngredient>();
   // @ts-ignore

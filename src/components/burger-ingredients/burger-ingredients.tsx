@@ -1,16 +1,20 @@
-import React from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {FC} from "react";
+import { Tab } from "../../utils/UI"
 import styles from "./burger-ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import {IIngredient} from "../../utils/types";
 
-const BurgerIngredients = () => {
+
+
+const BurgerIngredients: FC = () => {
+  // @ts-ignore
   const { ingredientsArray } = useSelector((store) => store.ingredients);
 
   const [current, setCurrent] = React.useState("bun");
 
-  const renderElements = (ingredients, category) => {
+  const renderElements = (ingredients: IIngredient[], category: "Булки" | "Соусы" | "Начинки") => {
     const type =
       (category === "Булки" && "bun") ||
       (category === "Соусы" && "sauce") ||

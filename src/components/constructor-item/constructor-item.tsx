@@ -1,45 +1,48 @@
-import React, { useRef } from "react";
-import {
-  CurrencyIcon,
-  LockIcon,
-  DeleteIcon,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {FC, useRef} from "react";
+import {CurrencyIcon, DeleteIcon, DragIcon, LockIcon,} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  DELETE_INGREDIENT,
-  REORDER_INGREDIENT,
-} from "../../services/actions/constructor";
-import { useDrag, useDrop } from "react-dnd";
+import {useDispatch, useSelector} from "react-redux";
+import {DELETE_INGREDIENT, REORDER_INGREDIENT,} from "../../services/actions/constructor";
+import {DropTargetMonitor, useDrag, useDrop} from "react-dnd";
+import {IIngredient} from "../../utils/types";
 
-const ConstructorItem = ({ el, index, position }) => {
+
+interface IComponentProps {
+  el?: IIngredient;
+  index?: number;
+  position: string;
+}
+
+const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
   const ref = useRef(null);
   const dispatch = useDispatch();
   const { constructorBun, constructorIng } = useSelector(
+      // @ts-ignore
     (store) => store.constructorList
   );
 
+  // @ts-ignore
   useDispatch(() => {
     deleteIng();
-  });
+  }, []);
 
   const deleteIng = () => {
     dispatch({
       type: DELETE_INGREDIENT,
+      // @ts-ignore
       id: el.id,
     });
   };
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop]: any = useDrop<any>({
     accept: "constructor",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover: function (item, monitor) {
+    hover: function (item: IIngredient, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return;
       }
@@ -50,20 +53,20 @@ const ConstructorItem = ({ el, index, position }) => {
       if (dragIndex === hoverIndex) {
         return;
       }
-
+      // @ts-ignore
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
       const clientOffset = monitor.getClientOffset();
-
+      // @ts-ignore
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
+      // @ts-ignore
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
-
+      // @ts-ignore
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
@@ -81,19 +84,17 @@ const ConstructorItem = ({ el, index, position }) => {
   const [{ isDragging }, drag] = useDrag({
     type: "constructor",
     item: () => {
-      return { id: el._id, index };
+      return { id: el?._id, index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
-  const setPosition = (pos) => {
-    const position =
-      (pos === "top" && styles.top) ||
-      (pos === "middle" && styles.middle) ||
-      styles.bottom;
-    return position;
+  const setPosition = (pos: string) => {
+    return (pos === "top" && styles.top) ||
+        (pos === "middle" && styles.middle) ||
+        styles.bottom;
   };
 
   drag(drop(ref));
@@ -140,7 +141,7 @@ const ConstructorItem = ({ el, index, position }) => {
             </p>
           </div>
           <CurrencyIcon type="primary" />
-          <div className="mr-5"></div>
+          <div className="mr-5" />
           <LockIcon type="secondary" />
         </div>
       )}
@@ -150,16 +151,16 @@ const ConstructorItem = ({ el, index, position }) => {
             <DragIcon type="primary" />
           </div>
           <div className={styles.smallImage}>
-            <img src={el.image_mobile} alt={el.name} />
+            <img src={el?.image_mobile} alt={el?.name} />
           </div>
           <div className={styles.text}>
-            <p className="text text_type_main-default mr-5">{el.name}</p>
+            <p className="text text_type_main-default mr-5">{el?.name}</p>
           </div>
           <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">{el.price}</p>
+            <p className="text text_type_digits-default mr-2">{el?.price}</p>
           </div>
           <CurrencyIcon type="primary" />
-          <div className="mr-5"></div>
+          <div className="mr-5" />
           <DeleteIcon type="primary" onClick={deleteIng} />
         </div>
       )}
