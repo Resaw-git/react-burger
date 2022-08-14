@@ -1,8 +1,8 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from "./style.module.css";
 
 
-export const NotFound404 = () => {
+export const NotFound404: FC = () => {
     return (
         <main className={styles.main}>
             <div className={styles.container}>

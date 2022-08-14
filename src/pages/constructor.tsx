@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import { DndProvider } from "react-dnd";
 import { useSelector } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -8,8 +8,9 @@ import Loader from "../components/loader/loader";
 
 import styles from "./style.module.css";
 
-export const Constructor = () => {
+export const Constructor: FC = () => {
     const { ingredientsArray, ingredientsFailed, ingredientsRequest } =
+    // @ts-ignore
         useSelector((store) => store.ingredients);
 
     return (

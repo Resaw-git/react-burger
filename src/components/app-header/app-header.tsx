@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import {
   Logo,
   BurgerIcon,
@@ -7,10 +7,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { ILocation } from "../../utils/types";
+import { Location } from "history";
 
-const AppHeader = () => {
-  const location = useLocation();
-  const isActive = (route, location) => {
+const AppHeader: FC = () => {
+  const location = useLocation<ILocation>();
+  const isActive = (route: string, location: Location<ILocation>): "primary" | "secondary" => {
     const reg = location.pathname.match(/^\/[a-z]*/)
     if (reg) {
       return route === reg[0] ? "primary" : "secondary"
@@ -63,6 +65,7 @@ const AppHeader = () => {
             }
             activeClassName={styles.active}
           >
+
             <ProfileIcon type={isActive("/profile", location)} />
             <div className="pl-2" />
             Личный кабинет

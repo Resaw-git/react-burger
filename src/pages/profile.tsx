@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, {FC, FormEvent, useEffect, useRef} from "react";
 import styles from "./style.module.css";
 import {
   Input,
-  Button,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button} from "../utils/UI";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editUserData,
@@ -17,29 +17,34 @@ import {NavLink, useHistory} from "react-router-dom";
 import {SET_USER_SUCCESS} from "../services/actions/order";
 import {useForm} from "../hooks/use-form";
 
-export const Profile = () => {
+
+export const Profile: FC = () => {
   const history = useHistory()
-  const timerRef = useRef(null);
-  const inputRef = React.useRef(null);
+  const timerRef = useRef(0);
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
+  // @ts-ignore
     useSelector((store) => store.user);
+  // @ts-ignore
   const {userAccess} = useSelector(store => store.order)
 
-  const {values, handleChange, setValues} = useForm({name: "", password: "", email: ""});
+  const {values, handleChange, setValues} = useForm({name: "", password: "", email: "", token: ""});
 
   useEffect(() => {
     if (!jwtInvalid) {
+      // @ts-ignore
       dispatch(getUserData());
     }
     if (userName && userEmail) {
       setValues({ ...values, name: userName, email: userEmail });
     }
     if (jwtExpired) {
+      // @ts-ignore
       dispatch(refreshToken());
     }
     if (editSuccess) {
-      timerRef.current = setTimeout(() => {
+      timerRef.current = window.setTimeout(() => {
         hideMessage(dispatch);
       }, 2000);
     }
@@ -47,7 +52,7 @@ export const Profile = () => {
 
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     alert("Icon Click Callback");
   };
 
@@ -55,12 +60,14 @@ export const Profile = () => {
     setValues({ ...values, name: userName, email: userEmail });
   };
 
-  const saveChange = (e) => {
+  const saveChange = (e: FormEvent) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(editUserData(values));
   };
 
   const logout = () => {
+    // @ts-ignore
     dispatch(userLogout());
   };
 
@@ -135,7 +142,6 @@ export const Profile = () => {
             onChange={handleChange}
             value={values.password}
             name={"password"}
-            autocomplete="current-password"
           />
           <div className={"mb-6"} />
           {(values.name !== userName || values.email !== userEmail) && (
