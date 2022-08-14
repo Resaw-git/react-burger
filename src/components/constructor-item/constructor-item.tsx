@@ -144,7 +144,7 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
         <ConstructorElement
           type={position}
           isLocked={true}
-          text={constructorBun[0].name}
+          text={constructorBun[0].name + (position === "top" ? " (верх)" : " (низ)")}
           price={constructorBun[0].price}
           thumbnail={constructorBun[0].image_mobile}
         />
