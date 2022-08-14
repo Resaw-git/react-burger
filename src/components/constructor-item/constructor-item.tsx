@@ -1,30 +1,38 @@
-import React, {FC, useRef} from "react";
-import type { Identifier, XYCoord } from 'dnd-core'
-import {CurrencyIcon, DeleteIcon, DragIcon, LockIcon,} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { FC, useRef } from "react";
+import type { Identifier, XYCoord } from "dnd-core";
+import {
+  ConstructorElement,
+  CurrencyIcon,
+  DeleteIcon,
+  DragIcon,
+  LockIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
-import {useDispatch, useSelector} from "react-redux";
-import {DELETE_INGREDIENT, REORDER_INGREDIENT,} from "../../services/actions/constructor";
-import {useDrag, useDrop, } from "react-dnd";
-import {IIngredient} from "../../utils/types";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  DELETE_INGREDIENT,
+  REORDER_INGREDIENT,
+} from "../../services/actions/constructor";
+import { useDrag, useDrop } from "react-dnd";
+import { IIngredient } from "../../utils/types";
 
 interface IComponentProps {
-  el: IIngredient;
+  el?: IIngredient | undefined;
   index: number;
-  position: "top" | "middle" | "bottom";
+  position?: "top" | "bottom" | undefined;
 }
 
 interface DragItem {
-  index: number
-  id: string
-  type: string
+  index: number;
+  id: string;
+  type: string;
 }
 
 const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const { constructorBun, constructorIng } = useSelector(
-      // @ts-ignore
+    // @ts-ignore
     (store) => store.constructorList
   );
 
@@ -41,14 +49,18 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
     });
   };
 
-  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
+  const [{ handlerId }, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
     accept: "constructor",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover: function(item: DragItem, monitor) {
+    hover: function (item: DragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -95,10 +107,12 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
     }),
   });
 
-  const setPosition = (pos: string) => {
-    return (pos === "top" && styles.top) ||
-        (pos === "middle" && styles.middle) ||
-        styles.bottom;
+  const setPosition = (pos: string | undefined): string => {
+    return (
+      (pos === "top" && styles.top) ||
+      (pos === undefined && styles.middle) ||
+      styles.bottom
+    );
   };
 
   drag(drop(ref));
@@ -108,64 +122,45 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
   return (
     <div
       className={styles.block}
-      ref={position === "middle" ? ref : null}
+      ref={position === undefined ? ref : null}
       data-handler-id={handlerId}
       style={{ opacity }}
     >
-      {position !== "middle" && constructorBun.length === 0 && (
+      {position !== undefined && constructorBun.length === 0 && (
         <div className={styles.empty_box + " " + setPosition(position)}>
           <div className={styles.text}>
             <p className="text text_type_main-default mr-5">Выберите булку</p>
           </div>
         </div>
       )}
-      {position === "middle" && constructorIng.length === 0 && (
+      {position === undefined && constructorIng.length === 0 && (
         <div className={styles.empty_box + " " + setPosition(position)}>
           <div className={styles.text}>
             <p className="text text_type_main-default mr-5">Выберите Начинку</p>
           </div>
         </div>
       )}
-      {position !== "middle" && constructorBun.length > 0 && (
-        <div className={styles.box + " " + setPosition(position)}>
-          <div className={styles.smallImage}>
-            <img
-              src={constructorBun[0].image_mobile}
-              alt={constructorBun[0].name}
-            />
-          </div>
-          <div className={styles.text}>
-            <p className="text text_type_main-default mr-5">
-              {constructorBun[0].name + (position === "top" ? " (верх)" : " (низ)")}
-            </p>
-          </div>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">
-              {constructorBun[0].price}
-            </p>
-          </div>
-          <CurrencyIcon type="primary" />
-          <div className="mr-5" />
-          <LockIcon type="secondary" />
-        </div>
+      {position !== undefined && constructorBun.length > 0 && (
+        <ConstructorElement
+          type={position}
+          isLocked={true}
+          text={constructorBun[0].name}
+          price={constructorBun[0].price}
+          thumbnail={constructorBun[0].image_mobile}
+        />
       )}
-      {position === "middle" && constructorIng.length > 0 && (
+      {position === undefined && constructorIng.length > 0 && (
         <div className={styles.box + " " + setPosition(position)}>
           <div className={styles.dots}>
             <DragIcon type="primary" />
           </div>
-          <div className={styles.smallImage}>
-            <img src={el?.image_mobile} alt={el?.name} />
-          </div>
-          <div className={styles.text}>
-            <p className="text text_type_main-default mr-5">{el?.name}</p>
-          </div>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">{el?.price}</p>
-          </div>
-          <CurrencyIcon type="primary" />
-          <div className="mr-5" />
-          <DeleteIcon type="primary" onClick={deleteIng} />
+          {el && <ConstructorElement
+              isLocked={false}
+              text={el.name}
+              price={el.price}
+              thumbnail={el.image_mobile}
+              handleClose={deleteIng}
+          />}
         </div>
       )}
     </div>

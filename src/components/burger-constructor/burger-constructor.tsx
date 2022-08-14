@@ -84,19 +84,18 @@ const BurgerConstructor: FC = () => {
   return (
     <div className={styles.main} ref={dragRef}>
       <div className={styles.elements}>
-        <ConstructorItem position={"top"} />
+        <ConstructorItem index={0} position={"top"} />
         <div className={styles.scroll}>
           {(constructorIng.length > 0 &&
             constructorIng.map((e: IIngredient, index: number) => (
               <ConstructorItem
-                position={"middle"}
                 el={e}
                 key={e.id}
                 index={index}
               />
-            ))) || <ConstructorItem position={"middle"} />}
+            ))) || <ConstructorItem index={0} />}
         </div>
-        <ConstructorItem position={"bottom"} />
+        <ConstructorItem index={0} position={"bottom"} />
         <div className={styles.block}>
           <p className="text text_type_digits-medium mr-4">
             {getTotalSum(constructorIng, constructorBun)}
