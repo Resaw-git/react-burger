@@ -1,12 +1,5 @@
 import { useState} from "react";
 
-interface IForm {
-    target: {
-        value: string;
-        name: string;
-    }
-}
-
 interface IInputValues {
     name: string;
     password: string;
@@ -17,7 +10,7 @@ interface IInputValues {
 export function useForm(inputValues: IInputValues) {
     const [values, setValues] = useState(inputValues);
 
-    const handleChange = (event: IForm ) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {value, name} = event.target;
         setValues({...values, [name]: value});
     };

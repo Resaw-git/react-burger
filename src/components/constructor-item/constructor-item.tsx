@@ -1,21 +1,27 @@
 import React, {FC, useRef} from "react";
+import type { Identifier, XYCoord } from 'dnd-core'
 import {CurrencyIcon, DeleteIcon, DragIcon, LockIcon,} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
-import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {DELETE_INGREDIENT, REORDER_INGREDIENT,} from "../../services/actions/constructor";
-import {DropTargetMonitor, useDrag, useDrop} from "react-dnd";
+import {useDrag, useDrop, } from "react-dnd";
 import {IIngredient} from "../../utils/types";
 
 
 interface IComponentProps {
-  el?: IIngredient;
-  index?: number;
-  position: string;
+  el: IIngredient;
+  index: number;
+  position: "top" | "middle" | "bottom";
+}
+
+interface DragItem {
+  index: number
+  id: string
+  type: string
 }
 
 const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const { constructorBun, constructorIng } = useSelector(
       // @ts-ignore
@@ -35,14 +41,14 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
     });
   };
 
-  const [{ handlerId }, drop]: any = useDrop<any>({
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: "constructor",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover: function (item: IIngredient, monitor: DropTargetMonitor) {
+    hover: function(item: DragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -53,20 +59,18 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
       if (dragIndex === hoverIndex) {
         return;
       }
-      // @ts-ignore
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
       const clientOffset = monitor.getClientOffset();
-      // @ts-ignore
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      // @ts-ignore
+
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
-      // @ts-ignore
+
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
@@ -169,7 +173,3 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
 };
 
 export default ConstructorItem;
-
-ConstructorItem.propTypes = {
-  position: PropTypes.string.isRequired,
-};
