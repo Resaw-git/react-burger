@@ -24,3 +24,7 @@ export interface IIngredient {
     index?: number;
 }
 
+export interface IForm {
+
+}
+

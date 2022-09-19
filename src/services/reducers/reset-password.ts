@@ -4,8 +4,18 @@ import {
   SEND_EMAIL_FAILED,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAILED,
+  RESET_PASSWORD_FAILED, TResetPasswordActions,
 } from "../actions/reset-password";
+
+type TInitialState = {
+  message: string;
+  sendRequest: boolean;
+  sendSuccess: boolean;
+  sendFailed: boolean;
+  resetRequest: boolean;
+  resetSuccess: boolean;
+  resetFailed: boolean;
+}
 
 const initialState = {
   message: "",
@@ -17,7 +27,7 @@ const initialState = {
   resetFailed: false,
 };
 
-export const passwordReducer = (state = initialState, action) => {
+export const passwordReducer = (state: TInitialState = initialState, action: TResetPasswordActions) => {
   switch (action.type) {
     case SEND_EMAIL_REQUEST: {
       return {

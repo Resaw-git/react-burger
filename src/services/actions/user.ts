@@ -2,23 +2,66 @@ import { baseURL, token, user, logout } from "../api";
 import { checkResponse } from "../check-response";
 import { deleteCookie, getCookie, setCookie } from "../cookies";
 
-export const GET_USER_REQUEST = "GET_LOGIN_REQUEST";
-export const GET_USER_SUCCESS = "GET_LOGIN_SUCCESS";
-export const GET_USER_FAILED = "GET_LOGIN_FAILED";
+export const GET_USER_REQUEST: "GET_LOGIN_REQUEST" = "GET_LOGIN_REQUEST";
+export const GET_USER_SUCCESS: "GET_LOGIN_SUCCESS" = "GET_LOGIN_SUCCESS";
+export const GET_USER_FAILED: "GET_LOGIN_FAILED" = "GET_LOGIN_FAILED";
 
-export const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS"
-export const HIDE_EDIT_MESSAGE = "HIDE_EDIT_MESSAGE"
+export const EDIT_USER_SUCCESS: "EDIT_USER_SUCCESS" = "EDIT_USER_SUCCESS";
+export const HIDE_EDIT_MESSAGE: "HIDE_EDIT_MESSAGE" = "HIDE_EDIT_MESSAGE";
 
-export const JWT_EXPIRED = "JWT_EXPIRED";
-export const JWT_INVALID = "JWT_INVALID";
+export const JWT_EXPIRED: "JWT_EXPIRED" = "JWT_EXPIRED";
+export const JWT_INVALID: "JWT_INVALID" = "JWT_INVALID";
+
+
+export interface IGetUserRequestAction {
+  readonly type: typeof GET_USER_REQUEST;
+}
+
+export interface IGetUserSuccessAction {
+  readonly type: typeof GET_USER_SUCCESS;
+  userName: string;
+  userEmail: string;
+}
+
+export interface IGetUserFailedAction {
+  readonly type: typeof GET_USER_FAILED;
+}
+
+export interface IEditUserSuccessAction {
+  readonly type: typeof EDIT_USER_SUCCESS;
+}
+
+export interface IHideEditMessage {
+  readonly type: typeof HIDE_EDIT_MESSAGE;
+}
+
+export interface IJwtExpiredAction {
+  readonly type: typeof JWT_EXPIRED;
+}
+
+export interface IJwtInvalidAction {
+  readonly type: typeof JWT_INVALID;
+}
+
+export type TUserActions =
+  | IGetUserRequestAction
+  | IGetUserSuccessAction
+  | IGetUserFailedAction
+  | IEditUserSuccessAction
+  | IHideEditMessage
+  | IJwtExpiredAction
+  | IJwtInvalidAction;
+
 
 export const getUserData = () => {
-  return function (dispatch) {
+  return function (dispatch: any) {
     dispatch({
       type: GET_USER_REQUEST,
     });
+
     fetch(`${baseURL + user}`, {
       method: "GET",
+      // @ts-ignore
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         authorization: getCookie("accessToken"),
@@ -49,7 +92,7 @@ export const getUserData = () => {
 };
 
 export const refreshToken = () => {
-  return function (dispatch) {
+  return function (dispatch: any) {
     return fetch(`${baseURL + token}`, {
       method: "POST",
       headers: {
@@ -62,7 +105,7 @@ export const refreshToken = () => {
       .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
-          setCookie("accessToken", res.accessToken);
+          setCookie("accessToken", res.accessToken, undefined);
           localStorage.setItem("refreshToken", res.refreshToken);
           dispatch(getUserData())
         }
@@ -82,9 +125,10 @@ export const refreshToken = () => {
 };
 
 export const userLogout = () => {
-  return function (dispatch) {
+  return function (dispatch: any) {
     return fetch(`${baseURL + logout}`, {
       method: "POST",
+      // @ts-ignore
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         authorization: getCookie("accessToken"),
@@ -108,10 +152,11 @@ export const userLogout = () => {
   };
 };
 
-export const editUserData = (form) => {
-  return function (dispatch) {
+export const editUserData = (form: any) => {
+  return function (dispatch: any) {
     return fetch(`${baseURL + user}`, {
       method: "PATCH",
+      // @ts-ignore
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         authorization: getCookie("accessToken"),
@@ -138,7 +183,7 @@ export const editUserData = (form) => {
   };
 };
 
-export const hideMessage = (dispatch) => {
+export const hideMessage = (dispatch: any) => {
   dispatch({
     type: HIDE_EDIT_MESSAGE
   })

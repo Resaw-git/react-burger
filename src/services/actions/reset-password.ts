@@ -1,16 +1,53 @@
 import { baseURL, reset, password } from "../api";
 import { checkResponse } from "../check-response";
 
-export const SEND_EMAIL_REQUEST = "SEND_EMAIL_REQUEST";
-export const SEND_EMAIL_SUCCESS = "SEND_EMAIL_SUCCESS";
-export const SEND_EMAIL_FAILED = "SEND_EMAIL_FAILED";
+export const SEND_EMAIL_REQUEST: "SEND_EMAIL_REQUEST" = "SEND_EMAIL_REQUEST";
+export const SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS" = "SEND_EMAIL_SUCCESS";
+export const SEND_EMAIL_FAILED: "SEND_EMAIL_FAILED" = "SEND_EMAIL_FAILED";
 
-export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
-export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
-export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
+export const RESET_PASSWORD_REQUEST: "RESET_PASSWORD_REQUEST" = "RESET_PASSWORD_REQUEST";
+export const RESET_PASSWORD_SUCCESS: "RESET_PASSWORD_SUCCESS" = "RESET_PASSWORD_SUCCESS";
+export const RESET_PASSWORD_FAILED: "RESET_PASSWORD_FAILED" = "RESET_PASSWORD_FAILED";
 
-export const sendEmail = (form) => {
-  return function (dispatch) {
+
+export interface ISendEmailRequestAction {
+    readonly type: typeof SEND_EMAIL_REQUEST;
+}
+
+export interface ISendEmailSuccessAction {
+    readonly type: typeof SEND_EMAIL_SUCCESS;
+    message: string;
+}
+
+export interface ISendEmailFailedAction {
+    readonly type: typeof SEND_EMAIL_FAILED;
+    message: string;
+}
+
+export interface IResetPasswordRequestAction {
+    readonly type: typeof RESET_PASSWORD_REQUEST;
+}
+
+export interface IResetPasswordSuccessAction {
+    readonly type: typeof RESET_PASSWORD_SUCCESS;
+    message: string;
+}
+
+export interface IResetPasswordFailedAction {
+    readonly type: typeof RESET_PASSWORD_FAILED;
+    message: string;
+}
+
+export type TResetPasswordActions =
+    | ISendEmailRequestAction
+    | ISendEmailSuccessAction
+    | ISendEmailFailedAction
+    | IResetPasswordRequestAction
+    | IResetPasswordSuccessAction
+    | IResetPasswordFailedAction;
+
+export const sendEmail = (form: any) => {
+  return function (dispatch: any) {
     dispatch({
       type: SEND_EMAIL_REQUEST,
     });
@@ -42,8 +79,8 @@ export const sendEmail = (form) => {
   };
 };
 
-export const resetPassword = (form) => {
-    return function (dispatch) {
+export const resetPassword = (form: any) => {
+    return function (dispatch: any) {
         dispatch({
             type: RESET_PASSWORD_REQUEST,
         });
