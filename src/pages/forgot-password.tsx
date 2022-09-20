@@ -5,21 +5,19 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "../utils/UI";
 import { Link, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
 import { sendEmail } from "../services/actions/reset-password";
 import { useForm } from "../hooks/use-form";
 
 export const ForgotPassword = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const inputRef = useRef<HTMLInputElement>(null);
   const [redirect, setRedirect] = useState(false);
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
-  // @ts-ignore
-    useSelector((store) => store.user);
-  const { message, sendSuccess, sendFailed } = useSelector(
-  // @ts-ignore
+      useSelectorHook((store) => store.user);
+  const { message, sendSuccess, sendFailed } = useSelectorHook(
     (store) => store.reset
   );
 
@@ -27,11 +25,9 @@ export const ForgotPassword = () => {
 
   useEffect(() => {
     if (!jwtInvalid) {
-      // @ts-ignore
       dispatch(getUserData());
     }
     if (jwtExpired) {
-      // @ts-ignore
       dispatch(refreshToken());
     }
     if (sendSuccess) {
@@ -54,8 +50,7 @@ export const ForgotPassword = () => {
 
   const resetPassword = (e: FormEvent) => {
     e.preventDefault();
-    // @ts-ignore
-    dispatch(sendEmail(values.email));
+    dispatch(sendEmail(values));
   };
 
   return (

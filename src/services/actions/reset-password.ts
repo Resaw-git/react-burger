@@ -1,5 +1,7 @@
 import { baseURL, reset, password } from "../api";
 import { checkResponse } from "../check-response";
+import {IForm} from "../../utils/types";
+import {AppDispatch, AppThunk} from "../reducers/store";
 
 export const SEND_EMAIL_REQUEST: "SEND_EMAIL_REQUEST" = "SEND_EMAIL_REQUEST";
 export const SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS" = "SEND_EMAIL_SUCCESS";
@@ -46,8 +48,8 @@ export type TResetPasswordActions =
     | IResetPasswordSuccessAction
     | IResetPasswordFailedAction;
 
-export const sendEmail = (form: any) => {
-  return function (dispatch: any) {
+export const sendEmail = (form: IForm): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({
       type: SEND_EMAIL_REQUEST,
     });
@@ -76,10 +78,9 @@ export const sendEmail = (form: any) => {
         });
         console.log(error);
       });
-  };
 };
 
-export const resetPassword = (form: any) => {
+export const resetPassword = (form: IForm) => {
     return function (dispatch: any) {
         dispatch({
             type: RESET_PASSWORD_REQUEST,

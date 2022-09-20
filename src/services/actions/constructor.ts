@@ -13,13 +13,12 @@ export interface IAddIngredientAction {
 
 export interface IDeleteIngredientAction {
     readonly type: typeof DELETE_INGREDIENT;
-    id: string;
+    id: string | undefined;
 }
 
 export interface IAddBunAction {
     readonly type: typeof ADD_BUN;
     item: IIngredient;
-
 }
 
 export interface IReorderIngredientAction {

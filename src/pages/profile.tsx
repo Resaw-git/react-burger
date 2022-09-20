@@ -5,7 +5,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button} from "../utils/UI";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import {
   editUserData,
   getUserData,
@@ -22,25 +22,22 @@ export const Profile: FC = () => {
   const history = useHistory()
   const timerRef = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
-  // @ts-ignore
-    useSelector((store) => store.user);
-  // @ts-ignore
-  const {userAccess} = useSelector(store => store.order)
+      useSelectorHook((store) => store.user);
+
+  const {userAccess} = useSelectorHook(store => store.order)
 
   const {values, handleChange, setValues} = useForm({name: "", password: "", email: "", token: ""});
 
   useEffect(() => {
     if (!jwtInvalid) {
-      // @ts-ignore
       dispatch(getUserData());
     }
     if (userName && userEmail) {
       setValues({ ...values, name: userName, email: userEmail });
     }
     if (jwtExpired) {
-      // @ts-ignore
       dispatch(refreshToken());
     }
     if (editSuccess) {
@@ -62,12 +59,10 @@ export const Profile: FC = () => {
 
   const saveChange = (e: FormEvent) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(editUserData(values));
   };
 
   const logout = () => {
-    // @ts-ignore
     dispatch(userLogout());
   };
 

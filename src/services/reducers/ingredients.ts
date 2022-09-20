@@ -6,8 +6,8 @@ import {
 } from "../actions/ingredients";
 import {IIngredient} from "../../utils/types";
 
-type TInitialState = {
-  ingredientsArray: Array<IIngredient>;
+interface TInitialState {
+  ingredientsArray: IIngredient[];
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
 }

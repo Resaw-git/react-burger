@@ -1,5 +1,5 @@
 import { Button as ButtonUI, Tab as TabUI } from "@ya.praktikum/react-developer-burger-ui-components";
-import {FC, SyntheticEvent} from "react";
+import React, {FC, SyntheticEvent} from "react";
 
 export const Button: FC<{
     type?: 'secondary' | 'primary';
@@ -18,3 +18,10 @@ export const Tab: FC<{
     onClick: (value: string) => void;
     children: React.ReactNode;
 }> = TabUI
+
+export declare const PasswordInput: ({ value, onChange, name, size }: {
+    value: string;
+    name: string;
+    size?: "small" | "default" | undefined;
+    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+}) => JSX.Element;

@@ -2,7 +2,7 @@ import { baseURL, orders } from "../api";
 import { checkResponse } from "../check-response";
 import { RESET_INGREDIENTS } from "./constructor";
 import { getCookie } from "../cookies";
-import {AppDispatch} from "../reducers/store";
+import {AppDispatch, AppThunk} from "../reducers/store";
 
 export const GET_ORDER_REQUEST: "GET_ORDER_REQUEST" = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";
@@ -39,8 +39,8 @@ export type TOrderActions =
   | IResetOrderAction
   | ISetUserSuccessAction;
 
-export const fetchOrder = (data: string) => {
-  return function (dispatch: AppDispatch) {
+export const fetchOrder = (data: string[]): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({
       type: GET_ORDER_REQUEST,
     });
@@ -49,7 +49,7 @@ export const fetchOrder = (data: string) => {
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         "authorization": getCookie("accessToken"),
-      } as { [key: string]: string},
+      } as { [key: string]: string },
       body: JSON.stringify({
         ingredients: data,
       }),
@@ -70,5 +70,4 @@ export const fetchOrder = (data: string) => {
         });
         console.log(error);
       });
-  };
 };

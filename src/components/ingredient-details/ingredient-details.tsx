@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import styles from "./ingredient-details.module.css";
-import {useSelector} from "react-redux";
+import { useSelectorHook } from "../../hooks/redux";
 import { useParams } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
 
@@ -15,11 +15,11 @@ interface IParams {
 const IngredientDetails: FC<IComponentProps> = ({ bg }) => {
   const { id }: IParams = useParams();
   const [data, setData] = React.useState<IIngredient>();
-  // @ts-ignore
-  const { ingredientsArray } = useSelector((store) => store.ingredients);
+  const { ingredientsArray } = useSelectorHook((store) => store.ingredients);
+  const newArr: IIngredient[] = ingredientsArray
 
   React.useEffect(() => {
-    setData(ingredientsArray.find((el: IIngredient) => el._id === id));
+      setData(newArr.find((el: IIngredient) => el._id === id));
   }, [ingredientsArray]);
 
 

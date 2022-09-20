@@ -15,7 +15,7 @@ import {
   NotFound404,
   Profile,
 } from "../../pages";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {closeModalIng, closeModalOrd} from "../../services/actions/modal";
 import Modal from "../modal/modal";
@@ -28,9 +28,8 @@ const App: FC = () => {
   const history = useHistory();
   const location = useLocation<ILocation>();
   const background = location.state && location.state.background;
-  // @ts-ignore
-  const { modalOpen } = useSelector((store) => store.modal);
-  const dispatch = useDispatch();
+  const { modalOpen } = useSelectorHook((store) => store.modal);
+  const dispatch = useDispatchHook();
 
   const modalCloseIng = () => {
     closeModalIng(dispatch, history)
@@ -41,7 +40,6 @@ const App: FC = () => {
   }
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(fetchIngredients());
   }, [dispatch]);
 

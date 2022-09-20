@@ -1,6 +1,8 @@
 import { baseURL, token, user, logout } from "../api";
 import { checkResponse } from "../check-response";
 import { deleteCookie, getCookie, setCookie } from "../cookies";
+import {IForm} from "../../utils/types";
+import {AppDispatch, AppThunk} from "../reducers/store";
 
 export const GET_USER_REQUEST: "GET_LOGIN_REQUEST" = "GET_LOGIN_REQUEST";
 export const GET_USER_SUCCESS: "GET_LOGIN_SUCCESS" = "GET_LOGIN_SUCCESS";
@@ -53,19 +55,17 @@ export type TUserActions =
   | IJwtInvalidAction;
 
 
-export const getUserData = () => {
-  return function (dispatch: any) {
+export const getUserData = (): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({
       type: GET_USER_REQUEST,
     });
-
     fetch(`${baseURL + user}`, {
       method: "GET",
-      // @ts-ignore
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        authorization: getCookie("accessToken"),
-      },
+        "authorization": getCookie("accessToken"),
+      } as { [key: string]: string },
     })
       .then(checkResponse)
       .then((res) => {
@@ -78,22 +78,15 @@ export const getUserData = () => {
         }
       })
       .catch((error) => {
-        if (error.message === "jwt expired") {
-          dispatch({
-            type: JWT_EXPIRED,
-          });
-        } else {
-          dispatch({
-            type: GET_USER_FAILED,
-          });
-        }
+        error.message === "jwt expired" ?
+          dispatch({type: JWT_EXPIRED}) :
+          dispatch({type: GET_USER_FAILED})
       });
-  };
 };
 
-export const refreshToken = () => {
-  return function (dispatch: any) {
-    return fetch(`${baseURL + token}`, {
+export const refreshToken = (): AppThunk =>
+  (dispatch: AppDispatch) => {
+    fetch(`${baseURL + token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -111,28 +104,20 @@ export const refreshToken = () => {
         }
       })
       .catch((error) => {
-        if (error.message === "Token is invalid") {
-          dispatch({
-            type: JWT_INVALID,
-          });
-        } else {
-          dispatch({
-            type: GET_USER_FAILED,
-          });
-        }
+        error.message === "Token is invalid" ?
+            dispatch({type: JWT_INVALID,}) :
+            dispatch({type: GET_USER_FAILED})
       });
-  };
 };
 
-export const userLogout = () => {
-  return function (dispatch: any) {
-    return fetch(`${baseURL + logout}`, {
+export const userLogout = (): AppThunk =>
+  (dispatch: AppDispatch) => {
+    fetch(`${baseURL + logout}`, {
       method: "POST",
-      // @ts-ignore
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        authorization: getCookie("accessToken"),
-      },
+        "authorization": getCookie("accessToken"),
+      } as { [key: string]: string },
       body: JSON.stringify({
         token: localStorage.getItem("refreshToken"),
       }),
@@ -148,19 +133,18 @@ export const userLogout = () => {
           dispatch({
             type: GET_USER_FAILED,
           });
+          console.log(error);
         });
-  };
 };
 
-export const editUserData = (form: any) => {
-  return function (dispatch: any) {
-    return fetch(`${baseURL + user}`, {
+export const editUserData = (form: IForm): AppThunk =>
+  (dispatch: AppDispatch) => {
+    fetch(`${baseURL + user}`, {
       method: "PATCH",
-      // @ts-ignore
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        authorization: getCookie("accessToken"),
-      },
+        "authorization": getCookie("accessToken"),
+      } as { [key: string]: string },
       body: JSON.stringify({
         name: form.name,
         email: form.email
@@ -179,11 +163,11 @@ export const editUserData = (form: any) => {
           dispatch({
             type: GET_USER_FAILED,
           });
+          console.log(error);
         });
-  };
 };
 
-export const hideMessage = (dispatch: any) => {
+export const hideMessage = (dispatch: AppDispatch) => {
   dispatch({
     type: HIDE_EDIT_MESSAGE
   })

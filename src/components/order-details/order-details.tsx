@@ -1,11 +1,10 @@
 import React, { FC } from "react";
 import styles from "./order-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelectorHook } from "../../hooks/redux";
 import Loader from "../loader/loader";
 
 const OrderDetails: FC = () => {
-  const { orderNumber, orderRequest, orderSuccess } = useSelector(
-  // @ts-ignore
+  const { orderNumber, orderRequest, orderSuccess } = useSelectorHook(
     (store) => store.order
   );
 

@@ -5,6 +5,7 @@ import {
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { fetchOrder, SET_USER_SUCCESS } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
@@ -16,16 +17,14 @@ import {Button} from "../../utils/UI";
 
 const BurgerConstructor: FC = () => {
   const history = useHistory();
+  const dispatch = useDispatchHook();
 
-  const { constructorIng, constructorBun } = useSelector(
-      // @ts-ignore
+  const { constructorIng, constructorBun } = useSelectorHook(
     (store) => store.constructorList
   );
 
-  // @ts-ignore
-  const { loginSuccess } = useSelector((store) => store.login);
+  const { loginSuccess } = useSelectorHook((store) => store.login);
 
-  const dispatch = useDispatch();
 
   const [, dragRef] = useDrop({
     accept: "ingredient",
@@ -61,12 +60,10 @@ const BurgerConstructor: FC = () => {
         userAccess: true,
       });
       history.push("/login");
-
     } else {
       dispatch({
         type: MODAL_OPEN,
       });
-      // @ts-ignore
       dispatch(fetchOrder(getIngredientsId(constructorIng, constructorBun)));
     }
   };

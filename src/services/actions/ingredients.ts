@@ -1,7 +1,7 @@
 import { baseURL, ingredients } from "../api";
 import { checkResponse } from "../check-response";
 import {IIngredient} from "../../utils/types";
-import {AppDispatch} from "../reducers/store";
+import {AppDispatch, AppThunk} from "../reducers/store";
 export const GET_INGREDIENTS_REQUEST: "GET_INGREDIENTS_REQUEST" = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS: "GET_INGREDIENTS_SUCCESS" = "GET_INGREDIENTS_SUCCESS";
 export const GET_INGREDIENTS_FAILED: "GET_INGREDIENTS_FAILED" = "GET_INGREDIENTS_FAILED";
@@ -25,8 +25,8 @@ export type TIngredientsActions =
   | IGetIngredientsFailed;
 
 
-export const fetchIngredients = () => {
-  return function (dispatch: AppDispatch) {
+export const fetchIngredients = (): AppThunk =>
+   (dispatch: AppDispatch) => {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });
@@ -44,5 +44,4 @@ export const fetchIngredients = () => {
         });
         console.log(error);
       });
-  };
 };

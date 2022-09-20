@@ -4,7 +4,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button} from "../utils/UI";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import Loader from "../components/loader/loader";
@@ -14,15 +14,13 @@ import {ILocation} from "../utils/types";
 
 export const ResetPassword = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const location = useLocation<ILocation>();
   const [redirect, setRedirect] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
-      // @ts-ignore
-      useSelector((store) => store.user);
-  // @ts-ignore
-  const { sendSuccess, resetSuccess } = useSelector((store) => store.reset);
+      useSelectorHook((store) => store.user);
+  const { sendSuccess, resetSuccess } = useSelectorHook((store) => store.reset);
 
   const { values, handleChange } = useForm({
     name: "",
@@ -33,11 +31,9 @@ export const ResetPassword = () => {
 
   useEffect(() => {
     if (!jwtInvalid) {
-      // @ts-ignore
       dispatch(getUserData());
     }
     if (jwtExpired) {
-      // @ts-ignore
       dispatch(refreshToken());
     }
     if (resetSuccess) {
@@ -64,7 +60,6 @@ export const ResetPassword = () => {
 
   const changePassword = (e: FormEvent) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(resetPassword(values));
   };
 

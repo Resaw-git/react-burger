@@ -4,7 +4,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelectorHook, useDispatchHook } from "../../hooks/redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { useDrag } from "react-dnd";
 import {useHistory, useLocation} from "react-router-dom";
@@ -17,21 +17,21 @@ interface IComponentProps {
 const IngredientItem: FC<IComponentProps> = ({ id}) => {
   const history = useHistory()
   const location = useLocation()
-  // @ts-ignore
-  const { ingredientsArray } = useSelector((store) => store.ingredients);
-  const { constructorBun, constructorIng } = useSelector(
-      // @ts-ignore
+  const dispatch = useDispatchHook();
+  const { ingredientsArray } = useSelectorHook((store) => store.ingredients);
+  const { constructorBun, constructorIng } = useSelectorHook(
     (store) => store.constructorList
   );
+  const newArr: IIngredient[] = ingredientsArray
 
-  const element = ingredientsArray.find((el: IIngredient) => el._id === id && el);
+  const element = newArr.find((el: IIngredient) => el._id === id && el);
 
   const counter = React.useMemo(() => {
     let count = 0;
 
-    if (element.type !== "bun") {
+    if (element?.type !== "bun") {
       constructorIng.map((e: IIngredient) => {
-        if (e._id === element._id) {
+        if (e._id === element?._id) {
           ++count;
         }
       });
@@ -45,7 +45,7 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
     return count;
   }, [constructorIng, constructorBun]);
 
-  const dispatch = useDispatch();
+
 
   const [{ isDrag }, dragRef] = useDrag({
     type: "ingredient",
@@ -67,13 +67,13 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
       {counter !== 0 && (
         <Counter count={counter} size="default" />
       )}
-      <img alt={element.name} src={element.image} className={styles.img} />
+      <img alt={element?.name} src={element?.image} className={styles.img} />
       <div className={styles.price}>
-        <p className="text text_type_digits-default pr-2">{element.price}</p>
+        <p className="text text_type_digits-default pr-2">{element?.price}</p>
         <CurrencyIcon type="primary" />
       </div>
       <div className={styles.name}>
-        <p className="mt-3 text text_type_main-default">{element.name}</p>
+        <p className="mt-3 text text_type_main-default">{element?.name}</p>
       </div>
     </div>
   );
