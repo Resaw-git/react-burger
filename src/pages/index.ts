@@ -5,6 +5,7 @@ import { Profile } from "./profile";
 import { ForgotPassword } from "./forgot-password";
 import { ResetPassword } from "./reset-password";
 import { NotFound404 } from "./not-found";
+import { Feed } from "./feed";
 
 export {
   Constructor,
@@ -14,4 +15,5 @@ export {
   ForgotPassword,
   ResetPassword,
   NotFound404,
+  Feed,
 };

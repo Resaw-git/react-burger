@@ -1,0 +1,133 @@
+.warp {
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    min-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.main_right {
+    min-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.order_box {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 24px;
+    width: 584px;
+    min-height: 214px;
+    gap: 24px;
+    background-color: #1C1C21;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+}
+
+.order_title, .order_footer  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order_ingredients {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.small_img {
+    height: 64px;
+    width: 64px;
+    border: 2px solid #801AB2;
+    border-radius: 50%;
+    position: relative;
+    background-color: #131316;
+    margin-right: -15px;
+
+}
+
+.img_ing {
+    position: absolute;
+    top: -2px;
+    left: -39px;
+    scale: 0.8;
+}
+
+
+.order_price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.count {
+    font-family: 'Iceland', 'sans-serif';
+    font-size: 24px;
+    line-height: 24px;
+    display: flex;
+    position: absolute;
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.order_state {
+    display: flex;
+    margin-top: 100px;
+    gap: 36px;
+}
+
+.order_numbers {
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.order_list {
+    max-height: 206px;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.order_bignumber {
+    font-family: 'Iceland', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 144px;
+    line-height: 120px;
+    color: #F2F2F3;
+    text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.scroll {
+    display: grid;
+    gap: 18px;
+    max-height: calc(100vh - 200px);
+    overflow-y: scroll;
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 8px;
+
+}
+.scroll::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+.scroll::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}

@@ -14,6 +14,7 @@ import {
   ResetPassword,
   NotFound404,
   Profile,
+  Feed,
 } from "../../pages";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -57,6 +58,9 @@ const App: FC = () => {
         </Route>
         <Route path="/login" exact={true}>
           <Login />
+        </Route>
+        <Route path="/feed" exact={true}>
+          <Feed />
         </Route>
         <Route path="/register" exact={true}>
           <Register />

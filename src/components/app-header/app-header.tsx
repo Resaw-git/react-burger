@@ -39,7 +39,7 @@ const AppHeader: FC = () => {
             Конструктор
           </NavLink>
           <NavLink
-            to="/orders"
+            to="/feed"
             className={
               styles.element_leftside +
               " text_type_main-default text_color_inactive pl-2"
@@ -47,7 +47,7 @@ const AppHeader: FC = () => {
             exact={true}
             activeClassName={styles.active}
           >
-            <ListIcon type={isActive("/orders", location)} />
+            <ListIcon type={isActive("/feed", location)} />
             <div className="pl-2" />
             Лента заказов
           </NavLink>
