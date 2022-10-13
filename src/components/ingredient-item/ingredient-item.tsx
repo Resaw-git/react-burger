@@ -24,6 +24,14 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
   );
   const newArr: IIngredient[] = ingredientsArray
 
+  const modal = () => {
+    history.push(`ingredients/${id}`, {background: location})
+    dispatch({
+      type: MODAL_OPEN,
+      isDetails: true,
+    });
+  };
+
   const element = newArr.find((el: IIngredient) => el._id === id && el);
 
   const counter = React.useMemo(() => {
@@ -45,8 +53,6 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
     return count;
   }, [constructorIng, constructorBun]);
 
-
-
   const [{ isDrag }, dragRef] = useDrag({
     type: "ingredient",
     item: element,
@@ -54,13 +60,6 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
       isDrag: monitor.isDragging(),
     }),
   });
-
-  const modal = () => {
-    history.push(`ingredients/${id}`, {background: location})
-    dispatch({
-      type: MODAL_OPEN,
-    });
-  };
 
   return (
     <div className={styles.block} onClick={modal} ref={dragRef}>

@@ -6,6 +6,7 @@ import {TOrderActions} from "./order";
 import {TRegisterActions} from "./register";
 import {TResetPasswordActions} from "./reset-password";
 import {TUserActions} from "./user";
+import {TFeedActions} from "./ws-feed";
 
 export type TApplicationActions =
     | TConstructorActions
@@ -15,4 +16,5 @@ export type TApplicationActions =
     | TOrderActions
     | TRegisterActions
     | TResetPasswordActions
-    | TUserActions;
+    | TUserActions
+    | TFeedActions;

@@ -4,7 +4,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { fetchOrder, SET_USER_SUCCESS } from "../../services/actions/order";
@@ -24,7 +23,6 @@ const BurgerConstructor: FC = () => {
   );
 
   const { loginSuccess } = useSelectorHook((store) => store.login);
-
 
   const [, dragRef] = useDrop({
     accept: "ingredient",
@@ -63,6 +61,7 @@ const BurgerConstructor: FC = () => {
     } else {
       dispatch({
         type: MODAL_OPEN,
+        isDetails: false,
       });
       dispatch(fetchOrder(getIngredientsId(constructorIng, constructorBun)));
     }
@@ -70,12 +69,9 @@ const BurgerConstructor: FC = () => {
 
   const getTotalSum = (ingredients: IIngredient[], bun: IIngredient[]) => {
     const arr = [...ingredients, ...bun];
-    return arr.reduce((accum, current) => {
-      if (current.type === "bun") {
-        return accum + current.price * 2;
-      }
-      return accum + current.price;
-    }, 0);
+    return arr.reduce((accum, current) =>
+      current.type === "bun" ? accum + current.price * 2 : accum + current.price
+    , 0);
   };
 
   return (

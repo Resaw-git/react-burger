@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, { FC } from "react";
 import {
   Logo,
   BurgerIcon,
@@ -12,12 +12,14 @@ import { Location } from "history";
 
 const AppHeader: FC = () => {
   const location = useLocation<ILocation>();
-  const isActive = (route: string, location: Location<ILocation>): "primary" | "secondary" => {
-    const reg = location.pathname.match(/^\/[a-z]*/)
+  const isActiveText = (
+    route: string,
+    location: Location<ILocation>
+  ): "primary" | "secondary" => {
+    const reg = location.pathname.match(/^\/[a-z]*/);
     if (reg) {
-      return route === reg[0] ? "primary" : "secondary"
-      }
-
+      return route === reg[0] ? "primary" : "secondary";
+    }
     return route === location.pathname ? "primary" : "secondary";
   };
 
@@ -34,12 +36,13 @@ const AppHeader: FC = () => {
             }
             activeClassName={styles.active}
           >
-            <BurgerIcon type={isActive("/", location)} />
+            <BurgerIcon type={isActiveText("/", location)} />
             <div className="pl-2" />
             Конструктор
           </NavLink>
           <NavLink
             to="/feed"
+            isActive={() => isActiveText("/feed", location) === "primary"}
             className={
               styles.element_leftside +
               " text_type_main-default text_color_inactive pl-2"
@@ -47,7 +50,7 @@ const AppHeader: FC = () => {
             exact={true}
             activeClassName={styles.active}
           >
-            <ListIcon type={isActive("/feed", location)} />
+            <ListIcon type={isActiveText("/feed", location)} />
             <div className="pl-2" />
             Лента заказов
           </NavLink>
@@ -60,13 +63,13 @@ const AppHeader: FC = () => {
         <div className={styles.rightside}>
           <NavLink
             to="/profile"
+            isActive={() => isActiveText("/profile", location) === "primary"}
             className={
               styles.element + " text_type_main-default text_color_inactive"
             }
             activeClassName={styles.active}
           >
-
-            <ProfileIcon type={isActive("/profile", location)} />
+            <ProfileIcon type={isActiveText("/profile", location)} />
             <div className="pl-2" />
             Личный кабинет
           </NavLink>

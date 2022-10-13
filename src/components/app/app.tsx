@@ -18,12 +18,14 @@ import {
 } from "../../pages";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {closeModalIng, closeModalOrd} from "../../services/actions/modal";
+import {closeModal, closeModalOrd} from "../../services/actions/modal";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import {ProtectedRoute} from "../protected-route/protected-route";
 import {fetchIngredients} from "../../services/actions/ingredients";
 import {ILocation} from "../../utils/types";
+import {FeedDetails} from "../feed-details/feed-details";
+import {Orders} from "../../pages/orders";
 
 const App: FC = () => {
   const history = useHistory();
@@ -32,8 +34,9 @@ const App: FC = () => {
   const { modalOpen } = useSelectorHook((store) => store.modal);
   const dispatch = useDispatchHook();
 
-  const modalCloseIng = () => {
-    closeModalIng(dispatch, history)
+  const modalClose = () => {
+    closeModal(dispatch)
+    history.goBack();
   }
 
   const modalCloseOrd = () => {
@@ -62,6 +65,18 @@ const App: FC = () => {
         <Route path="/feed" exact={true}>
           <Feed />
         </Route>
+        <Route path="/feed/:id" exact={true}>
+          {background ? (
+              <>
+                <Feed />
+                <Modal onClose={modalClose}>
+                  <FeedDetails bg={background} />
+                </Modal>
+              </>
+          ) : (
+              <FeedDetails bg={background} />
+          )}
+        </Route>
         <Route path="/register" exact={true}>
           <Register />
         </Route>
@@ -75,7 +90,7 @@ const App: FC = () => {
           {background ? (
             <>
               <Constructor />
-              <Modal onClose={modalCloseIng}>
+              <Modal onClose={modalClose}>
                 <IngredientDetails bg={background} />
               </Modal>
             </>
@@ -84,6 +99,12 @@ const App: FC = () => {
           )}
         </Route>
         <ProtectedRoute path="/profile" exact={true}>
+          <Profile />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders" exact={true}>
+          <Orders />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders/:id" exact={true}>
           <Profile />
         </ProtectedRoute>
         <Route>

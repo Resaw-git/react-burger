@@ -8,3 +8,5 @@ export const logout: string = 'auth/logout'             // для выхода �
 export const token: string = 'auth/token'               // для обновления токена.
 export const reset: string = 'password-reset'           // для сброса пароля
 export const password: string = 'password-reset/reset'  // для нового пароля
+
+export const wsURL: string = 'wss://norma.nomoreparties.space/orders'

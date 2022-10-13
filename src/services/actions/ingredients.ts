@@ -12,7 +12,7 @@ export interface IGetIngredientsRequestAction {
 
 export interface IGetIngredientsSuccessAction {
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  ingredients: IIngredient;
+  ingredients: IIngredient[];
 }
 
 export interface IGetIngredientsFailed {
