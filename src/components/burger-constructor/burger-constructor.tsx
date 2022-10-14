@@ -12,7 +12,7 @@ import { useDrop } from "react-dnd";
 import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
 import { useHistory } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
-import {Button} from "../../utils/UI";
+import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerConstructor: FC = () => {
   const history = useHistory();
@@ -101,7 +101,7 @@ const BurgerConstructor: FC = () => {
             type="primary"
             size="large"
             disabled={constructorBun.length === 0}
-          >
+            htmlType="button">
             Оформить заказ
           </Button>
         </div>

@@ -28,7 +28,7 @@ export const Constructor: FC = () => {
                             </p>
                         </div>
                     )}
-                    {!ingredientsFailed && ingredientsArray !== [] && (
+                    {!ingredientsFailed && ingredientsArray.length > 0 && (
                         <DndProvider backend={HTML5Backend}>
                             <section>
                                 <BurgerIngredients />

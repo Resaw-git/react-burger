@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "../utils/UI";
+import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import {
   editUserData,
@@ -141,10 +141,10 @@ export const Profile: FC = () => {
           <div className={"mb-6"} />
           {(values.name !== userName || values.email !== userEmail) && (
             <div className={styles.buttons}>
-              <Button onClick={cancelChange} type="secondary" size="medium">
+              <Button onClick={cancelChange} type="secondary" size="medium" htmlType="reset">
                 Отмена
               </Button>
-              <Button type="primary" size="large">
+              <Button type="primary" size="large" htmlType="submit">
                 Сохранить
               </Button>
             </div>

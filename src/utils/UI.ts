@@ -1,16 +1,5 @@
-import { Button as ButtonUI, Tab as TabUI } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {FC, SyntheticEvent} from "react";
-
-export const Button: FC<{
-    type?: 'secondary' | 'primary';
-    size?: 'small' | 'medium' | 'large';
-    onClick?: (() => void) | ((e: SyntheticEvent) => void);
-    disabled?: boolean;
-    name?: string;
-    htmlType?: 'button' | 'submit' | 'reset';
-    className?: string;
-    children: React.ReactNode;
-}> = ButtonUI
+import { Tab as TabUI } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {FC} from "react";
 
 export const Tab: FC<{
     active: boolean;

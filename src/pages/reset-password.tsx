@@ -3,7 +3,7 @@ import styles from "./style.module.css";
 import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "../utils/UI";
+import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
@@ -102,7 +102,7 @@ export const ResetPassword = () => {
               size={"default"}
             />
             <div className={"mb-6"} />
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" htmlType="submit">
               Сохранить
             </Button>
             <div className={"mb-20"} />

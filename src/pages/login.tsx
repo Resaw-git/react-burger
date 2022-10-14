@@ -5,7 +5,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "../utils/UI";
+import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { autorization } from "../services/actions/login";
 import { getUserData, refreshToken } from "../services/actions/user";
@@ -89,7 +89,7 @@ export const Login: FC = () => {
               </div>
             )}
             <div className={"mb-6"} />
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" htmlType="submit">
               Войти
             </Button>
             <div className={"mb-20"} />

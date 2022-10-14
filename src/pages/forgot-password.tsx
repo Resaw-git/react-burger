@@ -1,9 +1,9 @@
-import React, {FormEvent, useEffect, useRef, useState} from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import styles from "./style.module.css";
 import {
   Input,
+  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button } from "../utils/UI";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";
@@ -16,12 +16,17 @@ export const ForgotPassword = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [redirect, setRedirect] = useState(false);
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
-      useSelectorHook((store) => store.user);
+    useSelectorHook((store) => store.user);
   const { message, sendSuccess, sendFailed } = useSelectorHook(
     (store) => store.reset
   );
 
-  const {values, handleChange} = useForm({ name: "", password: "", email: "", token: ""});
+  const { values, handleChange } = useForm({
+    name: "",
+    password: "",
+    email: "",
+    token: "",
+  });
 
   useEffect(() => {
     if (!jwtInvalid) {
@@ -78,7 +83,7 @@ export const ForgotPassword = () => {
               size={"default"}
             />
             <div className="mb-6" />
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" htmlType="submit">
               Восстановить
             </Button>
             {sendFailed && (
