@@ -14,6 +14,7 @@ interface IComponentProps {
 export const OrderCard: FC<IComponentProps> = ({ item }) => {
   const history = useHistory();
   const location = useLocation<ILocation>();
+  const url = history.location.pathname;
   const [data, setData] = useState<IIngredient[]>([]);
   const dispatch = useDispatchHook();
   const { ingredientsArray } = useSelectorHook((store) => store.ingredients);
@@ -27,7 +28,7 @@ export const OrderCard: FC<IComponentProps> = ({ item }) => {
   }, [ingredientsArray]);
 
   const showDetails = () => {
-    history.push(`feed/${item?.number}`, { background: location });
+    history.push(`${url}/${item?.number}`, { background: location });
     dispatch({
       type: MODAL_OPEN,
       isDetails: true,
@@ -75,6 +76,17 @@ export const OrderCard: FC<IComponentProps> = ({ item }) => {
       </div>
 
       <div className="text text_type_main-medium">{item.name}</div>
+      {url.indexOf("feed") === -1 ? (
+        <p
+          className={
+            item?.status === "done"
+              ? "text text_type_main-default text_color_success"
+              : "text text_type_main-default"
+          }
+        >
+          {item?.status === "done" ? "Выполнен" : "Готовится"}
+        </p>
+      ) : null}
 
       <div className={styles.order_footer}>
         <div className={styles.order_ingredients}>{renderIng()}</div>

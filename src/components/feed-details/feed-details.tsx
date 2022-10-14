@@ -1,12 +1,17 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./feed-details.module.css";
-import { useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
-import { IIngredient, IOrder } from "../../utils/types";
+import { IIngredient, ILocation, IOrder } from "../../utils/types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useGetDate } from "../../hooks/use-date";
 import { WS_FEED_CLOSE, WS_FEED_CONNECT } from "../../services/actions/ws-feed";
 import { wsURL } from "../../services/api";
+import { getCookie } from "../../services/cookies";
+import {
+  WS_USER_FEED_CLOSE,
+  WS_USER_FEED_CONNECT,
+} from "../../services/actions/ws-user-feed";
 
 interface IComponentProps {
   bg?: string | unknown;
@@ -19,21 +24,38 @@ interface IParams {
 export const FeedDetails: FC<IComponentProps> = ({ bg }) => {
   const { id }: IParams = useParams();
   const dispatch = useDispatchHook();
+  const history = useHistory();
+  const url = history.location.pathname;
   const [order, setOrder] = useState<IOrder>();
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);
   const { ingredientsArray } = useSelectorHook((store) => store.ingredients);
-  const { data } = useSelectorHook((store) => store.feed);
+  const { data } = useSelectorHook((store) =>
+    url.indexOf("feed") === 1 ? store.feed : store.userFeed
+  );
 
   useEffect(() => {
     if (!bg) {
-      dispatch({
-        type: WS_FEED_CONNECT,
-        payload: `${wsURL}/all`,
-      });
+      if (url.indexOf("feed") === 1) {
+        dispatch({
+          type: WS_FEED_CONNECT,
+          payload: `${wsURL}/all`,
+        });
 
-      return () => {
-        dispatch({ type: WS_FEED_CLOSE });
-      };
+        return () => {
+          dispatch({ type: WS_FEED_CLOSE });
+        };
+      } else {
+        const token = getCookie("accessToken");
+        const accessToken = token?.replace(/Bearer /, "");
+        dispatch({
+          type: WS_USER_FEED_CONNECT,
+          payload: `${wsURL}?token=${accessToken}`,
+        });
+
+        return () => {
+          dispatch({ type: WS_USER_FEED_CLOSE });
+        };
+      }
     }
   }, [dispatch]);
 
@@ -100,8 +122,8 @@ export const FeedDetails: FC<IComponentProps> = ({ bg }) => {
 
   const useTotalSum = (ingredients: IIngredient[]) => {
     const result = ingredients.reduce(
-        (accum, current) => accum + (current.price * current.count),
-        0
+      (accum, current) => accum + current.price * current.count,
+      0
     );
     return result;
   };
