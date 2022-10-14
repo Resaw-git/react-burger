@@ -105,7 +105,16 @@ const App: FC = () => {
           <Orders />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders/:id" exact={true}>
-          <Profile />
+          {background ? (
+              <>
+                <Orders />
+                <Modal onClose={modalClose}>
+                  <FeedDetails bg={background} />
+                </Modal>
+              </>
+          ) : (
+              <FeedDetails bg={background} />
+          )}
         </ProtectedRoute>
         <Route>
           <NotFound404 />
