@@ -1,13 +1,14 @@
 import {Middleware, MiddlewareAPI} from "redux";
 import {AppDispatch, RootState} from "../reducers/store";
 import {WS_FEED_CLOSE, WS_FEED_CONNECT, WS_FEED_ERROR, WS_FEED_MESSAGE, WS_FEED_OPEN} from "../actions/ws-feed";
+import {WS_USER_FEED_CLOSE, WS_USER_FEED_CONNECT, WS_USER_FEED_ERROR, WS_USER_FEED_MESSAGE, WS_USER_FEED_OPEN} from "../actions/ws-user-feed";
 
 type TWsActions = {
-  wsConnect: typeof WS_FEED_CONNECT;
-  onOpen: typeof WS_FEED_OPEN;
-  onClose: typeof WS_FEED_CLOSE;
-  onError: typeof WS_FEED_ERROR;
-  onMessage: typeof WS_FEED_MESSAGE;
+  wsConnect: typeof WS_FEED_CONNECT | typeof WS_USER_FEED_CONNECT;
+  onOpen: typeof WS_FEED_OPEN | typeof WS_USER_FEED_OPEN;
+  onClose: typeof WS_FEED_CLOSE | typeof WS_USER_FEED_CLOSE;
+  onError: typeof WS_FEED_ERROR | typeof WS_USER_FEED_ERROR;
+  onMessage: typeof WS_FEED_MESSAGE | typeof WS_USER_FEED_MESSAGE;
 };
 
 export const socketMiddleware =
@@ -42,7 +43,6 @@ export const socketMiddleware =
             event.code !== 1000 ?
                 dispatch({type: onError, payload: event.code.toString()}) :
                 dispatch({type: onClose});
-                console.log("ws closed");
           };
 
           socket.onmessage = event => {

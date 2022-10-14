@@ -8,6 +8,7 @@ import { loginReducer } from "./login";
 import { userReducer } from "./user";
 import { passwordReducer } from "./reset-password";
 import { wsFeedReducer } from "./ws-feed";
+import {wsUserFeedReducer} from "./ws-user-feed";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -19,4 +20,5 @@ export const rootReducer = combineReducers({
   user: userReducer,
   reset: passwordReducer,
   feed: wsFeedReducer,
+  userFeed: wsUserFeedReducer,
 });
