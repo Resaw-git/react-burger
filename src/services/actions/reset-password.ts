@@ -1,4 +1,4 @@
-import { baseURL, reset, password } from "../api";
+import {PASSWORD_URL, RESET_URL} from "../api";
 import { checkResponse } from "../check-response";
 import {IForm} from "../../utils/types";
 import {AppDispatch, AppThunk} from "../reducers/store";
@@ -53,7 +53,7 @@ export const sendEmail = (form: IForm): AppThunk =>
     dispatch({
       type: SEND_EMAIL_REQUEST,
     });
-    fetch(`${baseURL + reset}`, {
+    fetch(`${RESET_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -80,12 +80,11 @@ export const sendEmail = (form: IForm): AppThunk =>
       });
 };
 
-export const resetPassword = (form: IForm) => {
-    return function (dispatch: any) {
+export const resetPassword = (form: IForm): AppThunk => (dispatch: AppDispatch) => {
         dispatch({
             type: RESET_PASSWORD_REQUEST,
         });
-        fetch(`${baseURL + password}`, {
+        fetch(`${PASSWORD_URL}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8",
@@ -112,4 +111,3 @@ export const resetPassword = (form: IForm) => {
                 console.log(error);
             });
     };
-}

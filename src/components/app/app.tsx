@@ -70,11 +70,11 @@ const App: FC = () => {
               <>
                 <Feed />
                 <Modal onClose={modalClose}>
-                  <FeedDetails bg={background} />
+                  <FeedDetails bg={background} path={location.pathname} />
                 </Modal>
               </>
           ) : (
-              <FeedDetails bg={background} />
+              <FeedDetails bg={background} path={location.pathname}/>
           )}
         </Route>
         <Route path="/register" exact={true}>
@@ -109,11 +109,11 @@ const App: FC = () => {
               <>
                 <Orders />
                 <Modal onClose={modalClose}>
-                  <FeedDetails bg={background} />
+                  <FeedDetails bg={background} path={location.pathname} />
                 </Modal>
               </>
           ) : (
-              <FeedDetails bg={background} />
+              <FeedDetails bg={background} path={location.pathname}/>
           )}
         </ProtectedRoute>
         <Route>

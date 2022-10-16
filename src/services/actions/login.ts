@@ -1,4 +1,4 @@
-import { baseURL, login } from "../api";
+import {LOGIN_URL} from "../api";
 import { checkResponse } from "../check-response";
 import { setCookie } from "../cookies";
 import { AppDispatch, AppThunk } from "../reducers/store";
@@ -30,7 +30,7 @@ export const autorization = (form: IForm): AppThunk => (dispatch: AppDispatch) =
   dispatch({
     type: GET_LOGIN_REQUEST,
   });
-  fetch(`${baseURL + login}`, {
+  fetch(`${LOGIN_URL}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

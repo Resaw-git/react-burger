@@ -10,11 +10,9 @@ import { NavLink, useHistory } from "react-router-dom";
 import { SET_USER_SUCCESS } from "../services/actions/order";
 import { OrderCard } from "../components/order-card/order-card";
 import {
-  WS_USER_FEED_CLOSE,
-  WS_USER_FEED_CONNECT,
+  connectWsUserFeed,
+  disconnectWsUserFeed,
 } from "../services/actions/ws-user-feed";
-import { wsURL } from "../services/api";
-import { getCookie } from "../services/cookies";
 import { IOrder } from "../utils/types";
 
 export const Orders: FC = () => {
@@ -23,17 +21,14 @@ export const Orders: FC = () => {
   const { jwtExpired, jwtInvalid } = useSelectorHook((store) => store.user);
   const { data } = useSelectorHook((store) => store.userFeed);
   const [orders, setOrders] = useState<IOrder[]>([]);
-
-
+  const { userAccess } = useSelectorHook((store) => store.order);
 
   useEffect(() => {
-    const sortByDate = data.orders.sort((a: IOrder, b: IOrder) =>
+    const sortByOrderNumber = data.orders.sort((a: IOrder, b: IOrder) =>
       a.number < b.number ? 1 : a.number > b.number ? -1 : 0
     );
-    setOrders(sortByDate)
-  }, []);
-
-  const { userAccess } = useSelectorHook((store) => store.order);
+    setOrders(sortByOrderNumber);
+  }, [data]);
 
   useEffect(() => {
     if (!jwtInvalid) {
@@ -43,6 +38,14 @@ export const Orders: FC = () => {
       dispatch(refreshToken());
     }
   }, [dispatch, jwtInvalid, jwtExpired]);
+
+  useEffect(() => {
+    connectWsUserFeed(dispatch);
+
+    return () => {
+      disconnectWsUserFeed(dispatch);
+    };
+  }, [dispatch]);
 
   const logout = () => {
     dispatch(userLogout());
@@ -55,19 +58,6 @@ export const Orders: FC = () => {
     });
     history.push("/");
   }
-
-  useEffect(() => {
-    const token = getCookie("accessToken");
-    const accessToken = token?.replace(/Bearer /, "");
-    dispatch({
-      type: WS_USER_FEED_CONNECT,
-      payload: `${wsURL}?token=${accessToken}`,
-    });
-
-    return () => {
-      dispatch({ type: WS_USER_FEED_CLOSE });
-    };
-  }, [dispatch]);
 
   return (
     <main className={styles.main}>

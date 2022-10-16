@@ -8,20 +8,11 @@ import {
 import styles from "./app-header.module.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ILocation } from "../../utils/types";
-import { Location } from "history";
+import { isActiveText } from "../../lib/active-text";
 
 const AppHeader: FC = () => {
   const location = useLocation<ILocation>();
-  const isActiveText = (
-    route: string,
-    location: Location<ILocation>
-  ): "primary" | "secondary" => {
-    const reg = location.pathname.match(/^\/[a-z]*/);
-    if (reg) {
-      return route === reg[0] ? "primary" : "secondary";
-    }
-    return route === location.pathname ? "primary" : "secondary";
-  };
+
 
   return (
     <header className={styles.header}>

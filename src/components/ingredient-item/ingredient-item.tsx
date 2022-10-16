@@ -22,7 +22,6 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
   const { constructorBun, constructorIng } = useSelectorHook(
     (store) => store.constructorList
   );
-  const newArr: IIngredient[] = ingredientsArray
 
   const modal = () => {
     history.push(`ingredients/${id}`, {background: location})
@@ -32,7 +31,7 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
     });
   };
 
-  const element = newArr.find((el: IIngredient) => el._id === id && el);
+  const element = ingredientsArray.find((el: IIngredient) => el._id === id && el);
 
   const counter = React.useMemo(() => {
     let count = 0;

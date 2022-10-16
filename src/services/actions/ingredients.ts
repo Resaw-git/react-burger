@@ -1,4 +1,4 @@
-import { baseURL, ingredients } from "../api";
+import {INGREDIENTS_URL} from "../api";
 import { checkResponse } from "../check-response";
 import {IIngredient} from "../../utils/types";
 import {AppDispatch, AppThunk} from "../reducers/store";
@@ -30,7 +30,7 @@ export const fetchIngredients = (): AppThunk =>
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });
-    fetch(`${baseURL + ingredients}`)
+    fetch(`${INGREDIENTS_URL}`)
       .then(checkResponse)
       .then((res) => {
         dispatch({

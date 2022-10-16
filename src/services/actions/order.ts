@@ -1,8 +1,8 @@
-import { baseURL, orders } from "../api";
+import { ORDERS_URL } from "../api";
 import { checkResponse } from "../check-response";
 import { RESET_INGREDIENTS } from "./constructor";
 import { getCookie } from "../cookies";
-import {AppDispatch, AppThunk} from "../reducers/store";
+import { AppDispatch, AppThunk } from "../reducers/store";
 
 export const GET_ORDER_REQUEST: "GET_ORDER_REQUEST" = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";
@@ -44,7 +44,7 @@ export const fetchOrder = (data: string[]): AppThunk =>
     dispatch({
       type: GET_ORDER_REQUEST,
     });
-    fetch(`${baseURL + orders}`, {
+    fetch(`${ORDERS_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

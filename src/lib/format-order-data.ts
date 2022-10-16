@@ -1,4 +1,4 @@
-export const useGetDate = (time: string | undefined): string => {
+export const formatOrderData = (time: string | undefined): string => {
     if (time === undefined) {
         return ''
     } else {

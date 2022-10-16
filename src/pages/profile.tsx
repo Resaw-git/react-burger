@@ -13,20 +13,15 @@ import {
   refreshToken,
   userLogout,
 } from "../services/actions/user";
-import {NavLink, useHistory} from "react-router-dom";
-import {SET_USER_SUCCESS} from "../services/actions/order";
+import {NavLink} from "react-router-dom";
 import {useForm} from "../hooks/use-form";
 
 
 export const Profile: FC = () => {
-  const history = useHistory()
-  const timerRef = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatchHook();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
       useSelectorHook((store) => store.user);
-
-  const {userAccess} = useSelectorHook(store => store.order)
 
   const {values, handleChange, setValues} = useForm({name: "", password: "", email: "", token: ""});
 
@@ -41,7 +36,7 @@ export const Profile: FC = () => {
       dispatch(refreshToken());
     }
     if (editSuccess) {
-      timerRef.current = window.setTimeout(() => {
+      setTimeout(() => {
         hideMessage(dispatch);
       }, 2000);
     }
@@ -65,14 +60,6 @@ export const Profile: FC = () => {
   const logout = () => {
     dispatch(userLogout());
   };
-
-  if (userAccess) {
-    dispatch({
-      type: SET_USER_SUCCESS,
-      userAccess: false
-    })
-   history.push('/')
-  }
 
   return (
     <main className={styles.main}>

@@ -1,4 +1,4 @@
-import { baseURL, register } from "../api";
+import { REGISTER_URL } from "../api";
 import { checkResponse } from "../check-response";
 import { getCookie } from "../cookies";
 import { IForm } from "../../utils/types";
@@ -36,7 +36,7 @@ export const registration =
     dispatch({
       type: GET_REGISTER_REQUEST,
     });
-    fetch(`${baseURL + register}`, {
+    fetch(`${REGISTER_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

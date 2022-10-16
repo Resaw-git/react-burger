@@ -15,7 +15,6 @@ import {ILocation} from "../utils/types";
 
 export const Register = () => {
   const location = useLocation<ILocation>()
-  const timerRef = useRef(0);
   const [redirect, setRedirect] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatchHook();
@@ -36,7 +35,7 @@ export const Register = () => {
   useEffect(() => {
     if (registerSuccess) {
       setValues({ name: "", password: "", email: "", token: "" });
-      timerRef.current = window.setTimeout(() => {
+      setTimeout(() => {
         setRedirect(true);
       }, 1250);
     }

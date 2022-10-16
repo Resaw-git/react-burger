@@ -1,25 +1,39 @@
 import React, { FC, useEffect } from "react";
 import styles from "./style.module.css";
-import {OrderCard} from "../components/order-card/order-card";
+import { OrderCard } from "../components/order-card/order-card";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
-import { WS_FEED_CLOSE, WS_FEED_CONNECT } from "../services/actions/ws-feed";
-import {wsURL} from "../services/api";
+import { connectWsFeed, disconnectWsFeed } from "../services/actions/ws-feed";
 
 export const Feed: FC = () => {
   const dispatch = useDispatchHook();
   const { data } = useSelectorHook((store) => store.feed);
 
   useEffect(() => {
-    dispatch({
-      type: WS_FEED_CONNECT,
-      payload: `${wsURL}/all`,
-    });
+    connectWsFeed(dispatch);
 
     return () => {
-      dispatch({ type: WS_FEED_CLOSE });
+      disconnectWsFeed(dispatch);
     };
   }, [dispatch]);
 
+  const doneOrders = data.orders.map((el) =>
+    el.status === "done" ? (
+      <li
+        key={el._id}
+        className="text text_type_digits-default text_color_success"
+      >
+        {el.number}
+      </li>
+    ) : null
+  );
+
+  const pendingOrders = data.orders.map((el) =>
+    el.status === "pending" ? (
+      <li key={el._id} className="text text_type_digits-default">
+        {el.number}
+      </li>
+    ) : null
+  );
 
   return (
     <div className={styles.main}>
@@ -30,12 +44,11 @@ export const Feed: FC = () => {
           </h1>
           <div className={styles.main_left}>
             <div className={styles.scroll}>
-              {data.orders.map((el) =>
-                  <OrderCard key={el._id} item={el}/>
-              )}
+              {data.orders.map((el) => (
+                <OrderCard key={el._id} item={el} />
+              ))}
             </div>
           </div>
-
         </div>
         <div className="mr-15" />
         <div className={styles.warp}>
@@ -44,30 +57,13 @@ export const Feed: FC = () => {
               <div className={styles.order_numbers}>
                 <h2 className="text text_type_main-medium mb-6">Готовы:</h2>
                 <ul className={styles.order_list}>
-                  {data.orders.map((el) =>
-                    el.status === "done" ? (
-                      <li key={el._id}
-                        className="text text_type_digits-default text_color_success"
-                      >
-                        {el.number}
-                      </li>
-                    ) : null
-                  )}
+                  {doneOrders.map((el)=> el)}
                 </ul>
               </div>
               <div className={styles.order_numbers}>
                 <h2 className="text text_type_main-medium mb-6">В работе:</h2>
                 <ul className={styles.order_list}>
-                  {" "}
-                  {data.orders.map((el) =>
-                    el.status === "pending" ? (
-                      <li key={el._id}
-                        className="text text_type_digits-default"
-                      >
-                        {el.number}
-                      </li>
-                    ) : null
-                  )}
+                  {pendingOrders.map((el)=> el)}
                 </ul>
               </div>
             </div>

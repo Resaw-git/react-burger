@@ -1,4 +1,4 @@
-import { baseURL, token, user, logout } from "../api";
+import {LOGOUT_URL, TOKEN_URL, USER_URL} from "../api";
 import { checkResponse } from "../check-response";
 import { deleteCookie, getCookie, setCookie } from "../cookies";
 import {IForm} from "../../utils/types";
@@ -60,7 +60,7 @@ export const getUserData = (): AppThunk =>
     dispatch({
       type: GET_USER_REQUEST,
     });
-    fetch(`${baseURL + user}`, {
+    fetch(`${USER_URL}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -86,7 +86,7 @@ export const getUserData = (): AppThunk =>
 
 export const refreshToken = (): AppThunk =>
   (dispatch: AppDispatch) => {
-    fetch(`${baseURL + token}`, {
+    fetch(`${TOKEN_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -112,7 +112,7 @@ export const refreshToken = (): AppThunk =>
 
 export const userLogout = (): AppThunk =>
   (dispatch: AppDispatch) => {
-    fetch(`${baseURL + logout}`, {
+    fetch(`${LOGOUT_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -139,7 +139,7 @@ export const userLogout = (): AppThunk =>
 
 export const editUserData = (form: IForm): AppThunk =>
   (dispatch: AppDispatch) => {
-    fetch(`${baseURL + user}`, {
+    fetch(`${USER_URL}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
