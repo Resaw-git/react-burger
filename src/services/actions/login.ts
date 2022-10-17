@@ -30,7 +30,7 @@ export const autorization = (form: IForm): AppThunk => (dispatch: AppDispatch) =
   dispatch({
     type: GET_LOGIN_REQUEST,
   });
-  fetch(`${LOGIN_URL}`, {
+  fetch(LOGIN_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

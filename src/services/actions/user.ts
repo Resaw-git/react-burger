@@ -139,7 +139,7 @@ export const userLogout = (): AppThunk =>
 
 export const editUserData = (form: IForm): AppThunk =>
   (dispatch: AppDispatch) => {
-    fetch(`${USER_URL}`, {
+    fetch(USER_URL, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

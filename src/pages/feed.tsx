@@ -57,13 +57,13 @@ export const Feed: FC = () => {
               <div className={styles.order_numbers}>
                 <h2 className="text text_type_main-medium mb-6">Готовы:</h2>
                 <ul className={styles.order_list}>
-                  {doneOrders.map((el)=> el)}
+                  {doneOrders}
                 </ul>
               </div>
               <div className={styles.order_numbers}>
                 <h2 className="text text_type_main-medium mb-6">В работе:</h2>
                 <ul className={styles.order_list}>
-                  {pendingOrders.map((el)=> el)}
+                  {pendingOrders}
                 </ul>
               </div>
             </div>

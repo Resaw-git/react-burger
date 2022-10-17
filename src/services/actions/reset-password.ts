@@ -84,7 +84,7 @@ export const resetPassword = (form: IForm): AppThunk => (dispatch: AppDispatch) 
         dispatch({
             type: RESET_PASSWORD_REQUEST,
         });
-        fetch(`${PASSWORD_URL}`, {
+        fetch(PASSWORD_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8",

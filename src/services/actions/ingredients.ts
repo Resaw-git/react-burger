@@ -30,7 +30,7 @@ export const fetchIngredients = (): AppThunk =>
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });
-    fetch(`${INGREDIENTS_URL}`)
+    fetch(INGREDIENTS_URL)
       .then(checkResponse)
       .then((res) => {
         dispatch({

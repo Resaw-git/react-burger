@@ -44,7 +44,7 @@ export const fetchOrder = (data: string[]): AppThunk =>
     dispatch({
       type: GET_ORDER_REQUEST,
     });
-    fetch(`${ORDERS_URL}`, {
+    fetch(ORDERS_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

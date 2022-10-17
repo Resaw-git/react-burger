@@ -36,7 +36,7 @@ export const registration =
     dispatch({
       type: GET_REGISTER_REQUEST,
     });
-    fetch(`${REGISTER_URL}`, {
+    fetch(REGISTER_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

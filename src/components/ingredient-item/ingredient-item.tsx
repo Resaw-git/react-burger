@@ -31,7 +31,7 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
     });
   };
 
-  const element = ingredientsArray.find((el: IIngredient) => el._id === id && el);
+  const element = ingredientsArray.find((el: IIngredient) => el._id === id);
 
   const counter = React.useMemo(() => {
     let count = 0;

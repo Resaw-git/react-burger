@@ -41,7 +41,7 @@ export type TFeedActions =
 export const connectWsFeed = (dispatch: AppDispatch) => {
   dispatch({
     type: WS_FEED_CONNECT,
-    payload: `${ALL_ORDERS_WS_URL}`,
+    payload: ALL_ORDERS_WS_URL,
   });
 };
 
