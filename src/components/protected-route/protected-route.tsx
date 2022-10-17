@@ -1,10 +1,9 @@
-import {useSelector} from "react-redux";
+import {useSelectorHook} from "../../hooks/redux";
 import {Redirect, Route, RouteProps} from "react-router-dom";
 import {FC} from "react";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
-    // @ts-ignore
-    const { loginSuccess } = useSelector((store) => store.login);
+    const { loginSuccess } = useSelectorHook((store) => store.login);
 
     return (
         <Route

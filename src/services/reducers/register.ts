@@ -1,8 +1,15 @@
 import {
     GET_REGISTER_REQUEST,
     GET_REGISTER_SUCCESS,
-    GET_REGISTER_FAILED
+    GET_REGISTER_FAILED, TRegisterActions
 } from "../actions/register"
+
+type TInitialState = {
+    registerMessage: string;
+    registerRequest: boolean;
+    registerSuccess: boolean;
+    registerFailed: boolean;
+}
 
 const initialState = {
     registerMessage: "",
@@ -11,7 +18,7 @@ const initialState = {
     registerFailed: false,
 };
 
-export const registerReducer = (state = initialState, action) => {
+export const registerReducer = (state: TInitialState = initialState, action: TRegisterActions) => {
     switch (action.type) {
         case GET_REGISTER_REQUEST: {
             return {

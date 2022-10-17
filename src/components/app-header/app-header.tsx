@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, { FC } from "react";
 import {
   Logo,
   BurgerIcon,
@@ -8,18 +8,11 @@ import {
 import styles from "./app-header.module.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ILocation } from "../../utils/types";
-import { Location } from "history";
+import { isActiveText } from "../../lib/active-text";
 
 const AppHeader: FC = () => {
   const location = useLocation<ILocation>();
-  const isActive = (route: string, location: Location<ILocation>): "primary" | "secondary" => {
-    const reg = location.pathname.match(/^\/[a-z]*/)
-    if (reg) {
-      return route === reg[0] ? "primary" : "secondary"
-      }
 
-    return route === location.pathname ? "primary" : "secondary";
-  };
 
   return (
     <header className={styles.header}>
@@ -34,12 +27,13 @@ const AppHeader: FC = () => {
             }
             activeClassName={styles.active}
           >
-            <BurgerIcon type={isActive("/", location)} />
+            <BurgerIcon type={isActiveText("/", location)} />
             <div className="pl-2" />
             Конструктор
           </NavLink>
           <NavLink
-            to="/orders"
+            to="/feed"
+            isActive={() => isActiveText("/feed", location) === "primary"}
             className={
               styles.element_leftside +
               " text_type_main-default text_color_inactive pl-2"
@@ -47,7 +41,7 @@ const AppHeader: FC = () => {
             exact={true}
             activeClassName={styles.active}
           >
-            <ListIcon type={isActive("/orders", location)} />
+            <ListIcon type={isActiveText("/feed", location)} />
             <div className="pl-2" />
             Лента заказов
           </NavLink>
@@ -60,13 +54,13 @@ const AppHeader: FC = () => {
         <div className={styles.rightside}>
           <NavLink
             to="/profile"
+            isActive={() => isActiveText("/profile", location) === "primary"}
             className={
               styles.element + " text_type_main-default text_color_inactive"
             }
             activeClassName={styles.active}
           >
-
-            <ProfileIcon type={isActive("/profile", location)} />
+            <ProfileIcon type={isActiveText("/profile", location)} />
             <div className="pl-2" />
             Личный кабинет
           </NavLink>

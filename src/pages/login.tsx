@@ -5,8 +5,8 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "../utils/UI";
-import { useDispatch, useSelector } from "react-redux";
+import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { autorization } from "../services/actions/login";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
@@ -19,24 +19,20 @@ export const Login: FC = () => {
   const { values, handleChange } = useForm({ name: "", password: "", email: "", token: "" });
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const dispatch = useDispatch();
-    const { loginMessage, loginSuccess, loginFailed } = useSelector(
-  // @ts-ignore
+  const dispatch = useDispatchHook();
+    const { loginMessage, loginSuccess, loginFailed } = useSelectorHook(
     (store) => store.login
   );
 
-  const { jwtExpired, jwtInvalid, userRequest, userFailed } = useSelector(
-      // @ts-ignore
+  const { jwtExpired, jwtInvalid, userRequest, userFailed } = useSelectorHook(
       (store) => store.user
   );
 
   useEffect(() => {
     if (!jwtInvalid) {
-        // @ts-ignore
         dispatch(getUserData());
     }
     if (jwtExpired) {
-        // @ts-ignore
         dispatch(refreshToken());
     }
   }, [dispatch, jwtInvalid, jwtExpired]);
@@ -48,7 +44,7 @@ export const Login: FC = () => {
 
   const auth = (e: FormEvent) => {
     e.preventDefault();
-    autorization(values, dispatch);
+    dispatch(autorization(values));
   };
 
   if (loginSuccess) {
@@ -93,7 +89,7 @@ export const Login: FC = () => {
               </div>
             )}
             <div className={"mb-6"} />
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" htmlType="submit">
               Войти
             </Button>
             <div className={"mb-20"} />

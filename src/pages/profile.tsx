@@ -4,8 +4,8 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "../utils/UI";
-import { useDispatch, useSelector } from "react-redux";
+import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import {
   editUserData,
   getUserData,
@@ -13,38 +13,30 @@ import {
   refreshToken,
   userLogout,
 } from "../services/actions/user";
-import {NavLink, useHistory} from "react-router-dom";
-import {SET_USER_SUCCESS} from "../services/actions/order";
+import {NavLink} from "react-router-dom";
 import {useForm} from "../hooks/use-form";
 
 
 export const Profile: FC = () => {
-  const history = useHistory()
-  const timerRef = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
-  // @ts-ignore
-    useSelector((store) => store.user);
-  // @ts-ignore
-  const {userAccess} = useSelector(store => store.order)
+      useSelectorHook((store) => store.user);
 
   const {values, handleChange, setValues} = useForm({name: "", password: "", email: "", token: ""});
 
   useEffect(() => {
     if (!jwtInvalid) {
-      // @ts-ignore
       dispatch(getUserData());
     }
     if (userName && userEmail) {
       setValues({ ...values, name: userName, email: userEmail });
     }
     if (jwtExpired) {
-      // @ts-ignore
       dispatch(refreshToken());
     }
     if (editSuccess) {
-      timerRef.current = window.setTimeout(() => {
+      setTimeout(() => {
         hideMessage(dispatch);
       }, 2000);
     }
@@ -62,22 +54,12 @@ export const Profile: FC = () => {
 
   const saveChange = (e: FormEvent) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(editUserData(values));
   };
 
   const logout = () => {
-    // @ts-ignore
     dispatch(userLogout());
   };
-
-  if (userAccess) {
-    dispatch({
-      type: SET_USER_SUCCESS,
-      userAccess: false
-    })
-   history.push('/')
-  }
 
   return (
     <main className={styles.main}>
@@ -146,10 +128,10 @@ export const Profile: FC = () => {
           <div className={"mb-6"} />
           {(values.name !== userName || values.email !== userEmail) && (
             <div className={styles.buttons}>
-              <Button onClick={cancelChange} type="secondary" size="medium">
+              <Button onClick={cancelChange} type="secondary" size="medium" htmlType="reset">
                 Отмена
               </Button>
-              <Button type="primary" size="large">
+              <Button type="primary" size="large" htmlType="submit">
                 Сохранить
               </Button>
             </div>

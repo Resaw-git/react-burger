@@ -22,5 +22,30 @@ export interface IIngredient {
     id?: string;
     key?: number;
     index?: number;
+    count: number;
+}
+
+export interface IFeed {
+    orders: IOrder[];
+    success: boolean;
+    total: number;
+    totalToday: number;
+}
+
+export interface IOrder {
+    createdAt: string;
+    ingredients: string[];
+    name: string;
+    number: number;
+    status: string;
+    updatedAt: string;
+    _id: string;
+}
+
+export interface IForm {
+    name?: string;
+    email?: string;
+    password?: string;
+    token?: string;
 }
 

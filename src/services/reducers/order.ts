@@ -1,8 +1,16 @@
 import {
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED, RESET_ORDER, SET_USER_SUCCESS
+  GET_ORDER_FAILED, RESET_ORDER, SET_USER_SUCCESS, TOrderActions
 } from "../actions/order";
+
+type TInitialState = {
+  orderNumber: string;
+  orderRequest: boolean;
+  orderSuccess: boolean;
+  orderFailed: boolean;
+  userAccess: boolean;
+}
 
 const initialState = {
   orderNumber: "",
@@ -12,7 +20,7 @@ const initialState = {
   userAccess: false
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state: TInitialState = initialState, action: TOrderActions) => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {

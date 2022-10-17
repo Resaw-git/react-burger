@@ -1,0 +1,63 @@
+
+
+.order_box {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 24px;
+    width: 98%;
+    min-height: 214px;
+    gap: 24px;
+    background-color: #1C1C21;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+}
+
+.order_title, .order_footer  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order_ingredients {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.small_img {
+    height: 64px;
+    width: 64px;
+    border: 2px solid #801AB2;
+    border-radius: 50%;
+    position: relative;
+    background-color: #131316;
+    margin-right: -15px;
+}
+
+.img_ing {
+    position: absolute;
+    top: -2px;
+    left: -39px;
+    scale: 0.8;
+}
+
+.order_price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.count {
+    font-family: 'Iceland', 'sans-serif';
+    font-size: 24px;
+    line-height: 24px;
+    display: flex;
+    position: absolute;
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.7);
+}
+

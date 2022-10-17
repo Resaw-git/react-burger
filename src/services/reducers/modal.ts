@@ -1,15 +1,22 @@
-import { MODAL_OPEN, MODAL_CLOSE } from "../actions/modal";
+import {MODAL_OPEN, MODAL_CLOSE, TModalActions} from "../actions/modal";
+
+type TInitialState = {
+  modalOpen: boolean;
+  isDetails: boolean;
+}
 
 const initialState = {
   modalOpen: false,
+  isDetails: false,
 };
 
-export const modalReducer = (state = initialState, action) => {
+export const modalReducer = (state: TInitialState = initialState, action: TModalActions) => {
   switch (action.type) {
     case MODAL_OPEN: {
       return {
         ...state,
         modalOpen: true,
+        isDetails: action.isDetails
       };
     }
     case MODAL_CLOSE: {

@@ -3,8 +3,19 @@ import {
   GET_USER_SUCCESS,
   GET_USER_FAILED,
   JWT_EXPIRED,
-  JWT_INVALID, EDIT_USER_SUCCESS, HIDE_EDIT_MESSAGE,
+  JWT_INVALID, EDIT_USER_SUCCESS, HIDE_EDIT_MESSAGE, TUserActions,
 } from "../actions/user";
+
+type TInitialState = {
+  userName: string;
+  userEmail: string;
+  userRequest: boolean;
+  userSuccess: boolean;
+  userFailed: boolean;
+  jwtExpired: boolean;
+  jwtInvalid: boolean;
+  editSuccess: boolean;
+}
 
 const initialState = {
   userName: "",
@@ -17,7 +28,7 @@ const initialState = {
   editSuccess: false,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state: TInitialState = initialState, action: TUserActions) => {
   switch (action.type) {
     case GET_USER_REQUEST: {
       return {

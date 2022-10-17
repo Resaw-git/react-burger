@@ -2,13 +2,10 @@ import React, { FC, useRef } from "react";
 import type { Identifier, XYCoord } from "dnd-core";
 import {
   ConstructorElement,
-  CurrencyIcon,
-  DeleteIcon,
   DragIcon,
-  LockIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import {
   DELETE_INGREDIENT,
   REORDER_INGREDIENT,
@@ -30,22 +27,15 @@ interface DragItem {
 
 const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
-  const { constructorBun, constructorIng } = useSelector(
-    // @ts-ignore
+  const dispatch = useDispatchHook();
+  const { constructorBun, constructorIng } = useSelectorHook(
     (store) => store.constructorList
   );
-
-  // @ts-ignore
-  useDispatch(() => {
-    deleteIng();
-  }, []);
 
   const deleteIng = () => {
     dispatch({
       type: DELETE_INGREDIENT,
-      // @ts-ignore
-      id: el.id,
+      id: el?.id,
     });
   };
 
@@ -136,7 +126,7 @@ const ConstructorItem: FC<IComponentProps> = ({ el, index, position }) => {
       {position === undefined && constructorIng.length === 0 && (
         <div className={styles.empty_box + " " + setPosition(position)}>
           <div className={styles.text}>
-            <p className="text text_type_main-default mr-5">Выберите Начинку</p>
+            <p className="text text_type_main-default mr-5">Выберите начинку</p>
           </div>
         </div>
       )}

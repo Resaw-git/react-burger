@@ -1,0 +1,116 @@
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    width: 1280px;
+    justify-content: space-around;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    max-width: 640px;
+    min-width: 640px;
+    display: flex;
+    flex-direction: column;
+}
+
+.text_left {
+    display: flex;
+    justify-content: left;
+    margin-top: 63px;
+}
+
+.text_center {
+    display: flex;
+    justify-content: center;
+}
+
+.small_img {
+    height: 64px;
+    width: 64px;
+    border: 2px solid #801AB2;
+    border-radius: 50%;
+    position: relative;
+    background-color: #131316;
+
+}
+
+.img_ing {
+    position: absolute;
+    top: -2px;
+    left: -39px;
+    scale: 0.8;
+}
+
+.item_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item_description {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.name {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.price {
+    display: flex;
+    justify-content: right;
+    font-family: 'Iceland', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 24px;
+    margin-right: 24px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.total_price {
+    display: flex;
+    justify-content: right;
+    font-family: 'Iceland', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 24px;
+}
+
+.scroll {
+    display: grid;
+    gap: 18px;
+    min-height: 250px;
+    max-height: 250px;
+    overflow-y: scroll;
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 8px;
+
+}
+.scroll::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+.scroll::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}

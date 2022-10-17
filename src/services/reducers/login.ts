@@ -1,8 +1,16 @@
 import {
     GET_LOGIN_REQUEST,
     GET_LOGIN_SUCCESS,
-    GET_LOGIN_FAILED
+    GET_LOGIN_FAILED,
+    TLoginActions,
 } from "../actions/login"
+
+type TInitialState = {
+    loginMessage: string;
+    loginRequest: boolean;
+    loginSuccess: boolean;
+    loginFailed: boolean;
+}
 
 const initialState = {
     loginMessage: "",
@@ -11,7 +19,7 @@ const initialState = {
     loginFailed: false,
 };
 
-export const loginReducer = (state = initialState, action) => {
+export const loginReducer = (state: TInitialState = initialState, action: TLoginActions) => {
     switch (action.type) {
         case GET_LOGIN_REQUEST: {
             return {

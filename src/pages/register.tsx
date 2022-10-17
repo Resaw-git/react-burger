@@ -5,8 +5,8 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button } from "../utils/UI";
-import { useDispatch, useSelector } from "react-redux";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { registration } from "../services/actions/register";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
@@ -15,18 +15,15 @@ import {ILocation} from "../utils/types";
 
 export const Register = () => {
   const location = useLocation<ILocation>()
-  const timerRef = useRef(0);
   const [redirect, setRedirect] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
-  const { registerMessage, registerSuccess, registerFailed } = useSelector(
-      // @ts-ignore
+  const dispatch = useDispatchHook();
+  const { registerMessage, registerSuccess, registerFailed } = useSelectorHook(
     (store) => store.register
   );
 
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
-      // @ts-ignore
-    useSelector((store) => store.user);
+      useSelectorHook((store) => store.user);
 
   const { values, handleChange, setValues } = useForm({
     name: "",
@@ -38,18 +35,16 @@ export const Register = () => {
   useEffect(() => {
     if (registerSuccess) {
       setValues({ name: "", password: "", email: "", token: "" });
-      timerRef.current = window.setTimeout(() => {
+      setTimeout(() => {
         setRedirect(true);
       }, 1250);
     }
     if (!jwtInvalid) {
-      // @ts-ignore
       dispatch(getUserData());
     }
   }, [registerSuccess]);
 
   if (jwtExpired) {
-    // @ts-ignore
     dispatch(refreshToken());
   }
 
@@ -68,7 +63,7 @@ export const Register = () => {
 
   const sendForm = (e: FormEvent) => {
     e.preventDefault();
-    registration(values, dispatch);
+    registration(values);
   };
 
   return (
@@ -129,7 +124,7 @@ export const Register = () => {
               </div>
             )}
             <div className={"mb-6"} />
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" htmlType="submit">
               Зарегистрироваться
             </Button>
             <div className={"mb-20"} />

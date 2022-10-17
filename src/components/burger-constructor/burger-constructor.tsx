@@ -4,7 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { fetchOrder, SET_USER_SUCCESS } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
@@ -12,20 +12,17 @@ import { useDrop } from "react-dnd";
 import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
 import { useHistory } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
-import {Button} from "../../utils/UI";
+import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerConstructor: FC = () => {
   const history = useHistory();
+  const dispatch = useDispatchHook();
 
-  const { constructorIng, constructorBun } = useSelector(
-      // @ts-ignore
+  const { constructorIng, constructorBun } = useSelectorHook(
     (store) => store.constructorList
   );
 
-  // @ts-ignore
-  const { loginSuccess } = useSelector((store) => store.login);
-
-  const dispatch = useDispatch();
+  const { loginSuccess } = useSelectorHook((store) => store.login);
 
   const [, dragRef] = useDrop({
     accept: "ingredient",
@@ -61,24 +58,20 @@ const BurgerConstructor: FC = () => {
         userAccess: true,
       });
       history.push("/login");
-
     } else {
       dispatch({
         type: MODAL_OPEN,
+        isDetails: false,
       });
-      // @ts-ignore
       dispatch(fetchOrder(getIngredientsId(constructorIng, constructorBun)));
     }
   };
 
   const getTotalSum = (ingredients: IIngredient[], bun: IIngredient[]) => {
     const arr = [...ingredients, ...bun];
-    return arr.reduce((accum, current) => {
-      if (current.type === "bun") {
-        return accum + current.price * 2;
-      }
-      return accum + current.price;
-    }, 0);
+    return arr.reduce((accum, current) =>
+      current.type === "bun" ? accum + current.price * 2 : accum + current.price
+    , 0);
   };
 
   return (
@@ -108,7 +101,7 @@ const BurgerConstructor: FC = () => {
             type="primary"
             size="large"
             disabled={constructorBun.length === 0}
-          >
+            htmlType="button">
             Оформить заказ
           </Button>
         </div>
