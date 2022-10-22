@@ -52,6 +52,8 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
-    "prettier": "^2.7.1"
+    "@types/react-test-renderer": "^18.0.0",
+    "prettier": "^2.7.1",
+    "react-test-renderer": "^18.2.0"
   }
 }

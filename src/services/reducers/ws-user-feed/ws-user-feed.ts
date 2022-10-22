@@ -1,11 +1,12 @@
 import {
-    TFeedActions,
-    WS_FEED_CLOSE,
-    WS_FEED_CONNECT,
-    WS_FEED_ERROR, WS_FEED_MESSAGE,
-    WS_FEED_OPEN
-} from "../actions/ws-feed";
-import {IFeed} from "../../utils/types";
+    TUserFeedActions,
+    WS_USER_FEED_CLOSE,
+    WS_USER_FEED_CONNECT,
+    WS_USER_FEED_ERROR,
+    WS_USER_FEED_MESSAGE,
+    WS_USER_FEED_OPEN
+} from "../../actions/ws-user-feed";
+import {IFeed} from "../../../utils/types";
 
 type TInitialState = {
     wsConnecting: boolean;
@@ -14,7 +15,7 @@ type TInitialState = {
     error: string;
 }
 
-const initialState = {
+export const initialState = {
     wsConnecting: false,
     wsConnect: false,
     data: {
@@ -26,23 +27,23 @@ const initialState = {
     error: '',
 };
 
-export const wsFeedReducer = (state: TInitialState = initialState, action: TFeedActions): TInitialState => {
+export const wsUserFeedReducer = (state: TInitialState = initialState, action: TUserFeedActions): TInitialState => {
     switch (action.type) {
-        case WS_FEED_CONNECT: {
+        case WS_USER_FEED_CONNECT: {
             return {
                 ...state,
                 wsConnecting: true,
                 wsConnect: false,
             }
         }
-        case WS_FEED_OPEN: {
+        case WS_USER_FEED_OPEN: {
             return {
                 ...state,
                 wsConnecting: false,
                 wsConnect: true,
             }
         }
-        case WS_FEED_CLOSE: {
+        case WS_USER_FEED_CLOSE: {
             return {
                 ...state,
                 wsConnecting: false,
@@ -50,7 +51,7 @@ export const wsFeedReducer = (state: TInitialState = initialState, action: TFeed
                 error: '',
             }
         }
-        case WS_FEED_ERROR: {
+        case WS_USER_FEED_ERROR: {
             return {
                 ...state,
                 wsConnecting: false,
@@ -58,7 +59,7 @@ export const wsFeedReducer = (state: TInitialState = initialState, action: TFeed
                 error: action.payload,
             }
         }
-        case WS_FEED_MESSAGE: {
+        case WS_USER_FEED_MESSAGE: {
             return {
                 ...state,
                 data: action.payload

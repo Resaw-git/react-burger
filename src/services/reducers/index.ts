@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
-import { ingredientsReducer } from "./ingredients";
-import { constructorReducer } from "./constructor";
-import { modalReducer } from "./modal";
-import { orderReducer } from "./order";
-import { registerReducer } from "./register";
-import { loginReducer } from "./login";
-import { userReducer } from "./user";
-import { passwordReducer } from "./reset-password";
-import { wsFeedReducer } from "./ws-feed";
-import {wsUserFeedReducer} from "./ws-user-feed";
+import { ingredientsReducer } from "./ingredients/ingredients";
+import { constructorReducer } from "./constructor/constructor";
+import { modalReducer } from "./modal/modal";
+import { orderReducer } from "./order/order";
+import { registerReducer } from "./register/register";
+import { loginReducer } from "./login/login";
+import { userReducer } from "./user/user";
+import { passwordReducer } from "./reset-password/reset-password";
+import { wsFeedReducer } from "./ws-feed/ws-feed";
+import {wsUserFeedReducer} from "./ws-user-feed/ws-user-feed";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,

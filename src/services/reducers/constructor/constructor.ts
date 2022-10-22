@@ -5,15 +5,15 @@ import {
   REORDER_INGREDIENT,
   RESET_INGREDIENTS,
   TConstructorActions,
-} from "../actions/constructor";
-import {IIngredient} from "../../utils/types";
+} from "../../actions/constructor";
+import {IIngredient} from "../../../utils/types";
 
 type TInitialState = {
   constructorBun: Array<IIngredient>;
   constructorIng: Array<IIngredient>;
 }
 
-const initialState = {
+export const initialState = {
   constructorBun: [],
   constructorIng: [],
 };

@@ -4,7 +4,7 @@ import {
   GET_USER_FAILED,
   JWT_EXPIRED,
   JWT_INVALID, EDIT_USER_SUCCESS, HIDE_EDIT_MESSAGE, TUserActions,
-} from "../actions/user";
+} from "../../actions/user";
 
 type TInitialState = {
   userName: string;
@@ -17,7 +17,7 @@ type TInitialState = {
   editSuccess: boolean;
 }
 
-const initialState = {
+export const initialState = {
   userName: "",
   userEmail: "",
   userRequest: false,
