@@ -61,7 +61,7 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
   });
 
   return (
-    <div className={styles.block} onClick={modal} ref={dragRef}>
+    <div className={styles.block} data-test={id} onClick={modal} ref={dragRef}>
       {counter !== 0 && (
         <Counter count={counter} size="default" />
       )}

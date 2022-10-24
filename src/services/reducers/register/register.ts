@@ -2,7 +2,7 @@ import {
     GET_REGISTER_REQUEST,
     GET_REGISTER_SUCCESS,
     GET_REGISTER_FAILED, TRegisterActions
-} from "../actions/register"
+} from "../../actions/register"
 
 type TInitialState = {
     registerMessage: string;
@@ -11,7 +11,7 @@ type TInitialState = {
     registerFailed: boolean;
 }
 
-const initialState = {
+export const initialState = {
     registerMessage: "",
     registerRequest: false,
     registerSuccess: false,

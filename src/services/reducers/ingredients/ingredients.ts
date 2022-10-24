@@ -3,8 +3,8 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   TIngredientsActions,
-} from "../actions/ingredients";
-import {IIngredient} from "../../utils/types";
+} from "../../actions/ingredients";
+import {IIngredient} from "../../../utils/types";
 
 type TInitialState = {
   ingredientsArray: IIngredient[];
@@ -12,7 +12,7 @@ type TInitialState = {
   ingredientsFailed: boolean;
 }
 
-const initialState = {
+export const initialState = {
   ingredientsArray: [],
   ingredientsRequest: false,
   ingredientsFailed: false,

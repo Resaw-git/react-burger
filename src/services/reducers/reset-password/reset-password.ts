@@ -5,7 +5,7 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED, TResetPasswordActions,
-} from "../actions/reset-password";
+} from "../../actions/reset-password";
 
 type TInitialState = {
   message: string;
@@ -17,7 +17,7 @@ type TInitialState = {
   resetFailed: boolean;
 }
 
-const initialState = {
+export const initialState = {
   message: "",
   sendRequest: false,
   sendSuccess: false,

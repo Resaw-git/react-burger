@@ -2,7 +2,7 @@ import {
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED, RESET_ORDER, SET_USER_SUCCESS, TOrderActions
-} from "../actions/order";
+} from "../../actions/order";
 
 type TInitialState = {
   orderNumber: string;
@@ -12,7 +12,7 @@ type TInitialState = {
   userAccess: boolean;
 }
 
-const initialState = {
+export const initialState = {
   orderNumber: "",
   orderRequest: false,
   orderSuccess: false,
