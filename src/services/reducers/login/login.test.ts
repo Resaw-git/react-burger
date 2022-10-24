@@ -2,11 +2,11 @@ import {initialState, loginReducer} from "./login";
 import {GET_LOGIN_FAILED, GET_LOGIN_REQUEST, GET_LOGIN_SUCCESS} from "../../actions/login";
 
 describe("Check login reducer", () => {
-    // test("Should return initial state", () => {
-    //     expect(ingredientsReducer(undefined, {})).toEqual(
-    //         initialState
-    //     );
-    // });
+    test("Should return initial state", () => {
+        expect(loginReducer(undefined, {} as any)).toEqual(
+            initialState
+        );
+    });
 
     test("Should return state of request", () => {
         expect(

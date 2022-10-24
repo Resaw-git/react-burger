@@ -9,9 +9,9 @@ import {
 import {initialState, passwordReducer} from "./reset-password";
 
 describe("Check password reducer", () => {
-  // test("Should return initial state", () => {
-  //     expect(passwordReducer(undefined, {})).toEqual(initialState)
-  // })
+  test("Should return initial state", () => {
+      expect(passwordReducer(undefined, {} as any)).toEqual(initialState)
+  })
 
   test("Should return state of reset password request", () => {
     expect(

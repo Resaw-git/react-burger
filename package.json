@@ -30,12 +30,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:cypress": "cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -53,6 +55,8 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
     "@types/react-test-renderer": "^18.0.0",
+    "cypress": "^10.10.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "prettier": "^2.7.1",
     "react-test-renderer": "^18.2.0"
   }

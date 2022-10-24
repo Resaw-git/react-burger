@@ -2,9 +2,9 @@ import {GET_REGISTER_FAILED, GET_REGISTER_REQUEST, GET_REGISTER_SUCCESS} from ".
 import {initialState, registerReducer} from "./register";
 
 describe("Check register reducer", () => {
-  // test("Should return initial state", () => {
-  //     expect(registerReducer(undefined, {})).toEqual(initialState)
-  // })
+  test("Should return initial state", () => {
+      expect(registerReducer(undefined, {} as any)).toEqual(initialState)
+  })
 
   test("Should return state of request", () => {
     expect(

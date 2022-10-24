@@ -2,9 +2,9 @@ import {GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, RESET_ORDER, SET
 import {initialState, orderReducer} from "./order";
 
 describe("Check order reducer", () => {
-  // test("Should return initial state", () => {
-  //   expect(orderReducer(undefined, {})).toEqual(initialState);
-  // });
+  test("Should return initial state", () => {
+    expect(orderReducer(undefined, {} as any)).toEqual(initialState);
+  });
 
   test("Should return state of request", () => {
     expect(orderReducer(initialState, { type: GET_ORDER_REQUEST })).toEqual({

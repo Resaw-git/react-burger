@@ -10,9 +10,9 @@ import {
 import {initialState, userReducer} from "./user";
 
 describe("Check password reducer", () => {
-  // test("Should return initial state", () => {
-  //     expect(passwordReducer(undefined, {})).toEqual(initialState)
-  // })
+  test("Should return initial state", () => {
+      expect(userReducer(undefined, {} as any)).toEqual(initialState)
+  })
 
   test("Should return state of user request", () => {
     expect(

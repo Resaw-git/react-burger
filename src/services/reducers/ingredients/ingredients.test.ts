@@ -3,11 +3,11 @@ import {GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS
 import { testIngredient } from "../../../utils/test-data"
 
 describe("Check ingredients reducer", () => {
-    // test("Should return initial state", () => {
-    //     expect(ingredientsReducer(undefined, {})).toEqual(
-    //         initialState
-    //     );
-    // });
+    test("Should return initial state", () => {
+        expect(ingredientsReducer(undefined, {} as any)).toEqual(
+            initialState
+        );
+    });
 
     test("Should return state of request", () => {
         expect(

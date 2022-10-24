@@ -3,9 +3,9 @@ import {initialState, wsFeedReducer} from "./ws-feed";
 import {testFeed} from "../../../utils/test-data";
 
 describe("Check feed reducer", () => {
-  // test("Should return initial state", () => {
-  //     expect(wsFeedReducer(undefined, {})).toEqual(initialState)
-  // })
+  test("Should return initial state", () => {
+      expect(wsFeedReducer(undefined, {} as any)).toEqual(initialState)
+  })
 
   test("Should return state of connect", () => {
     expect(

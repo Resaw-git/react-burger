@@ -2,9 +2,9 @@ import {initialState, modalReducer} from "./modal";
 import {MODAL_CLOSE, MODAL_OPEN} from "../../actions/modal";
 
 describe("Check modal reducer", () => {
-  // test("Should return initial state", () => {
-  //   expect(modalReducer(undefined, {})).toEqual(initialState);
-  // });
+  test("Should return initial state", () => {
+    expect(modalReducer(undefined, {} as any)).toEqual(initialState);
+  });
 
   test("Should return modal open state", () => {
     expect(

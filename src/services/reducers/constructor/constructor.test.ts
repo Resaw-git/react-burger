@@ -6,79 +6,64 @@ import {
   REORDER_INGREDIENT,
   RESET_INGREDIENTS,
 } from "../../actions/constructor";
-import { testIngredient } from "../../../utils/test-data"
+import { testIngredient } from "../../../utils/test-data";
 
 describe("Check constructor reducer", () => {
   test("Should return initial state", () => {
-    expect(constructorReducer(undefined, { type: RESET_INGREDIENTS })).toEqual(
-      initialState
-    );
+    expect(constructorReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test("Should return state with bun", () => {
-    const expectedState = {
-      constructorBun: [testIngredient],
-      constructorIng: [],
-    };
-
     expect(
       constructorReducer(initialState, { type: ADD_BUN, item: testIngredient })
-    ).toEqual(expectedState);
+    ).toEqual({
+      ...initialState,
+      constructorBun: [testIngredient],
+      constructorIng: [],
+    });
   });
 
   test("Should return state with ingredient", () => {
-    const expectedState = {
-      constructorBun: [],
-      constructorIng: [testIngredient],
-    };
-
     expect(
       constructorReducer(initialState, {
         type: ADD_INGREDIENT,
         item: testIngredient,
       })
-    ).toEqual(expectedState);
-  });
-
-  test("Should return state with ingredient", () => {
-    const expectedState = {
+    ).toEqual({
+      ...initialState,
       constructorBun: [],
       constructorIng: [testIngredient],
-    };
-
-    expect(
-      constructorReducer(initialState, {
-        type: ADD_INGREDIENT,
-        item: testIngredient,
-      })
-    ).toEqual(expectedState);
+    });
   });
 
   test("Should return state without deleted ingredient", () => {
-    const currentState = {
-      constructorBun: [],
-      constructorIng: [testIngredient],
-    };
-
-    const expectedState = {
+    expect(
+      constructorReducer(
+        {
+          ...initialState,
+          constructorBun: [],
+          constructorIng: [testIngredient],
+        },
+        {
+          type: DELETE_INGREDIENT,
+          id: testIngredient.id,
+        }
+      )
+    ).toEqual({
+      ...initialState,
       constructorBun: [],
       constructorIng: [],
-    };
-
-    expect(
-      constructorReducer(currentState, {
-        type: DELETE_INGREDIENT,
-        id: testIngredient.id,
-      })
-    ).toEqual(expectedState);
+    });
   });
 
   test("Should return state with reorder ingredients", () => {
     const testIngredient1 = {
-        ...testIngredient, name: "testIngredient1"
+      ...testIngredient,
+      name: "testIngredient1",
     };
     const testIngredient2 = {
-        ...testIngredient, name: "testIngredient2"
+      ...testIngredient,
+      name: "testIngredient2",
     };
 
     const currentState = {
@@ -98,5 +83,18 @@ describe("Check constructor reducer", () => {
         dragIndex: 0,
       })
     ).toEqual(expectedState);
+  });
+
+  test("Should return reset state", () => {
+    expect(
+      constructorReducer(
+        {
+          ...initialState,
+          constructorBun: [testIngredient],
+          constructorIng: [testIngredient],
+        },
+        { type: RESET_INGREDIENTS }
+      )
+    ).toEqual(initialState);
   });
 });

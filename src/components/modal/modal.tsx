@@ -44,7 +44,7 @@ const Modal: FC<IComponentProps> = ({ children, onClose }) => {
     <>
       <ModalOverlay onClose={onClose} />
       <div className={styles.modal}>
-        <div className={styles.cross}>
+        <div className={styles.cross} data-test={"cross"}>
           <CloseIcon type="primary" onClick={onClose} />
         </div>
         {children}
