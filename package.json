@@ -31,7 +31,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:cypress": "cypress open",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && scp -r ./build/* react-burger@130.193.43.183:/home/react-burger/burger-frontend"
   },
   "eslintConfig": {
     "extends": [

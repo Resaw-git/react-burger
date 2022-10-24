@@ -1,6 +1,6 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Stellar Burger
+## React приложение в рамках курса Яндекс практикума React-разработчик
+### https://resaw.nomoredomains.icu
 
 ## Available Scripts
 
