@@ -27,7 +27,7 @@
 
 ## Доступные скрипты
   - <code>npm start</code>: запуск приложения на localhost
-  - <code>npm run build</code>: сборка приложения в продакшен
+  - <code>npm run build</code>: оптимизированная сборка приложения
   - <code>npm run test</code>: запуск модульных тестов для redux
   - <code>npm run test:cypress</code>: запуск E2E тестов
 
