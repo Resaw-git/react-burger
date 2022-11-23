@@ -31,3 +31,10 @@
   - <code>npm run test</code>: запуск модульных тестов для redux
   - <code>npm run test:cypress</code>: запуск E2E тестов
 
+## TODO:
+ :black_square_button: Адаптивный дизайн  
+ :black_square_button: Вёрстка мобильной версии (ссылка на макет: https://www.figma.com/file/zFGN2O5xktHl9VmoOieq5E/React-_-Проектные-задачи_external_link?node-id=0%3A1&t=z5xewpXbDAkYwxEv-0)  
+ :black_square_button: Переключение типов игредиентов на табы  
+ :black_square_button: Адекватное переключение фокуса на TAB, выделение ингредиентов   
+ :black_square_button: Работа с асинхроными запросами: дожидаться ответа от сервера, затем рендерить страницу(маршрут /login и /profile)  
+
