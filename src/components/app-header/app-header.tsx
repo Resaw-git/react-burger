@@ -4,7 +4,7 @@ import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+} from "../shared";
 import styles from "./app-header.module.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ILocation } from "../../utils/types";

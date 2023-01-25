@@ -3,8 +3,8 @@ import styles from "./style.module.css";
 import {
   Input,
   PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
+  Button
+} from "../components/shared";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import {
   editUserData,

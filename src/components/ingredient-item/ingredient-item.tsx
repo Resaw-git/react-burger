@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {
   Counter,
   CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+} from "../shared";
 import styles from "./ingredient-item.module.css";
 import { useSelectorHook, useDispatchHook } from "../../hooks/redux";
 import { MODAL_OPEN } from "../../services/actions/modal";

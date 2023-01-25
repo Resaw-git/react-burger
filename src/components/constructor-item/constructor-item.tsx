@@ -3,7 +3,7 @@ import type { Identifier, XYCoord } from "dnd-core";
 import {
   ConstructorElement,
   DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+} from "../shared";
 import styles from "./constructor-item.module.css";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import {

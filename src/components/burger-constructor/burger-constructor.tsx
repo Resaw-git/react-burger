@@ -1,7 +1,8 @@
 import React, {FC} from "react";
 import {
-  CurrencyIcon
-} from "@ya.praktikum/react-developer-burger-ui-components";
+  CurrencyIcon,
+  Button
+} from "../shared";
 import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
@@ -12,7 +13,6 @@ import { useDrop } from "react-dnd";
 import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
 import { useHistory } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
-import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerConstructor: FC = () => {
   const history = useHistory();

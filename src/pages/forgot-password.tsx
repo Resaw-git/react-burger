@@ -3,7 +3,7 @@ import styles from "./style.module.css";
 import {
   Input,
   Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+} from "../components/shared";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";

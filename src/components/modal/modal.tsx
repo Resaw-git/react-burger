@@ -2,7 +2,7 @@ import React, {FC, useEffect} from "react";
 import styles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import ReactDOM from "react-dom";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CloseIcon } from "../shared";
 import {useLocation} from "react-router-dom";
 import {ILocation} from "../../utils/types";
 import {useDispatchHook, useSelectorHook} from "../../hooks/redux";

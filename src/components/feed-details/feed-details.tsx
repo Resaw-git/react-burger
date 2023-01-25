@@ -3,7 +3,7 @@ import styles from "./feed-details.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { IIngredient, IOrder } from "../../utils/types";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon } from "../shared";
 import { formatOrderData } from "../../lib/format-order-data";
 import {
   connectWsFeed,

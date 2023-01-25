@@ -2,8 +2,8 @@ import React, {FormEvent, useEffect, useRef, useState} from "react";
 import styles from "./style.module.css";
 import {
   Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
+  Button
+} from "../components/shared";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import { Link, Redirect, useHistory, useLocation } from "react-router-dom";

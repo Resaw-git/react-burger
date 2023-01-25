@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import styles from "./order-card.module.css";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { IIngredient, ILocation, IOrder } from "../../utils/types";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon } from "../shared";
 import { useHistory, useLocation } from "react-router-dom";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { formatOrderData } from "../../lib/format-order-data";

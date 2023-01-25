@@ -4,8 +4,8 @@ import {Link, Redirect, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
+  Button
+} from "../components/shared";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { autorization } from "../services/actions/login";
 import { getUserData, refreshToken } from "../services/actions/user";

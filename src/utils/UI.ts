@@ -1,4 +1,4 @@
-import { Tab as TabUI } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab as TabUI } from "../components/shared";
 import React, {FC} from "react";
 
 export const Tab: FC<{
