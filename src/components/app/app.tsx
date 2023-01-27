@@ -1,46 +1,39 @@
-import React, {useEffect, FC} from "react";
-import {
-  Switch,
-  Route,
-  useLocation,
-  useHistory,
-} from "react-router-dom";
-import AppHeader from "../app-header/app-header";
-import {
-  Constructor,
-  Login,
-  Register,
-  ForgotPassword,
-  ResetPassword,
-  NotFound404,
-  Profile,
-  Feed,
-} from "../../pages";
+import React, { useEffect, FC} from "react";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import Header from "../app-header/header";
+import { Constructor, Login, Register, ForgotPassword, ResetPassword, NotFound404, Profile, Feed } from "../../pages";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {closeModal, closeModalOrd} from "../../services/actions/modal";
+import {closeMobile, closeModal, closeModalOrd} from "../../services/actions/modal";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import {ProtectedRoute} from "../protected-route/protected-route";
-import {fetchIngredients} from "../../services/actions/ingredients";
-import {ILocation} from "../../utils/types";
-import {FeedDetails} from "../feed-details/feed-details";
-import {Orders} from "../../pages/orders";
+import { ProtectedRoute } from "../protected-route/protected-route";
+import { fetchIngredients } from "../../services/actions/ingredients";
+import { ILocation } from "../../utils/types";
+import { FeedDetails } from "../feed-details/feed-details";
+import { Orders } from "../../pages/orders";
+import MobileMenu from "../mobile-menu/mobile-menu";
 
 const App: FC = () => {
   const history = useHistory();
   const location = useLocation<ILocation>();
   const background = location.state && location.state.background;
   const { modalOpen } = useSelectorHook((store) => store.modal);
+  const { mobileMenu } = useSelectorHook((store) => store.modal);
   const dispatch = useDispatchHook();
 
+
   const modalClose = () => {
-    closeModal(dispatch)
+    closeModal(dispatch);
     history.goBack();
-  }
+  };
 
   const modalCloseOrd = () => {
-    closeModalOrd(dispatch)
+    closeModalOrd(dispatch);
+  };
+
+  const mobileClose = () => {
+    closeMobile(dispatch)
   }
 
   useEffect(() => {
@@ -49,7 +42,10 @@ const App: FC = () => {
 
   return (
     <>
-      <AppHeader />
+      <Header />
+      {mobileMenu &&
+          (<MobileMenu onClose={mobileClose}/>)
+      }
       <Switch>
         <Route path="/" exact={true}>
           <Constructor />
@@ -67,14 +63,14 @@ const App: FC = () => {
         </Route>
         <Route path="/feed/:id" exact={true}>
           {background ? (
-              <>
-                <Feed />
-                <Modal onClose={modalClose}>
-                  <FeedDetails bg={background} path={location.pathname} />
-                </Modal>
-              </>
+            <>
+              <Feed />
+              <Modal onClose={modalClose}>
+                <FeedDetails bg={background} path={location.pathname} />
+              </Modal>
+            </>
           ) : (
-              <FeedDetails bg={background} path={location.pathname}/>
+            <FeedDetails bg={background} path={location.pathname} />
           )}
         </Route>
         <Route path="/register" exact={true}>
@@ -106,14 +102,14 @@ const App: FC = () => {
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders/:id" exact={true}>
           {background ? (
-              <>
-                <Orders />
-                <Modal onClose={modalClose}>
-                  <FeedDetails bg={background} path={location.pathname} />
-                </Modal>
-              </>
+            <>
+              <Orders />
+              <Modal onClose={modalClose}>
+                <FeedDetails bg={background} path={location.pathname} />
+              </Modal>
+            </>
           ) : (
-              <FeedDetails bg={background} path={location.pathname}/>
+            <FeedDetails bg={background} path={location.pathname} />
           )}
         </ProtectedRoute>
         <Route>

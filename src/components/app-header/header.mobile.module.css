@@ -1,0 +1,41 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 768px;
+    padding: 12px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.menu_line {
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background-color: #fff;
+    left: 3px;
+}
+
+.menu_line:nth-child(1) {
+    top: 5px;
+}
+
+.menu_line:nth-child(2) {
+    top: 11px;
+}
+
+.menu_line:nth-child(3) {
+    top: 17px;
+}

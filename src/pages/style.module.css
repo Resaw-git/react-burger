@@ -36,11 +36,12 @@
 
 .profile {
   display: grid;
-  width: 1250px;
+  width: 1280px;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .box {
+  padding-left: 20px;
   width: 330px;
   display: flex;
   flex-direction: column;

@@ -1,5 +1,6 @@
 .modal {
   position: fixed;
+  z-index: 3;
   background: #1C1C21;
   left: calc(50% - 720px/2);
   top: calc(50% - 75vh/2);

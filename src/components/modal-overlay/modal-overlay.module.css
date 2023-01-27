@@ -6,4 +6,5 @@
     bottom: 0;
     background: #000;
     opacity: 60%;
+    z-index: 2;
 }

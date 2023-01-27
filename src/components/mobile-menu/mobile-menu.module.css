@@ -1,0 +1,75 @@
+.menu {
+  position: fixed;
+  z-index: 3;
+  background: #1c1c21;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.cross {
+  cursor: pointer;
+}
+
+.title {
+  height: 64px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text {
+  font-family: "Jet Brains Mono", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 32px;
+}
+
+.item {
+  font-family: "Jet Brains Mono", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #8585AD;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.active {
+  color: white;
+}
+
+.account {
+  display: flex;
+  justify-content: space-between;
+}
+
+.triangle {
+  display: flex;
+  padding: 8px 16px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(0);
+  transition: transform 0.3s;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  composes: item;
+  margin-left: 44px;
+  padding: 0;
+}
+
+.active svg path {
+  fill: #ffffff;
+}
