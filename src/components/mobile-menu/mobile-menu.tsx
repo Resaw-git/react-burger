@@ -1,12 +1,12 @@
-import React, {FC, useEffect, useState} from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./mobile-menu.module.css";
 import ReactDOM from "react-dom";
 import { NavLink, useLocation } from "react-router-dom";
 import { BurgerIcon, CloseIcon, ListIcon, ProfileIcon } from "../shared";
 import { ILocation } from "../../utils/types";
 import { isActiveText } from "../../lib/active-text";
-import {userLogout} from "../../services/actions/user";
-import {useDispatchHook} from "../../hooks/redux";
+import { userLogout } from "../../services/actions/user";
+import { useDispatchHook } from "../../hooks/redux";
 
 interface IComponentProps {
   onClose: () => void;
@@ -18,8 +18,8 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
   const dispatch = useDispatchHook();
 
   const toggleSubMenu = () => {
-    setSubMenu(!subMenu)
-  }
+    setSubMenu(!subMenu);
+  };
 
   const logout = () => {
     dispatch(userLogout());
@@ -38,9 +38,9 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
     if (location.pathname === "/profile" || location.pathname === "/profile/orders") {
       setIsActive(true);
     } else {
-      setIsActive(false)
+      setIsActive(false);
     }
-  }, [location])
+  }, [location]);
 
   useEffect(() => {
     document.addEventListener("keydown", escapeModal);
@@ -48,7 +48,6 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
       document.removeEventListener("keydown", escapeModal);
     };
   }, []);
-
 
   return ReactDOM.createPortal(
     <>
@@ -60,51 +59,45 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
           </div>
         </div>
         <nav className={styles.nav}>
-          <div className={styles.account}>
-            <div
-                className={`${styles.item} ${isActive && styles.active}`}
-                onClick={toggleSubMenu}
-            >
+          <div className={styles.account} onClick={toggleSubMenu}>
+            <div className={`${styles.item} ${isActive && styles.active}`}>
               <ProfileIcon type={isActiveText("/profile", location)} />
               <div className="pl-2" />
               Личный кабинет
             </div>
             <div className={`${styles.triangle} ${subMenu && styles.rotate} ${isActive && styles.active}`}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.9541 15.6475C11.5164 16.1175 12.4836 16.1175 13.0459 15.6475L17.6243 11.8214C18.4585 11.1242 17.8129 10 16.5783 10H7.42166C6.1871 10 5.54152 11.1242 6.37574 11.8214L10.9541 15.6475Z"
-                      fill="#8585AD"
-                  />
+                <path
+                  d="M10.9541 15.6475C11.5164 16.1175 12.4836 16.1175 13.0459 15.6475L17.6243 11.8214C18.4585 11.1242 17.8129 10 16.5783 10H7.42166C6.1871 10 5.54152 11.1242 6.37574 11.8214L10.9541 15.6475Z"
+                  fill="#8585AD"
+                />
               </svg>
             </div>
           </div>
           {subMenu && (
-              <>
-                <NavLink
-                    to="/profile"
-                    exact={true}
-                    className={styles.submenu}
-                    activeClassName={styles.active}
-                    onClick={onClose}
-                >
-                  Профиль
-                </NavLink>
-                <NavLink
-                    to="/profile/orders"
-                    exact={true}
-                    className={styles.submenu}
-                    activeClassName={styles.active}
-                    onClick={onClose}
-                >
-                  История заказов
-                </NavLink>
-                <NavLink
-                    to="/"
-                    className={styles.submenu}
-                    onClick={logout}
-                >
-                  Выход
-                </NavLink>
-              </>
+            <>
+              <NavLink
+                to="/profile"
+                exact={true}
+                className={styles.submenu}
+                activeClassName={styles.active}
+                onClick={onClose}
+              >
+                Профиль
+              </NavLink>
+              <NavLink
+                to="/profile/orders"
+                exact={true}
+                className={styles.submenu}
+                activeClassName={styles.active}
+                onClick={onClose}
+              >
+                История заказов
+              </NavLink>
+              <NavLink to="/" className={styles.submenu} onClick={logout}>
+                Выход
+              </NavLink>
+            </>
           )}
           <NavLink
             to="/"

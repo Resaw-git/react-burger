@@ -1,0 +1,16 @@
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    width: 1280px;
+    justify-content: space-around;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 88px);
+}

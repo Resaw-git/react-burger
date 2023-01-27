@@ -1,10 +1,11 @@
 import {IIngredient} from "../../utils/types";
+import {AppDispatch} from "../reducers/store";
 
-export const ADD_INGREDIENT: "ADD_INGREDIENT" = "ADD_INGREDIENT";
-export const DELETE_INGREDIENT: "DELETE_INGREDIENT" = "DELETE_INGREDIENT";
-export const ADD_BUN: "ADD_BUN" = "ADD_BUN";
-export const REORDER_INGREDIENT: "REORDER_INGREDIENT" = "REORDER_INGREDIENT";
-export const RESET_INGREDIENTS: "RESET_INGREDIENTS" = "RESET_INGREDIENTS";
+export const ADD_INGREDIENT = "ADD_INGREDIENT" as const;
+export const DELETE_INGREDIENT = "DELETE_INGREDIENT" as const;
+export const ADD_BUN = "ADD_BUN" as const;
+export const REORDER_INGREDIENT = "REORDER_INGREDIENT" as const;
+export const RESET_INGREDIENTS = "RESET_INGREDIENTS" as const;
 
 export interface IAddIngredientAction {
     readonly type: typeof ADD_INGREDIENT;
@@ -37,3 +38,17 @@ export type TConstructorActions =
     | IAddBunAction
     | IReorderIngredientAction
     | IResetIngredientsAction;
+
+export const addBun = (item: IIngredient, dispatch: AppDispatch) => {
+    dispatch({
+        type: ADD_BUN,
+        item: item
+    })
+};
+
+export const addIngredient = (item: IIngredient, dispatch: AppDispatch) => {
+    dispatch({
+        type: ADD_INGREDIENT,
+        item: item
+    })
+};

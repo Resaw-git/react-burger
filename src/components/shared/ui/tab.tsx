@@ -15,9 +15,7 @@ export const Tab: React.FC<
             tab_type_current: active,
         },
         'pt-4',
-        'pr-10',
         'pb-4',
-        'pl-10',
         'noselect'
     );
 

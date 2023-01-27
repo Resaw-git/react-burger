@@ -1,6 +1,6 @@
 import React, { useEffect, FC} from "react";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
-import Header from "../app-header/header";
+import Header from "../header/header";
 import { Constructor, Login, Register, ForgotPassword, ResetPassword, NotFound404, Profile, Feed } from "../../pages";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -18,8 +18,7 @@ const App: FC = () => {
   const history = useHistory();
   const location = useLocation<ILocation>();
   const background = location.state && location.state.background;
-  const { modalOpen } = useSelectorHook((store) => store.modal);
-  const { mobileMenu } = useSelectorHook((store) => store.modal);
+  const { modalOpen, mobileMenu } = useSelectorHook((store) => store.modal);
   const dispatch = useDispatchHook();
 
 

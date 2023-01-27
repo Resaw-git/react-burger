@@ -1,0 +1,22 @@
+.block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 144px;
+}
+
+.desc {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.price {
+    display: flex;
+}
+
+.name {
+    text-align: center;
+}
