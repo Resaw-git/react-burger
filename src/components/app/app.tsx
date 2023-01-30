@@ -4,7 +4,7 @@ import Header from "../header/header";
 import { Constructor, Login, Register, ForgotPassword, ResetPassword, NotFound404, Profile, Feed } from "../../pages";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {closeMobile, closeModal, closeModalOrd} from "../../services/actions/modal";
+import {closeMobileMenu, closeModal, closeModalOrd} from "../../services/actions/modal";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { ProtectedRoute } from "../protected-route/protected-route";
@@ -32,7 +32,7 @@ const App: FC = () => {
   };
 
   const mobileClose = () => {
-    closeMobile(dispatch)
+    closeMobileMenu(dispatch)
   }
 
   useEffect(() => {

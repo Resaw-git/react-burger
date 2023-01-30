@@ -1,0 +1,16 @@
+.modal {
+    position: fixed;
+    z-index: 3;
+    background: #1c1c21;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.cross {
+    position: absolute;
+    top: 23px;
+    right: 11px;
+    cursor: pointer;
+}

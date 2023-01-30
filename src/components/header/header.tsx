@@ -5,7 +5,7 @@ import mobile from "./header.mobile.module.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ILocation } from "../../utils/types";
 import { isActiveText } from "../../lib/active-text";
-import { openMobile } from "../../services/actions/modal";
+import { openMobileMenu } from "../../services/actions/modal";
 import { useDispatchHook } from "../../hooks/redux";
 
 const Header: FC = () => {
@@ -20,7 +20,7 @@ const Header: FC = () => {
   }, [window.innerWidth]);
 
   const handleMenu = () => {
-    openMobile(dispatch);
+    openMobileMenu(dispatch);
   };
 
   return (

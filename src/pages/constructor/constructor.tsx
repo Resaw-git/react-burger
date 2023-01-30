@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
-import { useSelectorHook } from "../../hooks/redux";
+import {useDispatchHook, useSelectorHook} from "../../hooks/redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
@@ -11,10 +11,32 @@ import { Tab } from "../../utils/UI";
 import { useInView } from "react-intersection-observer";
 import { IIngredient } from "../../utils/types";
 import IngredientItemMobile from "../../components/ingredient-item-mobile/ingredient-item-mobile";
+import { Button, CurrencyIcon } from "../../components/shared";
+import MobileModal from "../../components/mobile-modal/mobile-modal";
+import {closeMobileModal, openMobileModal} from "../../services/actions/modal";
+import MobileConstructor from "../../components/mobile-constructor/mobile-constructor";
 
 export const Constructor: FC = () => {
   const { ingredientsArray, ingredientsFailed, ingredientsRequest } = useSelectorHook((store) => store.ingredients);
   const [current, setCurrent] = React.useState("bun");
+  const { constructorIng, constructorBun } = useSelectorHook((store) => store.constructorList);
+  const { mobileModal } = useSelectorHook((store) => store.modal);
+  const dispatch = useDispatchHook();
+  const getTotalSum = (ingredients: IIngredient[], bun: IIngredient[]) => {
+    const arr = [...ingredients, ...bun];
+    return arr.reduce(
+      (accum, current) => (current.type === "bun" ? accum + current.price * 2 : accum + current.price),
+      0,
+    );
+  };
+
+  const closeModal = () => {
+    closeMobileModal(dispatch)
+  }
+
+  const openModal = () => {
+    openMobileModal(dispatch)
+  }
 
   const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -99,10 +121,31 @@ export const Constructor: FC = () => {
             </Tab>
           </div>
           <div className={mobile.ingredients}>
-            <div className={mobile.category} ref={bunRef}>{renderElements(ingredientsArray, "Булки")}</div>
+            <div className={mobile.category} ref={bunRef}>
+              {renderElements(ingredientsArray, "Булки")}
+            </div>
             <div ref={sauceRef}>{renderElements(ingredientsArray, "Соусы")}</div>
             <div ref={mainRef}>{renderElements(ingredientsArray, "Начинки")}</div>
           </div>
+          <div className={mobile.total}>
+            <div className={mobile.price}>
+              {getTotalSum(constructorIng, constructorBun)}
+              <CurrencyIcon type="primary" />
+            </div>
+            <Button
+              htmlType="button"
+              size={"small"}
+              disabled={constructorBun.length === 0 && constructorIng.length === 0}
+              onClick={openModal}
+            >
+              Смотреть заказ
+            </Button>
+          </div>
+          {mobileModal &&
+              <MobileModal onClose={closeModal}>
+                <MobileConstructor />
+              </MobileModal>
+          }
         </main>
       )}
     </>

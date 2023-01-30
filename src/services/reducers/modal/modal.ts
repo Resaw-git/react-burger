@@ -1,13 +1,23 @@
-import {MODAL_OPEN, MODAL_CLOSE, MOBILE_CLOSE, MOBILE_OPEN, TModalActions} from "../../actions/modal";
+import {
+  MODAL_OPEN,
+  MODAL_CLOSE,
+  MOBILE_MENU_CLOSE,
+  MOBILE_MENU_OPEN,
+  MOBILE_MODAL_CLOSE,
+  MOBILE_MODAL_OPEN,
+  TModalActions,
+} from "../../actions/modal";
 
 type TInitialState = {
   modalOpen: boolean;
   mobileMenu: boolean;
+  mobileModal: boolean;
   isDetails: boolean;
-}
+};
 
 export const initialState = {
   mobileMenu: false,
+  mobileModal: false,
   modalOpen: false,
   isDetails: false,
 };
@@ -18,7 +28,7 @@ export const modalReducer = (state: TInitialState = initialState, action: TModal
       return {
         ...state,
         modalOpen: true,
-        isDetails: action.isDetails
+        isDetails: action.isDetails,
       };
     }
     case MODAL_CLOSE: {
@@ -27,16 +37,28 @@ export const modalReducer = (state: TInitialState = initialState, action: TModal
         modalOpen: false,
       };
     }
-    case MOBILE_CLOSE: {
+    case MOBILE_MENU_CLOSE: {
       return {
         ...state,
         mobileMenu: false,
       };
     }
-    case MOBILE_OPEN: {
+    case MOBILE_MENU_OPEN: {
       return {
         ...state,
         mobileMenu: true,
+      };
+    }
+    case MOBILE_MODAL_CLOSE: {
+      return {
+        ...state,
+        mobileModal: false,
+      };
+    }
+    case MOBILE_MODAL_OPEN: {
+      return {
+        ...state,
+        mobileModal: true,
       };
     }
     default: {

@@ -1,0 +1,75 @@
+.wrapper {
+  display: flex;
+  min-height: 72px;
+  overflow: hidden;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  height: 72px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 10px);
+  border-bottom: 1px solid #3a3a55;
+}
+
+.img_wrapper {
+  position: relative;
+  min-width: 52px;
+  overflow: hidden;
+  height: 72px;
+}
+
+.image {
+  position: absolute;
+  top: 12px;
+  left: -24px;
+  height: 50px;
+}
+
+.desc {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+}
+
+.name {
+  margin-left: 10px;
+  font-family: "Jet Brains Mono", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.price {
+  display: flex;
+  font-family: "Iceland", sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 24px;
+  gap: 10px;
+}
+
+.delete_box {
+  height: 72px;
+  width: 100px;
+  background-color: red;
+  position: absolute;
+  right: -120px;
+}
+
+@media screen and (max-width: 375px) {
+  .name {
+    font-size: 10px;
+  }
+  .price {
+    font-size: 18px;
+  }
+}

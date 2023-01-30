@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    padding: 16px 8px 0 8px;
+    height: 100vh;
+}
+
+.header {
+    font-family: 'Jet Brains Mono', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 32px;
+}
+
+.ingredients {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 150px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    gap: 10px;
+}
+
+.item {
+
+}
+
+.total {
+    margin-top: 25px;
+    border-radius: 15px 15px 0 0;
+    box-sizing: border-box;
+    background-color: #2f2f37;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 8px 16px;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: "Iceland", sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 24px;
+    margin-right: 10px;
+}

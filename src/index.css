@@ -21,3 +21,13 @@ a {
   color: white;
   text-decoration: none;
 }
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
