@@ -2,6 +2,7 @@
   display: flex;
   min-height: 72px;
   overflow: hidden;
+  user-select: none;
 }
 
 .dots {
@@ -58,11 +59,14 @@
 }
 
 .delete_box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 72px;
-  width: 100px;
-  background-color: red;
+  width: 144px;
+  background-color: #E52B1A;
   position: absolute;
-  right: -120px;
+  right: -154px;
 }
 
 @media screen and (max-width: 375px) {

@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import styles from "./ingredient-item-mobile.module.css";
 import { Button, Counter, CurrencyIcon } from "../shared";
 import { IIngredient } from "../../utils/types";
-import { useHistory, useLocation } from "react-router-dom";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { addBun, addIngredient } from "../../services/actions/constructor";
+import { v4 as uuidv4 } from "uuid";
 
 interface IComponentProps {
   id: string;
@@ -18,12 +18,11 @@ const IngredientItemMobile: FC<IComponentProps> = ({ id }) => {
   const element = ingredientsArray.find((el: IIngredient) => el._id === id);
 
   const addToConstructor = () => {
-    if (element) {
-      if (element.type === "bun") {
-        addBun(element, dispatch);
-      } else {
-        addIngredient(element, dispatch);
-      }
+    if (!element) return;
+    if (element.type === "bun") {
+      addBun(element, dispatch);
+    } else {
+      addIngredient({...element, id: uuidv4()}, dispatch);
     }
   };
 

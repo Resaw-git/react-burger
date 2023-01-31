@@ -1,42 +1,97 @@
-import React, {FC, useEffect, useState} from "react";
+import React, { FC, TouchEvent, useEffect, useState } from "react";
 import styles from "./mobile-constructor-element.module.css";
-import { CurrencyIcon, DragIcon } from "../shared";
+import { CurrencyIcon, DeleteIcon, DragIcon } from "../shared";
+import { DELETE_INGREDIENT } from "../../services/actions/constructor";
+import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 
 interface IComponentProps {
+  id?: string;
   text: string;
   image: string;
   price: number;
   pos?: string;
 }
 
-const MobileConstructorElement: FC<IComponentProps> = ({ text, image, price, pos }) => {
-  const [touchX, setTouchX] = useState(0);
-  const [cordX, setCordX] = useState(0)
+interface ITouchParams {
+  startX: null | number;
+  moveX: null | number;
+  endX: null | number;
+  position: number;
+  touched: boolean;
+}
 
-  const touchStart = (e: any) => {
-    setTouchX(0)
-  }
+const MobileConstructorElement: FC<IComponentProps> = ({ id, text, image, price, pos }) => {
+  const { constructorIng } = useSelectorHook((store) => store.constructorList);
+  const dispatch = useDispatchHook();
+  const [touchParams, setTouchParams] = useState<ITouchParams>({
+    startX: null,
+    moveX: null,
+    endX: null,
+    position: 0,
+    touched: false,
+  });
 
-  const touchMove = (e: any) => {
-        if(e.changedTouches[0].clientX > cordX) {
-          setCordX(e.changedTouches[0].clientX)
-        } else {
-          setCordX(cordX);
+  const touchStart = (e: TouchEvent<HTMLDivElement>) => {
+    setTouchParams({ ...touchParams, startX: e.changedTouches[0].clientX, touched: true });
+  };
+
+  const touchMove = (e: TouchEvent<HTMLDivElement>) => {
+    setTouchParams({ ...touchParams, moveX: e.changedTouches[0].clientX });
+  };
+
+  const touchEnd = (e: TouchEvent<HTMLDivElement>) => {
+    setTouchParams({ ...touchParams, endX: e.changedTouches[0].clientX, touched: false });
+  };
+
+  useEffect(() => {
+    if (touchParams.moveX === null || touchParams.startX === null || touchParams.endX === null) return;
+    const diff = touchParams.moveX - touchParams.startX;
+    if (diff < 200 && diff > -200) {
+      setTouchParams({...touchParams, position: touchParams.moveX - touchParams.startX})
+    }
+  }, [touchParams.moveX]);
+
+  useEffect(() => {
+    if (touchParams.endX === null || touchParams.startX === null) return;
+
+    if (!touchParams.touched) {
+      setTimeout(() => {
+        if (touchParams.position === -144) {
+          return;
         }
+        if (touchParams.position > 0) {
+          setTouchParams({...touchParams, position: touchParams.position - 1})
+        }
+        if (touchParams.position < 0) {
+          setTouchParams({...touchParams, position: touchParams.position + 1})
+        }
+      }, 1);
+    }
+  }, [touchParams.position, touchParams.touched]);
 
-    console.log(cordX)
-    setTouchX(prevState => prevState - Math.round(e.changedTouches[0].clientX / 100))
-  }
+  useEffect(() => {
+    setTouchParams({...touchParams, position: 0})
+  }, [constructorIng]);
 
-  const touchEnd = (e: any) => {
-    setTouchX(0)
-  }
-
-
+  const deleteIng = () => {
+    dispatch({
+      type: DELETE_INGREDIENT,
+      id: id,
+    });
+  };
 
   return (
-    <div className={styles.wrapper}>
-      <div style={{left: `${cordX}px`}} className={styles.item} onTouchStart={touchStart} onTouchEnd={touchEnd} onTouchMove={touchMove}>
+    <div
+      className={styles.wrapper}
+      onTouchStart={!pos ? touchStart : undefined}
+      onTouchMove={!pos ? touchMove : undefined}
+      onTouchEnd={!pos ? touchEnd : undefined}
+      // doesn't work with mobile
+      // onMouseDown={!pos ? mouseStart : undefined}
+      // onMouseMove={!pos ? mouseMove : undefined}
+      // onMouseUp={!pos ? mouseEnd : undefined}
+    >
+      <div className={styles.item} style={{ left: touchParams.position }}>
         <div className={styles.dots}>
           <DragIcon type="primary" />
         </div>
@@ -44,13 +99,15 @@ const MobileConstructorElement: FC<IComponentProps> = ({ text, image, price, pos
           <img src={image} alt={text} className={styles.image} />
         </div>
         <div className={styles.desc}>
-          <span className={styles.name}>{pos ? text + " " + touchX : text + " " + touchX}</span>
+          <span className={styles.name}>{`${pos ? text + " " + pos : text}`}</span>
           <span className={styles.price}>
             {price}
             <CurrencyIcon type="primary" />
           </span>
         </div>
-        <div className={styles.delete_box}>delete</div>
+        <div className={styles.delete_box} onClick={deleteIng}>
+          <DeleteIcon type="primary" />
+        </div>
       </div>
     </div>
   );

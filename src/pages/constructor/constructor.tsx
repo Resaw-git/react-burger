@@ -15,6 +15,7 @@ import { Button, CurrencyIcon } from "../../components/shared";
 import MobileModal from "../../components/mobile-modal/mobile-modal";
 import {closeMobileModal, openMobileModal} from "../../services/actions/modal";
 import MobileConstructor from "../../components/mobile-constructor/mobile-constructor";
+import { v4 as uuidv4 } from "uuid";
 
 export const Constructor: FC = () => {
   const { ingredientsArray, ingredientsFailed, ingredientsRequest } = useSelectorHook((store) => store.ingredients);
@@ -69,7 +70,7 @@ export const Constructor: FC = () => {
     const type =
       (category === "Булки" && "bun") || (category === "Соусы" && "sauce") || (category === "Начинки" && "main");
 
-    const result = ingredients.map((e) => e.type === type && <IngredientItemMobile key={e._id} id={e._id} />);
+    const result = ingredients.map((e) => e.type === type && <IngredientItemMobile key={uuidv4()} id={e._id} />);
 
     return (
       <>

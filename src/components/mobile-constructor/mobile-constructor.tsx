@@ -26,7 +26,7 @@ const MobileConstructor = () => {
             <MobileConstructorElement text={constructorBun[0].name} image={constructorBun[0].image_mobile} price={constructorBun[0].price} pos="(верх)" />
           }
           {constructorIng.map((el, index) => {
-              return <MobileConstructorElement text={el.name} image={el.image_mobile} price={el.price} key={index}/>
+              return <MobileConstructorElement id={el.id} text={el.name} image={el.image_mobile} price={el.price} key={index}/>
           })}
           {constructorBun.length > 0 &&
             <MobileConstructorElement text={constructorBun[0].name} image={constructorBun[0].image_mobile} price={constructorBun[0].price} pos="(низ)"/>
