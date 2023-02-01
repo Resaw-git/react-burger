@@ -52,3 +52,10 @@ export const addIngredient = (item: IIngredient, dispatch: AppDispatch) => {
         item: item
     })
 };
+
+export const deleteIng = (id: string | undefined, dispatch: AppDispatch) => {
+    dispatch({
+        type: DELETE_INGREDIENT,
+        id: id,
+    });
+}

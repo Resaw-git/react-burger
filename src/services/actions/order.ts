@@ -4,11 +4,10 @@ import { RESET_INGREDIENTS } from "./constructor";
 import { getCookie } from "../cookies";
 import { AppDispatch, AppThunk } from "../reducers/store";
 
-export const GET_ORDER_REQUEST: "GET_ORDER_REQUEST" = "GET_ORDER_REQUEST";
-export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";
-export const GET_ORDER_FAILED: "GET_ORDER_FAILED" = "GET_ORDER_FAILED";
-export const RESET_ORDER: "RESET_ORDER" = "RESET_ORDER";
-export const SET_USER_SUCCESS: "SET_USER_SUCCESS" = "SET_USER_SUCCESS";
+export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST" as const;
+export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS" as const;
+export const GET_ORDER_FAILED = "GET_ORDER_FAILED" as const;
+export const RESET_ORDER = "RESET_ORDER" as const;
 
 export interface IGetOrderRequestAction {
   readonly type: typeof GET_ORDER_REQUEST;
@@ -27,17 +26,11 @@ export interface IResetOrderAction {
   readonly type: typeof RESET_ORDER;
 }
 
-export interface ISetUserSuccessAction {
-  readonly type: typeof SET_USER_SUCCESS;
-  userAccess: boolean;
-}
-
 export type TOrderActions =
   | IGetOrderRequestAction
   | IGetOrderSuccessAction
   | IGetOrderFailedAction
-  | IResetOrderAction
-  | ISetUserSuccessAction;
+  | IResetOrderAction;
 
 export const fetchOrder = (data: string[]): AppThunk =>
   (dispatch: AppDispatch) => {

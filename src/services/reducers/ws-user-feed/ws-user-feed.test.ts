@@ -8,9 +8,10 @@ import {
 import {initialState, wsUserFeedReducer} from "./ws-user-feed";
 import {testFeed} from "../../../utils/test-data";
 
+
 describe("Check user feed reducer", () => {
     test("Should return initial state", () => {
-        expect(wsUserFeedReducer(undefined, {} as any)).toEqual(initialState)
+        expect(wsUserFeedReducer(undefined, {} as any )).toEqual(initialState)
     })
 
     test("Should return state of connect", () => {

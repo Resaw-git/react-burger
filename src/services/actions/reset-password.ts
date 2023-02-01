@@ -1,15 +1,15 @@
-import {PASSWORD_URL, RESET_URL} from "../api";
+import{ PASSWORD_URL, RESET_URL} from "../api";
 import { checkResponse } from "../check-response";
 import {IForm} from "../../utils/types";
 import {AppDispatch, AppThunk} from "../reducers/store";
 
-export const SEND_EMAIL_REQUEST: "SEND_EMAIL_REQUEST" = "SEND_EMAIL_REQUEST";
-export const SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS" = "SEND_EMAIL_SUCCESS";
-export const SEND_EMAIL_FAILED: "SEND_EMAIL_FAILED" = "SEND_EMAIL_FAILED";
+export const SEND_EMAIL_REQUEST = "SEND_EMAIL_REQUEST" as const;
+export const SEND_EMAIL_SUCCESS = "SEND_EMAIL_SUCCESS" as const;
+export const SEND_EMAIL_FAILED = "SEND_EMAIL_FAILED" as const;
 
-export const RESET_PASSWORD_REQUEST: "RESET_PASSWORD_REQUEST" = "RESET_PASSWORD_REQUEST";
-export const RESET_PASSWORD_SUCCESS: "RESET_PASSWORD_SUCCESS" = "RESET_PASSWORD_SUCCESS";
-export const RESET_PASSWORD_FAILED: "RESET_PASSWORD_FAILED" = "RESET_PASSWORD_FAILED";
+export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST" as const;
+export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS" as const;
+export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED" as const;
 
 
 export interface ISendEmailRequestAction {

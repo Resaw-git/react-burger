@@ -1,7 +1,7 @@
 import React, { FC, TouchEvent, useEffect, useState } from "react";
 import styles from "./mobile-constructor-element.module.css";
 import { CurrencyIcon, DeleteIcon, DragIcon } from "../shared";
-import { DELETE_INGREDIENT } from "../../services/actions/constructor";
+import {deleteIng} from "../../services/actions/constructor";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 
 interface IComponentProps {
@@ -47,38 +47,31 @@ const MobileConstructorElement: FC<IComponentProps> = ({ id, text, image, price,
     if (touchParams.moveX === null || touchParams.startX === null || touchParams.endX === null) return;
     const diff = touchParams.moveX - touchParams.startX;
     if (diff < 200 && diff > -200) {
-      setTouchParams({...touchParams, position: touchParams.moveX - touchParams.startX})
+      setTouchParams({ ...touchParams, position: diff });
     }
   }, [touchParams.moveX]);
 
   useEffect(() => {
-    if (touchParams.endX === null || touchParams.startX === null) return;
+    if (touchParams.endX === null || touchParams.startX === null || touchParams.touched) return;
 
-    if (!touchParams.touched) {
-      setTimeout(() => {
-        if (touchParams.position === -144) {
-          return;
-        }
-        if (touchParams.position > 0) {
-          setTouchParams({...touchParams, position: touchParams.position - 1})
-        }
-        if (touchParams.position < 0) {
-          setTouchParams({...touchParams, position: touchParams.position + 1})
-        }
-      }, 1);
-    }
+    setTimeout(() => {
+      if (touchParams.position === -144) return;
+      if (touchParams.position > 0) {
+        setTouchParams({ ...touchParams, position: touchParams.position - 1 });
+      }
+      if (touchParams.position < 0) {
+        setTouchParams({ ...touchParams, position: touchParams.position + 1 });
+      }
+    }, 1);
   }, [touchParams.position, touchParams.touched]);
 
   useEffect(() => {
-    setTouchParams({...touchParams, position: 0})
+    setTouchParams({ ...touchParams, position: 0 });
   }, [constructorIng]);
 
-  const deleteIng = () => {
-    dispatch({
-      type: DELETE_INGREDIENT,
-      id: id,
-    });
-  };
+  const deleteItem = () => {
+    deleteIng(id, dispatch)
+  }
 
   return (
     <div
@@ -86,10 +79,6 @@ const MobileConstructorElement: FC<IComponentProps> = ({ id, text, image, price,
       onTouchStart={!pos ? touchStart : undefined}
       onTouchMove={!pos ? touchMove : undefined}
       onTouchEnd={!pos ? touchEnd : undefined}
-      // doesn't work with mobile
-      // onMouseDown={!pos ? mouseStart : undefined}
-      // onMouseMove={!pos ? mouseMove : undefined}
-      // onMouseUp={!pos ? mouseEnd : undefined}
     >
       <div className={styles.item} style={{ left: touchParams.position }}>
         <div className={styles.dots}>
@@ -105,7 +94,7 @@ const MobileConstructorElement: FC<IComponentProps> = ({ id, text, image, price,
             <CurrencyIcon type="primary" />
           </span>
         </div>
-        <div className={styles.delete_box} onClick={deleteIng}>
+        <div className={styles.delete_box} onClick={deleteItem}>
           <DeleteIcon type="primary" />
         </div>
       </div>

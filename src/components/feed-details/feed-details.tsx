@@ -13,6 +13,7 @@ import {
   connectWsUserFeed,
   disconnectWsUserFeed,
 } from "../../services/actions/ws-user-feed";
+import { v4 as uuidv4 } from "uuid";
 
 interface IComponentProps {
   bg?: string | unknown;
@@ -50,7 +51,7 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
   }, [dispatch, bg, path]);
 
   useEffect(() => {
-    setOrder(data?.orders.find((el) => el.number.toString() === id));
+    setOrder(data.orders.find((el) => el.number.toString() === id));
   }, [data]);
 
   useEffect(() => {
@@ -62,25 +63,29 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
           ) as IIngredient
       );
 
-      const sortedItems = items.sort((a: IIngredient, b: IIngredient) =>
+      const sortItems = items.sort((a: IIngredient, b: IIngredient) =>
         a._id > b._id ? 1 : a._id < b._id ? -1 : 0
       );
 
-      sortedItems.forEach((elem: IIngredient) => {
-        elem.type === "bun" ? (elem.count = 2) : (elem.count = 1);
-        return elem;
-      });
+      const setCountBun = () => {
+        return sortItems.forEach((elem: IIngredient) => {
+            elem.type === "bun" ? (elem.count = 2) : (elem.count = 1);
+            return elem;
+          });
+      }
 
-      sortedItems.forEach(
-        (elem: IIngredient, index: number, self: IIngredient[]) => {
-          if (self[index + 1] === elem) {
-            elem.count = elem.count + 1;
+      const setCountIngredients = () => {
+        return sortItems.forEach(
+          (elem: IIngredient, index: number, self: IIngredient[]) => {
+            if (self[index + 1] === elem) {
+              elem.count = elem.count + 1;
+            }
+            return elem;
           }
-          return elem;
-        }
-      );
+        );
+      }
 
-      const unique = sortedItems.filter(
+      const unique = sortItems.filter(
         (elem: IIngredient, index: number, self: IIngredient[]) =>
           index === self.indexOf(elem)
       );
@@ -92,7 +97,7 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
   const renderItem = () => {
     return ingredients?.map((el) => {
       return (
-        <div className={styles.item_info} key={el?._id}>
+        <div className={styles.item_info} key={uuidv4()}>
           <div className={styles.item_description}>
             <div className={styles.small_img}>
               <img
@@ -107,7 +112,7 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
           </div>
 
           <div className={styles.price}>
-            {`${el.count} x ${el.price}`}
+            {`${1} x ${2}`}
             <div className="mr-2" />
             <CurrencyIcon type="primary" />
           </div>
@@ -117,6 +122,7 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
   };
 
   const getTotalSum = (ingredients: IIngredient[]) => {
+    u
     return ingredients.reduce(
       (accum, current) => accum + current.price * current.count,
       0

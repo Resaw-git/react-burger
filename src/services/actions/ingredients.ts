@@ -2,9 +2,9 @@ import {INGREDIENTS_URL} from "../api";
 import { checkResponse } from "../check-response";
 import {IIngredient} from "../../utils/types";
 import {AppDispatch, AppThunk} from "../reducers/store";
-export const GET_INGREDIENTS_REQUEST: "GET_INGREDIENTS_REQUEST" = "GET_INGREDIENTS_REQUEST";
-export const GET_INGREDIENTS_SUCCESS: "GET_INGREDIENTS_SUCCESS" = "GET_INGREDIENTS_SUCCESS";
-export const GET_INGREDIENTS_FAILED: "GET_INGREDIENTS_FAILED" = "GET_INGREDIENTS_FAILED";
+export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST" as const;
+export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS" as const;
+export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED" as const;
 
 export interface IGetIngredientsRequestAction {
   readonly type: typeof GET_INGREDIENTS_REQUEST
@@ -18,6 +18,7 @@ export interface IGetIngredientsSuccessAction {
 export interface IGetIngredientsFailed {
   readonly type: typeof GET_INGREDIENTS_FAILED
 }
+
 
 export type TIngredientsActions =
   | IGetIngredientsRequestAction

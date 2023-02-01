@@ -1,6 +1,6 @@
 import {ingredientsReducer, initialState} from "./ingredients";
 import {GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS} from "../../actions/ingredients";
-import { testIngredient } from "../../../utils/test-data"
+import { testIngredient } from "../../../utils/test-data";
 
 describe("Check ingredients reducer", () => {
     test("Should return initial state", () => {

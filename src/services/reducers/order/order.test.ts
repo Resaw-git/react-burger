@@ -1,5 +1,7 @@
-import {GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, RESET_ORDER, SET_USER_SUCCESS} from "../../actions/order";
+import {GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, RESET_ORDER} from "../../actions/order";
 import {initialState, orderReducer} from "./order";
+import {describe, expect, test} from '@jest/globals';
+
 
 describe("Check order reducer", () => {
   test("Should return initial state", () => {
@@ -46,18 +48,6 @@ describe("Check order reducer", () => {
       orderSuccess: false,
       orderFailed: false,
       orderNumber: "",
-    });
-  });
-
-  test("Should return user access state", () => {
-    expect(
-      orderReducer(
-        { ...initialState},
-        { type: SET_USER_SUCCESS, userAccess: true }
-      )
-    ).toEqual({
-      ...initialState,
-      userAccess: true
     });
   });
 });

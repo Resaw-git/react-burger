@@ -6,8 +6,7 @@ import {
   refreshToken,
   userLogout,
 } from "../services/actions/user";
-import { NavLink, useHistory } from "react-router-dom";
-import { SET_USER_SUCCESS } from "../services/actions/order";
+import { NavLink } from "react-router-dom";
 import { OrderCard } from "../components/order-card/order-card";
 import {
   connectWsUserFeed,
@@ -16,12 +15,10 @@ import {
 import { IOrder } from "../utils/types";
 
 export const Orders: FC = () => {
-  const history = useHistory();
   const dispatch = useDispatchHook();
   const { jwtExpired, jwtInvalid } = useSelectorHook((store) => store.user);
   const { data } = useSelectorHook((store) => store.userFeed);
   const [orders, setOrders] = useState<IOrder[]>([]);
-  const { userAccess } = useSelectorHook((store) => store.order);
 
   useEffect(() => {
     const sortByOrderNumber = data.orders.sort((a: IOrder, b: IOrder) =>
@@ -48,16 +45,8 @@ export const Orders: FC = () => {
   }, [dispatch]);
 
   const logout = () => {
-    dispatch(userLogout());
+    dispatch(userLogout(history));
   };
-
-  if (userAccess) {
-    dispatch({
-      type: SET_USER_SUCCESS,
-      userAccess: false,
-    });
-    history.push("/");
-  }
 
   return (
     <main className={styles.main}>

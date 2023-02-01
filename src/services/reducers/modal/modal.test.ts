@@ -1,5 +1,6 @@
 import {initialState, modalReducer} from "./modal";
 import {MODAL_CLOSE, MODAL_OPEN} from "../../actions/modal";
+import {describe, expect, test} from '@jest/globals';
 
 describe("Check modal reducer", () => {
   test("Should return initial state", () => {

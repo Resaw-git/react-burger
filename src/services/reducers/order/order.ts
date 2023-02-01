@@ -1,7 +1,7 @@
 import {
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED, RESET_ORDER, SET_USER_SUCCESS, TOrderActions
+  GET_ORDER_FAILED, RESET_ORDER, TOrderActions
 } from "../../actions/order";
 
 type TInitialState = {
@@ -53,12 +53,6 @@ export const orderReducer = (state: TInitialState = initialState, action: TOrder
         orderFailed: false,
         orderNumber: "",
       };
-    }
-    case SET_USER_SUCCESS: {
-      return {
-        ...state,
-        userAccess: action.userAccess
-      }
     }
     default: {
       return state;

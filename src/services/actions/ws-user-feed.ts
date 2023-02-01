@@ -3,13 +3,11 @@ import { USER_ORDERS_WS_URL } from "../api";
 import { getCookie } from "../cookies";
 import { AppDispatch } from "../reducers/store";
 
-export const WS_USER_FEED_CONNECT: "WS_USER_FEED_CONNECT" =
-  "WS_USER_FEED_CONNECT";
-export const WS_USER_FEED_OPEN: "WS_USER_FEED_OPEN" = "WS_USER_FEED_OPEN";
-export const WS_USER_FEED_CLOSE: "WS_USER_FEED_CLOSE" = "WS_USER_FEED_CLOSE";
-export const WS_USER_FEED_MESSAGE: "WS_USER_FEED_MESSAGE" =
-  "WS_USER_FEED_MESSAGE";
-export const WS_USER_FEED_ERROR: "WS_USER_FEED_ERROR" = "WS_USER_FEED_ERROR";
+export const WS_USER_FEED_CONNECT = "WS_USER_FEED_CONNECT" as const;
+export const WS_USER_FEED_OPEN = "WS_USER_FEED_OPEN" as const;
+export const WS_USER_FEED_CLOSE = "WS_USER_FEED_CLOSE" as const;
+export const WS_USER_FEED_MESSAGE = "WS_USER_FEED_MESSAGE" as const;
+export const WS_USER_FEED_ERROR = "WS_USER_FEED_ERROR" as const;
 
 interface IConnect {
   readonly type: typeof WS_USER_FEED_CONNECT;
@@ -34,12 +32,7 @@ interface IWsError {
   payload: string;
 }
 
-export type TUserFeedActions =
-  | IConnect
-  | IWsOpen
-  | IWsClose
-  | IWsMessage
-  | IWsError;
+export type TUserFeedActions = IConnect | IWsOpen | IWsClose | IWsMessage | IWsError;
 
 export const connectWsUserFeed = (dispatch: AppDispatch) => {
   const token = getCookie("accessToken");

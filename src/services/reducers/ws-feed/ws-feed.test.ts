@@ -1,6 +1,7 @@
 import {WS_FEED_CLOSE, WS_FEED_CONNECT, WS_FEED_ERROR, WS_FEED_MESSAGE, WS_FEED_OPEN,} from "../../actions/ws-feed";
 import {initialState, wsFeedReducer} from "./ws-feed";
 import {testFeed} from "../../../utils/test-data";
+import {describe, expect, test} from '@jest/globals';
 
 describe("Check feed reducer", () => {
   test("Should return initial state", () => {

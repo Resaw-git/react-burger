@@ -1,5 +1,6 @@
 import {initialState, loginReducer} from "./login";
 import {GET_LOGIN_FAILED, GET_LOGIN_REQUEST, GET_LOGIN_SUCCESS} from "../../actions/login";
+import {describe, expect, test} from '@jest/globals';
 
 describe("Check login reducer", () => {
     test("Should return initial state", () => {

@@ -4,9 +4,9 @@ import { setCookie } from "../cookies";
 import { AppDispatch, AppThunk } from "../reducers/store";
 import { IForm } from "../../utils/types";
 
-export const GET_LOGIN_REQUEST: "GET_LOGIN_REQUEST" = "GET_LOGIN_REQUEST";
-export const GET_LOGIN_SUCCESS: "GET_LOGIN_SUCCESS" = "GET_LOGIN_SUCCESS";
-export const GET_LOGIN_FAILED: "GET_LOGIN_FAILED" = "GET_LOGIN_FAILED";
+export const GET_LOGIN_REQUEST = "GET_LOGIN_REQUEST" as const;
+export const GET_LOGIN_SUCCESS = "GET_LOGIN_SUCCESS" as const;
+export const GET_LOGIN_FAILED = "GET_LOGIN_FAILED" as const;
 
 export interface IGetLoginRequestAction {
   readonly type: typeof GET_LOGIN_REQUEST;

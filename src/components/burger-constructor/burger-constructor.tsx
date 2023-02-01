@@ -7,7 +7,7 @@ import ConstructorItem from "../constructor-item/constructor-item";
 import styles from "./burger-constructor.module.css";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
-import { fetchOrder, SET_USER_SUCCESS } from "../../services/actions/order";
+import { fetchOrder } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
@@ -53,10 +53,6 @@ const BurgerConstructor: FC = () => {
 
   const openOrderModal = () => {
     if (!loginSuccess) {
-      dispatch({
-        type: SET_USER_SUCCESS,
-        userAccess: true,
-      });
       history.push("/login");
     } else {
       dispatch({

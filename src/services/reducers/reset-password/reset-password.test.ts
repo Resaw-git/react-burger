@@ -7,6 +7,7 @@ import {
   SEND_EMAIL_SUCCESS,
 } from "../../actions/reset-password";
 import {initialState, passwordReducer} from "./reset-password";
+import {describe, expect, test} from '@jest/globals';
 
 describe("Check password reducer", () => {
   test("Should return initial state", () => {

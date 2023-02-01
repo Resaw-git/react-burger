@@ -13,11 +13,12 @@ import {
   refreshToken,
   userLogout,
 } from "../services/actions/user";
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {useForm} from "../hooks/use-form";
 
 
 export const Profile: FC = () => {
+  const history = useHistory();
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatchHook();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
@@ -58,7 +59,7 @@ export const Profile: FC = () => {
   };
 
   const logout = () => {
-    dispatch(userLogout());
+    dispatch(userLogout(history));
   };
 
   return (

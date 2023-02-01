@@ -4,15 +4,15 @@ import { deleteCookie, getCookie, setCookie } from "../cookies";
 import {IForm} from "../../utils/types";
 import {AppDispatch, AppThunk} from "../reducers/store";
 
-export const GET_USER_REQUEST: "GET_LOGIN_REQUEST" = "GET_LOGIN_REQUEST";
-export const GET_USER_SUCCESS: "GET_LOGIN_SUCCESS" = "GET_LOGIN_SUCCESS";
-export const GET_USER_FAILED: "GET_LOGIN_FAILED" = "GET_LOGIN_FAILED";
+export const GET_USER_REQUEST = "GET_LOGIN_REQUEST" as const;
+export const GET_USER_SUCCESS = "GET_LOGIN_SUCCESS" as const;
+export const GET_USER_FAILED = "GET_LOGIN_FAILED" as const;
 
-export const EDIT_USER_SUCCESS: "EDIT_USER_SUCCESS" = "EDIT_USER_SUCCESS";
-export const HIDE_EDIT_MESSAGE: "HIDE_EDIT_MESSAGE" = "HIDE_EDIT_MESSAGE";
+export const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS" as const;
+export const HIDE_EDIT_MESSAGE = "HIDE_EDIT_MESSAGE" as const;
 
-export const JWT_EXPIRED: "JWT_EXPIRED" = "JWT_EXPIRED";
-export const JWT_INVALID: "JWT_INVALID" = "JWT_INVALID";
+export const JWT_EXPIRED = "JWT_EXPIRED" as const;
+export const JWT_INVALID = "JWT_INVALID" as const;
 
 
 export interface IGetUserRequestAction {
@@ -110,7 +110,7 @@ export const refreshToken = (): AppThunk =>
       });
 };
 
-export const userLogout = (): AppThunk =>
+export const userLogout = (history: any): AppThunk =>
   (dispatch: AppDispatch) => {
     fetch(`${LOGOUT_URL}`, {
       method: "POST",
@@ -126,14 +126,13 @@ export const userLogout = (): AppThunk =>
         .then((res) => {
           if (res && res.success) {
             deleteCookie("accessToken");
-            dispatch(getUserData())
+            history.push("/login")
           }
         })
         .catch((error) => {
           dispatch({
             type: GET_USER_FAILED,
           });
-          console.log(error);
         });
 };
 

@@ -2,11 +2,11 @@ import { IFeed } from "../../utils/types";
 import { ALL_ORDERS_WS_URL } from "../api";
 import { AppDispatch } from "../reducers/store";
 
-export const WS_FEED_CONNECT: "WS_FEED_CONNECT" = "WS_FEED_CONNECT";
-export const WS_FEED_OPEN: "WS_FEED_OPEN" = "WS_FEED_OPEN";
-export const WS_FEED_CLOSE: "WS_FEED_CLOSE" = "WS_FEED_CLOSE";
-export const WS_FEED_MESSAGE: "WS_FEED_MESSAGE" = "WS_FEED_MESSAGE";
-export const WS_FEED_ERROR: "WS_FEED_ERROR" = "WS_FEED_ERROR";
+export const WS_FEED_CONNECT = "WS_FEED_CONNECT" as const;
+export const WS_FEED_OPEN = "WS_FEED_OPEN" as const;
+export const WS_FEED_CLOSE = "WS_FEED_CLOSE" as const;
+export const WS_FEED_MESSAGE = "WS_FEED_MESSAGE" as const;
+export const WS_FEED_ERROR = "WS_FEED_ERROR" as const;
 
 interface IConnect {
   readonly type: typeof WS_FEED_CONNECT;

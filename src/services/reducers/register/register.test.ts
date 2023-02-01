@@ -1,5 +1,6 @@
 import {GET_REGISTER_FAILED, GET_REGISTER_REQUEST, GET_REGISTER_SUCCESS} from "../../actions/register";
 import {initialState, registerReducer} from "./register";
+import {describe, expect, test} from '@jest/globals';
 
 describe("Check register reducer", () => {
   test("Should return initial state", () => {

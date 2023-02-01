@@ -4,13 +4,13 @@ import {
   GET_INGREDIENTS_FAILED,
   TIngredientsActions,
 } from "../../actions/ingredients";
-import {IIngredient} from "../../../utils/types";
+import { IIngredient } from "../../../utils/types";
 
 type TInitialState = {
   ingredientsArray: IIngredient[];
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
-}
+};
 
 export const initialState = {
   ingredientsArray: [],

@@ -1,12 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./mobile-constructor.module.css";
 import { Button, CurrencyIcon } from "../shared";
-import { useSelectorHook } from "../../hooks/redux";
+import {useDispatchHook, useSelectorHook} from "../../hooks/redux";
 import { IIngredient } from "../../utils/types";
 import MobileConstructorElement from "../mobile-constructor-element/mobile-constructor-element";
+import MobileModal from "../mobile-modal/mobile-modal";
+import {closeMobileModal} from "../../services/actions/modal";
+import MobileOrderDetails from "../mobile-order-details/mobile-order-details";
 
 const MobileConstructor = () => {
   const { constructorIng, constructorBun } = useSelectorHook((store) => store.constructorList);
+  const [openOrder, setOpenOrder] = useState(false);
+  const dispatch = useDispatchHook();
+
+    const closeModal = () => {
+        closeMobileModal(dispatch)
+    }
 
   const getTotalSum = (ingredients: IIngredient[], bun: IIngredient[]) => {
     const arr = [...ingredients, ...bun];
@@ -37,10 +46,20 @@ const MobileConstructor = () => {
           {getTotalSum(constructorIng, constructorBun)}
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" size={"small"} disabled={constructorBun.length === 0 && constructorIng.length === 0}>
+        <Button
+            htmlType="button"
+            size={"small"}
+            disabled={constructorBun.length === 0}
+            onClick={()=> { setOpenOrder(true)}}
+        >
           Заказать
         </Button>
       </div>
+        {openOrder &&
+            <MobileModal onClose={closeModal}>
+                <MobileOrderDetails />
+            </MobileModal>
+        }
     </div>
   );
 };

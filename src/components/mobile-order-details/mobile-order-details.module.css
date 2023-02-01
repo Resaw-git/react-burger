@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    align-items: center;
+    padding: 16px 8px 0 8px;
+    height: 100vh;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    font-family: 'Jet Brains Mono', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 32px;
+    margin-bottom: 64px;
+}
+
+.number {
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 80px;
+    text-shadow: 0 0 16px rgba(51, 51, 255, 0.25),
+    0 0 8px rgba(51, 51, 255, 0.25),
+    0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.mark_icon {
+    background: url("../../assets/images/done.png");
+    width: 120px;
+    height: 120px;
+    margin-top: 60px;
+}

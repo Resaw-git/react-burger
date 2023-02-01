@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./mobile-menu.module.css";
 import ReactDOM from "react-dom";
-import { NavLink, useLocation } from "react-router-dom";
+import {NavLink, useHistory, useLocation} from "react-router-dom";
 import { BurgerIcon, CloseIcon, ListIcon, ProfileIcon } from "../shared";
 import { ILocation } from "../../utils/types";
 import { isActiveText } from "../../lib/active-text";
@@ -13,6 +13,7 @@ interface IComponentProps {
 }
 
 const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
+  const history = useHistory();
   const [subMenu, setSubMenu] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatchHook();
@@ -22,7 +23,7 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
   };
 
   const logout = () => {
-    dispatch(userLogout());
+    dispatch(userLogout(history));
     onClose();
   };
 
