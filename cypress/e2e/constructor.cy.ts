@@ -1,5 +1,3 @@
-import * as cypress from "cypress";
-
 describe('Check constructor page', () => {
   const email = 'resavv@mail.ru';
   const password = '123';

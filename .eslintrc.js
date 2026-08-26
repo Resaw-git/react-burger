@@ -3,7 +3,11 @@ module.exports = {
     // By extending from a plugin config, we can get recommended rules without having to add them manually.
     "eslint:recommended",
     "plugin:react/recommended",
+    // React 17+ automatic JSX runtime: no need to import React in every file.
+    "plugin:react/jsx-runtime",
     "plugin:import/recommended",
+    // Teaches eslint-plugin-import to understand TypeScript files and type-only exports.
+    "plugin:import/typescript",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     // This disables the formatting rules in ESLint that Prettier is going to be responsible for handling.
@@ -28,5 +32,19 @@ module.exports = {
     "no-useless-computed-key": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
+    // TypeScript already checks prop types, so the React runtime propTypes rule is redundant.
+    "react/prop-types": "off",
+    // These rules became errors in @typescript-eslint v8; keep them as warnings like before.
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-expressions": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    // eslint-plugin-import cannot statically validate dynamic keys of a namespace import.
+    "import/namespace": ["error", { allowComputed: true }],
   },
+  overrides: [
+    {
+      files: ["cypress/**/*.ts"],
+      extends: ["plugin:cypress/recommended"],
+    },
+  ],
 };
