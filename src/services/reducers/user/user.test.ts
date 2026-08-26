@@ -8,7 +8,6 @@ import {
     JWT_INVALID,
 } from "../../actions/user";
 import {initialState, userReducer} from "./user";
-import {describe, expect, test} from '@jest/globals';
 
 describe("Check password reducer", () => {
   test("Should return initial state", () => {

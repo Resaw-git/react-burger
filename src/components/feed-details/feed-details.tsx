@@ -122,7 +122,6 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
   };
 
   const getTotalSum = (ingredients: IIngredient[]) => {
-    u
     return ingredients.reduce(
       (accum, current) => accum + current.price * current.count,
       0

@@ -1,6 +1,5 @@
 import {GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, RESET_ORDER} from "../../actions/order";
 import {initialState, orderReducer} from "./order";
-import {describe, expect, test} from '@jest/globals';
 
 
 describe("Check order reducer", () => {
