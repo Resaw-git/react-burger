@@ -5,15 +5,11 @@ import { useParams } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
 
 interface IComponentProps {
-  bg?: string | unknown
-}
-
-interface IParams {
-  id: string;
+  bg?: boolean
 }
 
 const IngredientDetails: FC<IComponentProps> = ({ bg }) => {
-  const { id }: IParams = useParams();
+  const { id } = useParams<{ id: string }>();
   const [data, setData] = React.useState<IIngredient>();
   const { ingredientsArray } = useSelectorHook((store) => store.ingredients);
 

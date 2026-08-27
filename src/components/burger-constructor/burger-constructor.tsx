@@ -11,11 +11,11 @@ import { fetchOrder } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/constructor";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
 
 const BurgerConstructor: FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatchHook();
 
   const { constructorIng, constructorBun } = useSelectorHook(
@@ -53,7 +53,7 @@ const BurgerConstructor: FC = () => {
 
   const openOrderModal = () => {
     if (!loginSuccess) {
-      history.push("/login");
+      navigate("/login");
     } else {
       dispatch({
         type: MODAL_OPEN,

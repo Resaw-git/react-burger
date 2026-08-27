@@ -6,7 +6,7 @@ import {
   refreshToken,
   userLogout,
 } from "../services/actions/user";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { OrderCard } from "../components/order-card/order-card";
 import {
   connectWsUserFeed,
@@ -16,6 +16,7 @@ import { IOrder } from "../utils/types";
 
 export const Orders: FC = () => {
   const dispatch = useDispatchHook();
+  const navigate = useNavigate();
   const { jwtExpired, jwtInvalid } = useSelectorHook((store) => store.user);
   const { data } = useSelectorHook((store) => store.userFeed);
   const [orders, setOrders] = useState<IOrder[]>([]);
@@ -45,7 +46,7 @@ export const Orders: FC = () => {
   }, [dispatch]);
 
   const logout = () => {
-    dispatch(userLogout(history));
+    dispatch(userLogout(navigate));
   };
 
   return (
@@ -54,17 +55,15 @@ export const Orders: FC = () => {
         <div className={styles.box}>
           <NavLink
             to="/profile"
-            exact={true}
-            className={styles.link}
-            activeClassName={styles.link_active}
+            end
+            className={({ isActive }) => styles.link + (isActive ? " " + styles.link_active : "")}
           >
             <p className="text text_type_main-medium">Профиль</p>
           </NavLink>
           <NavLink
             to="/profile/orders"
-            exact={true}
-            className={styles.link}
-            activeClassName={styles.link_active}
+            end
+            className={({ isActive }) => styles.link + (isActive ? " " + styles.link_active : "")}
           >
             <p className="text text_type_main-medium">История заказов</p>
           </NavLink>

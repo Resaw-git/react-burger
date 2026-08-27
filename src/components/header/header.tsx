@@ -3,13 +3,12 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "../shared";
 import desktop from "./header.desktop.module.css";
 import mobile from "./header.mobile.module.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { ILocation } from "../../utils/types";
 import { isActiveText } from "../../lib/active-text";
 import { openMobileMenu } from "../../services/actions/modal";
 import { useDispatchHook } from "../../hooks/redux";
 
 const Header: FC = () => {
-  const location = useLocation<ILocation>();
+  const location = useLocation();
   const [width, setWidth] = useState(window.innerWidth);
   const dispatch = useDispatchHook();
 
@@ -30,9 +29,12 @@ const Header: FC = () => {
           <div className={desktop.leftside}>
             <NavLink
               to="/"
-              exact={true}
-              className={desktop.element_leftside + " text_type_main-default text_color_inactive"}
-              activeClassName={desktop.active}
+              end
+              className={({ isActive }) =>
+                desktop.element_leftside +
+                " text_type_main-default text_color_inactive" +
+                (isActive ? " " + desktop.active : "")
+              }
             >
               <BurgerIcon type={isActiveText("/", location)} />
               <div className="pl-2" />
@@ -40,10 +42,11 @@ const Header: FC = () => {
             </NavLink>
             <NavLink
               to="/feed"
-              isActive={() => isActiveText("/feed", location) === "primary"}
-              className={desktop.element_leftside + " text_type_main-default text_color_inactive pl-2"}
-              exact={true}
-              activeClassName={desktop.active}
+              className={({ isActive }) =>
+                desktop.element_leftside +
+                " text_type_main-default text_color_inactive pl-2" +
+                (isActive || isActiveText("/feed", location) === "primary" ? " " + desktop.active : "")
+              }
             >
               <ListIcon type={isActiveText("/feed", location)} />
               <div className="pl-2" />
@@ -58,9 +61,11 @@ const Header: FC = () => {
           <div className={desktop.rightside}>
             <NavLink
               to="/profile"
-              isActive={() => isActiveText("/profile", location) === "primary"}
-              className={desktop.element + " text_type_main-default text_color_inactive"}
-              activeClassName={desktop.active}
+              className={({ isActive }) =>
+                desktop.element +
+                " text_type_main-default text_color_inactive" +
+                (isActive || isActiveText("/profile", location) === "primary" ? " " + desktop.active : "")
+              }
             >
               <ProfileIcon type={isActiveText("/profile", location)} />
               <div className="pl-2" />

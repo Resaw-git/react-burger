@@ -1,5 +1,5 @@
 import React, { useEffect, FC} from "react";
-import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Header from "../header/header";
 import { Constructor, Login, Register, ForgotPassword, ResetPassword, NotFound404, Profile, Feed } from "../../pages";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
@@ -9,22 +9,22 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import { fetchIngredients } from "../../services/actions/ingredients";
-import { ILocation } from "../../utils/types";
+import { ILocationState } from "../../utils/types";
 import { FeedDetails } from "../feed-details/feed-details";
 import { Orders } from "../../pages/orders";
 import MobileMenu from "../mobile-menu/mobile-menu";
 
 const App: FC = () => {
-  const history = useHistory();
-  const location = useLocation<ILocation>();
-  const background = location.state && location.state.background;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const background = (location.state as ILocationState | null)?.background;
   const { modalOpen, mobileMenu } = useSelectorHook((store) => store.modal);
   const dispatch = useDispatchHook();
 
 
   const modalClose = () => {
     closeModal(dispatch);
-    history.goBack();
+    navigate(-1);
   };
 
   const modalCloseOrd = () => {
@@ -45,76 +45,90 @@ const App: FC = () => {
       {mobileMenu &&
           (<MobileMenu onClose={mobileClose}/>)
       }
-      <Switch>
-        <Route path="/" exact={true}>
-          <Constructor />
-          {modalOpen && (
-            <Modal onClose={modalCloseOrd}>
-              <OrderDetails />
-            </Modal>
-          )}
-        </Route>
-        <Route path="/login" exact={true}>
-          <Login />
-        </Route>
-        <Route path="/feed" exact={true}>
-          <Feed />
-        </Route>
-        <Route path="/feed/:id" exact={true}>
-          {background ? (
-            <>
-              <Feed />
-              <Modal onClose={modalClose}>
-                <FeedDetails bg={background} path={location.pathname} />
-              </Modal>
-            </>
-          ) : (
-            <FeedDetails bg={background} path={location.pathname} />
-          )}
-        </Route>
-        <Route path="/register" exact={true}>
-          <Register />
-        </Route>
-        <Route path="/forgot-password" exact={true}>
-          <ForgotPassword />
-        </Route>
-        <Route path="/reset-password" exact={true}>
-          <ResetPassword />
-        </Route>
-        <Route path="/ingredients/:id" exact={true}>
-          {background ? (
+      <Routes location={background || location}>
+        <Route
+          path="/"
+          element={
             <>
               <Constructor />
-              <Modal onClose={modalClose}>
-                <IngredientDetails bg={background} />
-              </Modal>
+              {modalOpen && (
+                <Modal onClose={modalCloseOrd}>
+                  <OrderDetails />
+                </Modal>
+              )}
             </>
-          ) : (
-            <IngredientDetails bg={background} />
-          )}
-        </Route>
-        <ProtectedRoute path="/profile" exact={true}>
-          <Profile />
-        </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders" exact={true}>
-          <Orders />
-        </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders/:id" exact={true}>
-          {background ? (
-            <>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<FeedDetails path={location.pathname} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/orders"
+          element={
+            <ProtectedRoute>
               <Orders />
-              <Modal onClose={modalClose}>
-                <FeedDetails bg={background} path={location.pathname} />
-              </Modal>
-            </>
-          ) : (
-            <FeedDetails bg={background} path={location.pathname} />
-          )}
-        </ProtectedRoute>
-        <Route>
-          <NotFound404 />
-        </Route>
-      </Switch>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/orders/:id"
+          element={
+            <ProtectedRoute>
+              <FeedDetails path={location.pathname} />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<NotFound404 />} />
+      </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path="/feed/:id"
+            element={
+              <>
+                <Feed />
+                <Modal onClose={modalClose}>
+                  <FeedDetails bg={true} path={location.pathname} />
+                </Modal>
+              </>
+            }
+          />
+          <Route
+            path="/ingredients/:id"
+            element={
+              <>
+                <Constructor />
+                <Modal onClose={modalClose}>
+                  <IngredientDetails bg={true} />
+                </Modal>
+              </>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <>
+                <Orders />
+                <Modal onClose={modalClose}>
+                  <FeedDetails bg={true} path={location.pathname} />
+                </Modal>
+              </>
+            }
+          />
+        </Routes>
+      )}
     </>
   );
 };

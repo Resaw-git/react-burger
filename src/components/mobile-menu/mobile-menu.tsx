@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./mobile-menu.module.css";
 import ReactDOM from "react-dom";
-import {NavLink, useHistory, useLocation} from "react-router-dom";
+import {NavLink, useNavigate, useLocation} from "react-router-dom";
 import { BurgerIcon, CloseIcon, ListIcon, ProfileIcon } from "../shared";
-import { ILocation } from "../../utils/types";
 import { isActiveText } from "../../lib/active-text";
 import { userLogout } from "../../services/actions/user";
 import { useDispatchHook } from "../../hooks/redux";
@@ -13,7 +12,7 @@ interface IComponentProps {
 }
 
 const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [subMenu, setSubMenu] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatchHook();
@@ -23,11 +22,11 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
   };
 
   const logout = () => {
-    dispatch(userLogout(history));
+    dispatch(userLogout(navigate));
     onClose();
   };
 
-  const location = useLocation<ILocation>();
+  const location = useLocation();
   const escapeModal = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
       e.preventDefault();
@@ -79,18 +78,16 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
             <>
               <NavLink
                 to="/profile"
-                exact={true}
-                className={styles.submenu}
-                activeClassName={styles.active}
+                end
+                className={({ isActive }) => styles.submenu + (isActive ? " " + styles.active : "")}
                 onClick={onClose}
               >
                 Профиль
               </NavLink>
               <NavLink
                 to="/profile/orders"
-                exact={true}
-                className={styles.submenu}
-                activeClassName={styles.active}
+                end
+                className={({ isActive }) => styles.submenu + (isActive ? " " + styles.active : "")}
                 onClick={onClose}
               >
                 История заказов
@@ -102,9 +99,9 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
           )}
           <NavLink
             to="/"
-            className={styles.item}
-            isActive={() => isActiveText("/", location) === "primary"}
-            activeClassName={styles.active}
+            className={({ isActive }) =>
+              styles.item + (isActive || isActiveText("/", location) === "primary" ? " " + styles.active : "")
+            }
             onClick={onClose}
           >
             <BurgerIcon type={isActiveText("/", location)} />
@@ -113,9 +110,9 @@ const MobileMenu: FC<IComponentProps> = ({ onClose }) => {
           </NavLink>
           <NavLink
             to="/feed"
-            className={styles.item}
-            isActive={() => isActiveText("/feed", location) === "primary"}
-            activeClassName={styles.active}
+            className={({ isActive }) =>
+              styles.item + (isActive || isActiveText("/feed", location) === "primary" ? " " + styles.active : "")
+            }
             onClick={onClose}
           >
             <ListIcon type={isActiveText("/feed", location)} />

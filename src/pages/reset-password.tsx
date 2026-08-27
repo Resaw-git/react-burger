@@ -6,16 +6,16 @@ import {
 } from "../components/shared";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";
-import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import Loader from "../components/loader/loader";
 import { resetPassword } from "../services/actions/reset-password";
 import { useForm } from "../hooks/use-form";
-import {ILocation} from "../utils/types";
+import {ILocationState} from "../utils/types";
 
 export const ResetPassword = () => {
-  const history = useHistory();
   const dispatch = useDispatchHook();
-  const location = useLocation<ILocation>();
+  const location = useLocation();
+  const state = location.state as ILocationState | null;
   const [redirect, setRedirect] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { jwtExpired, jwtInvalid, userRequest, userSuccess, userFailed } =
@@ -41,16 +41,16 @@ export const ResetPassword = () => {
     }
   }, [dispatch, jwtExpired, jwtInvalid, resetSuccess]);
 
-  if (history.length === 1 || !sendSuccess) {
-    return <Redirect to="/forgot-password" />;
+  if (!sendSuccess) {
+    return <Navigate to="/forgot-password" replace />;
   }
 
   if (userSuccess) {
-    return <Redirect to={location.state?.from || "/"} />;
+    return <Navigate to={state?.from || "/"} replace />;
   }
 
   if (redirect) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   const onIconClick = () => {

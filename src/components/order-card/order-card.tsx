@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./order-card.module.css";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
-import { IIngredient, ILocation, IOrder } from "../../utils/types";
+import { IIngredient, IOrder } from "../../utils/types";
 import { CurrencyIcon } from "../shared";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { formatOrderData } from "../../lib/format-order-data";
 
@@ -12,8 +12,8 @@ interface IComponentProps {
 }
 
 export const OrderCard: FC<IComponentProps> = ({ item }) => {
-  const history = useHistory();
-  const location = useLocation<ILocation>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [data, setData] = useState<IIngredient[]>([]);
   const [totalSum, setTotalSum] = useState(0);
   const dispatch = useDispatchHook();
@@ -29,8 +29,8 @@ export const OrderCard: FC<IComponentProps> = ({ item }) => {
   }, [ingredientsArray]);
 
   const showDetails = () => {
-    history.push(`${location.pathname}/${item?.number}`, {
-      background: location,
+    navigate(`${location.pathname}/${item?.number}`, {
+      state: { background: location },
     });
     dispatch({
       type: MODAL_OPEN,

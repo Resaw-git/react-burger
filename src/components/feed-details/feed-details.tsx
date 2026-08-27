@@ -16,16 +16,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 interface IComponentProps {
-  bg?: string | unknown;
+  bg?: boolean;
   path: string;
 }
 
-interface IParams {
-  id: string;
-}
-
 export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
-  const { id }: IParams = useParams();
+  const { id } = useParams<{ id: string }>();
   const dispatch = useDispatchHook();
   const [order, setOrder] = useState<IOrder>();
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);

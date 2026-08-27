@@ -4,7 +4,7 @@ import {
   Input,
   Button,
 } from "../components/shared";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
@@ -41,11 +41,11 @@ export const ForgotPassword = () => {
   }, [dispatch, sendSuccess, jwtInvalid, jwtExpired]);
 
   if (userSuccess) {
-    return <Redirect to="/profile" />;
+    return <Navigate to="/profile" replace />;
   }
 
   if (redirect) {
-    return <Redirect to="/reset-password" />;
+    return <Navigate to="/reset-password" replace />;
   }
 
   const onIconClick = () => {

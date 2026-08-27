@@ -3,6 +3,7 @@ import { checkResponse } from "../check-response";
 import { deleteCookie, getCookie, setCookie } from "../cookies";
 import {IForm} from "../../utils/types";
 import {AppDispatch, AppThunk} from "../reducers/store";
+import { NavigateFunction } from "react-router-dom";
 
 export const GET_USER_REQUEST = "GET_LOGIN_REQUEST" as const;
 export const GET_USER_SUCCESS = "GET_LOGIN_SUCCESS" as const;
@@ -110,7 +111,7 @@ export const refreshToken = (): AppThunk =>
       });
 };
 
-export const userLogout = (history: any): AppThunk =>
+export const userLogout = (navigate: NavigateFunction): AppThunk =>
   (dispatch: AppDispatch) => {
     fetch(`${LOGOUT_URL}`, {
       method: "POST",
@@ -126,7 +127,7 @@ export const userLogout = (history: any): AppThunk =>
         .then((res) => {
           if (res && res.success) {
             deleteCookie("accessToken");
-            history.push("/login")
+            navigate("/login")
           }
         })
         .catch((error) => {

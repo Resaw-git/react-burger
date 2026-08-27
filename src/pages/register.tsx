@@ -1,6 +1,6 @@
 import React, {FormEvent, useEffect, useRef, useState} from "react";
 import styles from "./style.module.css";
-import {Link, Redirect, useLocation} from "react-router-dom";
+import {Link, Navigate, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,
@@ -11,10 +11,11 @@ import { registration } from "../services/actions/register";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
 import { useForm } from "../hooks/use-form";
-import {ILocation} from "../utils/types";
+import {ILocationState} from "../utils/types";
 
 export const Register = () => {
-  const location = useLocation<ILocation>()
+  const location = useLocation();
+  const state = location.state as ILocationState | null;
   const [redirect, setRedirect] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatchHook();
@@ -49,11 +50,11 @@ export const Register = () => {
   }
 
   if (userSuccess) {
-    return <Redirect to={location.state?.from || "/"} />;
+    return <Navigate to={state?.from || "/"} replace />;
   }
 
   if (redirect) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   const onIconClick = () => {

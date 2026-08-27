@@ -1,9 +1,8 @@
-import { Location } from "history";
-import { ILocation } from "../utils/types";
+import { Location } from "react-router-dom";
 
 export const isActiveText = (
   route: string,
-  location: Location<ILocation>
+  location: Location
 ): "primary" | "secondary" => {
   const reg = location.pathname.match(/^\/[a-z]*/);
   if (reg) {

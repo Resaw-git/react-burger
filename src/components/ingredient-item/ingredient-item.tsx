@@ -7,7 +7,7 @@ import styles from "./ingredient-item.module.css";
 import { useSelectorHook, useDispatchHook } from "../../hooks/redux";
 import { MODAL_OPEN } from "../../services/actions/modal";
 import { useDrag } from "react-dnd";
-import {useHistory, useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {IIngredient} from "../../utils/types";
 
 interface IComponentProps {
@@ -15,7 +15,7 @@ interface IComponentProps {
 }
 
 const IngredientItem: FC<IComponentProps> = ({ id}) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatchHook();
   const { ingredientsArray } = useSelectorHook((store) => store.ingredients);
@@ -24,7 +24,7 @@ const IngredientItem: FC<IComponentProps> = ({ id}) => {
   );
 
   const modal = () => {
-    history.push(`ingredients/${id}`, {background: location})
+    navigate(`ingredients/${id}`, { state: { background: location } })
     dispatch({
       type: MODAL_OPEN,
       isDetails: true,

@@ -13,12 +13,12 @@ import {
   refreshToken,
   userLogout,
 } from "../services/actions/user";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {useForm} from "../hooks/use-form";
 
 
 export const Profile: FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatchHook();
   const { userName, userEmail, jwtExpired, jwtInvalid, editSuccess } =
@@ -59,7 +59,7 @@ export const Profile: FC = () => {
   };
 
   const logout = () => {
-    dispatch(userLogout(history));
+    dispatch(userLogout(navigate));
   };
 
   return (
@@ -68,17 +68,15 @@ export const Profile: FC = () => {
         <div className={styles.box}>
           <NavLink
             to="/profile"
-            exact={true}
-            className={styles.link}
-            activeClassName={styles.link_active}
+            end
+            className={({ isActive }) => styles.link + (isActive ? " " + styles.link_active : "")}
           >
             <p className="text text_type_main-medium">Профиль</p>
           </NavLink>
           <NavLink
             to="/profile/orders"
-            exact={true}
-            className={styles.link}
-            activeClassName={styles.link_active}
+            end
+            className={({ isActive }) => styles.link + (isActive ? " " + styles.link_active : "")}
           >
             <p className="text text_type_main-medium">История заказов</p>
           </NavLink>

@@ -21,6 +21,10 @@ module.exports = {
     },
     // Tells eslint how to resolve imports
     "import/resolver": {
+      // Understands tsconfig paths and modern "exports"-only packages (e.g. uuid v14)
+      typescript: {
+        alwaysTryTypes: true,
+      },
       node: {
         paths: ["src"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
@@ -40,6 +44,8 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "warn",
     // eslint-plugin-import cannot statically validate dynamic keys of a namespace import.
     "import/namespace": ["error", { allowComputed: true }],
+    // Produces false positives with the TypeScript resolver; TypeScript itself checks default imports.
+    "import/default": "off",
   },
   overrides: [
     {

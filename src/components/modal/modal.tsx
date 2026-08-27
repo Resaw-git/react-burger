@@ -3,8 +3,7 @@ import styles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "../shared";
-import {useLocation} from "react-router-dom";
-import {ILocation} from "../../utils/types";
+import { useLocation } from "react-router-dom";
 import {useDispatchHook, useSelectorHook} from "../../hooks/redux";
 import {closeModal} from "../../services/actions/modal";
 
@@ -17,7 +16,7 @@ interface IComponentProps {
 const Modal: FC<IComponentProps> = ({ children, onClose }) => {
   const { isDetails } = useSelectorHook((store) => store.modal)
   const dispatch = useDispatchHook();
-  const location = useLocation<ILocation>();
+  const location = useLocation();
 
   const escapeModal = (e: KeyboardEvent) => {
     if (e.key === "Escape") {

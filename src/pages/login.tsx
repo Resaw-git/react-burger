@@ -1,6 +1,6 @@
 import React, {FormEvent, FC, useEffect} from "react";
 import styles from "./style.module.css";
-import {Link, Redirect, useLocation} from "react-router-dom";
+import {Link, Navigate, useLocation} from "react-router-dom";
 import {
   Input,
   PasswordInput,
@@ -11,10 +11,11 @@ import { autorization } from "../services/actions/login";
 import { getUserData, refreshToken } from "../services/actions/user";
 import Loader from "../components/loader/loader";
 import { useForm } from "../hooks/use-form";
-import {ILocation} from "../utils/types";
+import {ILocationState} from "../utils/types";
 
 export const Login: FC = () => {
-  const location = useLocation<ILocation>()
+  const location = useLocation();
+  const state = location.state as ILocationState | null;
 
   const { values, handleChange } = useForm({ name: "", password: "", email: "", token: "" });
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -48,7 +49,7 @@ export const Login: FC = () => {
   };
 
   if (loginSuccess) {
-    return <Redirect to={location.state?.from || "/"} />;
+    return <Navigate to={state?.from || "/"} replace />;
   }
 
   return (

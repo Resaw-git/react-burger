@@ -1,9 +1,8 @@
-import { Location } from "history";
+import { Location } from "react-router-dom";
 
-export interface ILocation {
-    from: Location;
+export interface ILocationState {
+    from?: Location;
     background?: Location;
-    pathname: string;
 }
 
 export interface IIngredient {
