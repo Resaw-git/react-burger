@@ -5,11 +5,11 @@
 :link: ссылка на демо: https://react-burger-beta.vercel.app/
 
 ## Технологии
- - TypeScript v4.7
- - React v18.2
+ - TypeScript v5.9
+ - React v18.3
  - Redux v4.2
  - Redux thunk v2.4
- - React Router v5.2
+ - React Router v7.18
 
 ## Функционал
  - Навигация по приложению
