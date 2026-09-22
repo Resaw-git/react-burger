@@ -1,4 +1,5 @@
-const BASE_URL = 'https://stellarburgers.education-services.ru/api'
+const BASE_URL = import.meta.env.VITE_API_URL //?? 'https://stellarburgers.education-services.ru/api';
+
 export const INGREDIENTS_URL = `${BASE_URL}/ingredients`        // для списка ингредиентов.
 export const ORDERS_URL = `${BASE_URL}/orders`                  // для номера заказа.
 export const LOGIN_URL = `${BASE_URL}/auth/login`               // для авторизации.
@@ -10,6 +11,6 @@ export const RESET_URL = `${BASE_URL}/password-reset`           // для сбр
 export const PASSWORD_URL = `${BASE_URL}/password-reset/reset`  // для нового пароля
 
 
-const BASE_WS_URL = 'wss://stellarburgers.education-services.ru';
+const BASE_WS_URL = import.meta.env.VITE_WS_URL;
 export const ALL_ORDERS_WS_URL = `${BASE_WS_URL}/orders/all`;
 export const USER_ORDERS_WS_URL = `${BASE_WS_URL}/orders?token=`;

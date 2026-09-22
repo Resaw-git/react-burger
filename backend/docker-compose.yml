@@ -11,6 +11,70 @@ services:
       POSTGRES_DB: stellar_burgers
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d stellar_burgers']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: stellar-burger-redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: .
+    container_name: stellar-burger-backend
+    restart: unless-stopped
+    ports:
+      - 4000:4000
+    environment:
+      PORT: 4000
+      CORS_ORIGIN: http://localhost:8080
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: stellar_burgers
+      JWT_SECRET: super-secret-change-me
+      JWT_ACCESS_EXPIRES: 20m
+      JWT_REFRESH_EXPIRES: 30d
+      REDIS_ENABLED: 'true'
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      MAIL_ENABLED: 'false'
+      THROTTLE_TTL_MS: 60000
+      THROTTLE_LIMIT: 300
+      THROTTLE_AUTH_LIMIT: 20
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ../frontend
+      args:
+        VITE_API_URL: http://localhost:8080/api
+        VITE_WS_URL: ws://localhost:8080
+    container_name: stellar-burger-frontend
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
 
 volumes:
   pgdata:
+  redisdata:
+

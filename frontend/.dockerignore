@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+cypress
+*.md
+.env
+.env.*
+.git
+.vscode
+Dockerfile
+.dockerignore

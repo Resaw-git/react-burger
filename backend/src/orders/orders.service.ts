@@ -1,14 +1,18 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Order } from './orders.entity';
 import { IngredientsService } from '../ingredients/ingredients.service';
+import { ORDER_CREATED, ORDER_EVENTS } from '../common/events/events.module';
+import EventEmitter from 'events';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order)
     private readonly ordersRepository: Repository<Order>,
+    @Inject(ORDER_EVENTS)
+    private readonly events: EventEmitter,
     private readonly ingredientsService: IngredientsService,
   ) {}
 
@@ -36,11 +40,36 @@ export class OrdersService {
       ownerId,
     });
     await this.ordersRepository.save(order);
+    this.events.emit(ORDER_CREATED);
 
     return {
       success: true,
       name: order.name,
       order: this.toResponse(order),
+    };
+  }
+
+  public async getFeed(ownerId?: string) {
+    const where = ownerId ? { ownerId } : {};
+    const orders = await this.ordersRepository.find({
+      where,
+      order: { createdAt: 'DESC' },
+      take: 50,
+    });
+
+    const total = await this.ordersRepository.count({ where });
+
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const totalToday = await this.ordersRepository.count({
+      where: { ...where, createdAt: MoreThanOrEqual(todayStart) },
+    });
+
+    return {
+      success: true,
+      orders: orders.map((order) => this.toResponse(order)),
+      total,
+      totalToday,
     };
   }
 

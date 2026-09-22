@@ -21,10 +21,10 @@ export class User {
   passwordHash: string;
 
   @Column({ type: 'varchar', nullable: true })
-  refreshTokenHash: string | null;
-
-  @Column({ type: 'varchar', nullable: true })
   resetCode: string | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  resetCodeExpiresAt: Date | null;
 
   @CreateDateColumn()
   createdAt: Date;

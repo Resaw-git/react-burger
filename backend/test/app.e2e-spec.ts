@@ -4,6 +4,7 @@ import request from 'supertest';
 import { DataSource } from 'typeorm';
 import { AppModule } from '../src/app.module';
 import { Ingredient } from '../src/ingredients/ingredients.entity';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 describe('Stellar Burgers API (e2e)', () => {
   let app: INestApplication;
@@ -25,6 +26,7 @@ describe('Stellar Burgers API (e2e)', () => {
     }).compile();
 
     app = moduleRef.createNestApplication();
+    app.useWebSocketAdapter(new WsAdapter(app));
     app.setGlobalPrefix('api');
     app.useGlobalPipes(
       new ValidationPipe({ whitelist: true, transform: true }),
@@ -225,6 +227,86 @@ describe('Stellar Burgers API (e2e)', () => {
 
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
       expect(res.body.success).toBe(false);
+    });
+  });
+
+  describe('Password reset', () => {
+    it('запросить код и сбросить пароль', async () => {
+      const req = await http()
+        .post('/api/password-reset')
+        .send({ email: user.email });
+
+      expect(req.status).toBe(HttpStatus.OK);
+      expect(req.body).toEqual({ success: true, message: 'Reset email sent' });
+
+      const dbUser = await dataSource.query(
+        `SELECT "resetCode" FROM users WHERE email = $1`,
+        [user.email],
+      );
+      const code = dbUser[0].resetCode as string;
+      expect(code).toMatch(/^\d{6}$/);
+
+      const reset = await http()
+        .post('/api/password-reset/reset')
+        .send({ password: 'newpassword', token: code });
+      expect(reset.status).toBe(HttpStatus.OK);
+      expect(reset.body.message).toBe('Password successfully reset');
+
+      const oldLogin = await http()
+        .post('/api/auth/login')
+        .send({ email: user.email, password: user.password });
+      expect(oldLogin.status).toBe(HttpStatus.UNAUTHORIZED);
+
+      const newLogin = await http()
+        .post('/api/auth/login')
+        .send({ email: user.email, password: 'newpassword' });
+      expect(newLogin.status).toBe(HttpStatus.OK);
+      user.password = 'newpassword';
+    });
+
+    it('отклоняет неверный код', async () => {
+      const res = await http()
+        .post('/api/password-reset/reset')
+        .send({ password: 'somepass', token: '000000' });
+      expect(res.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(res.body.message).toBe('Incorrect reset token');
+    });
+
+    it('код одноразовый, повторное использование не срабатывает', async () => {
+      await http().post('/api/password-reset').send({ email: user.email });
+      const dbUser = await dataSource.query(
+        `SELECT "resetCode" FROM users WHERE email = $1`,
+        [user.email],
+      );
+      const code = dbUser[0].resetCode as string;
+
+      await http()
+        .post('/api/password-reset/reset')
+        .send({ password: 'newpassword', token: code });
+
+      const reuse = await http()
+        .post('/api/password-reset/reset')
+        .send({ password: 'hacked', token: code });
+
+      expect(reuse.status).toBe(HttpStatus.BAD_REQUEST);
+    });
+
+    it('404 для несуществующего email', async () => {
+      const res = await http()
+        .post('/api/password-reset')
+        .send({ email: 'nouser@test.ru' });
+
+      expect(res.status).toBe(HttpStatus.NOT_FOUND);
+    });
+
+    it('возвращает 409 при повторной регистрации того же email', async () => {
+      const res = await http().post('/api/auth/register').send(user);
+
+      expect(res.status).toBe(HttpStatus.CONFLICT);
+      expect(res.body).toEqual({
+        success: false,
+        message: 'User already exists',
+      });
     });
   });
 });

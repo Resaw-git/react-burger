@@ -1,18 +1,29 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { User } from '../users/users.entity';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
+import { MailService } from '../mail/mail.service';
+import { RefreshTokenStore } from './refresh-token.store';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
+    private readonly refreshTokenStore: RefreshTokenStore,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -22,7 +33,28 @@ export class AuthService {
       email: dto.email.toLocaleLowerCase(),
       passwordHash,
     });
-    await this.usersRepository.save(user);
+
+    try {
+      await this.usersRepository.save(user);
+    } catch (error) {
+      if (
+        error instanceof QueryFailedError &&
+        (error.driverError as { code?: string }).code === '23505'
+      ) {
+        throw new ConflictException('User already exists');
+      }
+
+      throw error;
+    }
+
+    this.mailService
+      .sendWelcome(user.email, user.name)
+      .catch((err: Error) =>
+        this.logger.error(
+          `Не удалось отправить welcome-письмо: ${err.message}`,
+        ),
+      );
+
     return this.buildAuthResponse(user);
   }
 
@@ -37,33 +69,37 @@ export class AuthService {
   }
 
   async refreshTokens(token: string) {
-    const user = await this.findByRefreshToken(token);
+    const resolved = await this.refreshTokenStore.resolve(token);
+    if (!resolved) {
+      throw new UnauthorizedException('Token is invalid');
+    }
+
+    if (resolved.reused) {
+      // Старый (уже ротированный) токен пришёл повторно — признак утечки.
+      // Инвалидируем ВСЕ сессии пользователя.
+      const revoked = await this.refreshTokenStore.revokeAll(resolved.userId);
+      this.logger.warn(
+        `Повторное использование refresh-токена (возможная кража): ` +
+          `userId=${resolved.userId}, отозвано сессий: ${revoked}`,
+      );
+      throw new UnauthorizedException('Token is invalid');
+    }
+
+    const user = await this.usersRepository.findOne({
+      where: { id: resolved.userId },
+    });
     if (!user) {
       throw new UnauthorizedException('Token is invalid');
     }
+
+    // Ротация: старый токен сгорает и помечается как использованный.
+    await this.refreshTokenStore.rotateOut(token);
     return this.buildAuthResponse(user);
   }
 
   async logout(token: string) {
-    const user = await this.findByRefreshToken(token);
-    if (user) {
-      user.refreshTokenHash = null;
-      await this.usersRepository.save(user);
-    }
+    await this.refreshTokenStore.revoke(token);
     return { success: true, message: 'Successful logout' };
-  }
-
-  private async findByRefreshToken(token: string): Promise<User | null> {
-    const users = await this.usersRepository
-      .createQueryBuilder('user')
-      .where('user.refreshTokenHash IS NOT NULL')
-      .getMany();
-    for (const user of users) {
-      if (await bcrypt.compare(token, user.refreshTokenHash!)) {
-        return user;
-      }
-    }
-    return null;
   }
 
   private async buildAuthResponse(user: User) {
@@ -72,9 +108,7 @@ export class AuthService {
       email: user.email,
     });
     const refreshToken = randomBytes(40).toString('hex');
-
-    user.refreshTokenHash = await bcrypt.hash(refreshToken, 10);
-    await this.usersRepository.save(user);
+    await this.refreshTokenStore.save(refreshToken, user.id);
 
     return {
       success: true,

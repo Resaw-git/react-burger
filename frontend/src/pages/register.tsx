@@ -64,7 +64,7 @@ export const Register = () => {
 
   const sendForm = (e: FormEvent) => {
     e.preventDefault();
-    registration(values);
+    dispatch(registration(values));
   };
 
   return (
