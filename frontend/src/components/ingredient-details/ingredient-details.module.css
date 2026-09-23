@@ -26,3 +26,59 @@
 .nutrition {
     width: 120px;
 }
+
+@media screen and (max-width: 1279px) {
+    .wrapper {
+        height: calc(100vh - 64px);
+        align-items: flex-start;
+    }
+
+    .main {
+        max-width: 480px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 16px 16px 0;
+    }
+
+    .main img {
+        width: 240px;
+        height: 120px;
+        object-fit: cover;
+    }
+
+    .main :global .text_type_main-medium {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .main :global .text_type_main-default {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .main :global .text_type_digits-default {
+        font-size: 22px;
+        line-height: 24px;
+    }
+
+    .details {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .nutrition {
+        width: calc(50% - 8px);
+        max-width: 144px;
+    }
+
+    .mobile_bar {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        padding: 16px 8px;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+}

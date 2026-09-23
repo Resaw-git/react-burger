@@ -162,3 +162,175 @@
 .scroll::-webkit-scrollbar-thumb {
   background-color: #8585AD;
 }
+
+.form_title {
+  composes: text_type_main-medium from global;
+}
+
+.page_title {
+  display: none;
+}
+
+.feed_mobile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 16px;
+  align-items: stretch;
+}
+
+.feed_title {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+.feed_tabs {
+  display: flex;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.feed_tabs > li {
+  flex: 1;
+  min-width: 0;
+}
+
+.stats_title {
+  composes: text_type_main-medium from global;
+}
+
+@media screen and (max-width: 1279px) {
+  .container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px;
+  }
+
+  .info {
+    height: calc(100vh - 64px);
+  }
+
+  .form {
+    width: 100%;
+    max-width: 480px;
+    margin-top: 56px;
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+
+  .form .form_title {
+    align-self: flex-start;
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: 700;
+  }
+
+  .form :global .input__container {
+    width: 100%;
+  }
+
+  .form :global .input__container .input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form button[type="submit"] {
+    align-self: center;
+  }
+
+  .hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .hint .button {
+    padding: 0;
+  }
+
+  .page_title {
+    display: block;
+    align-self: flex-start;
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: 700;
+    margin-top: 16px;
+  }
+
+  .profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px;
+  }
+
+  .box {
+    display: none;
+  }
+
+  .user_feed {
+    margin: 24px 0 0;
+    width: 100%;
+    max-width: 584px;
+  }
+
+  .scroll {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feed_mobile .scroll {
+    margin-top: 16px;
+    gap: 16px;
+    max-height: calc(100vh - 240px);
+  }
+
+  .feed_mobile .main_right {
+    min-width: 0;
+    margin-top: 24px;
+    gap: 24px;
+  }
+
+  .feed_mobile .stats_title {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .feed_mobile .order_state {
+    margin-top: 0;
+    gap: 24px;
+  }
+
+  .feed_mobile .order_numbers {
+    width: 140px;
+  }
+
+  .feed_mobile .order_list {
+    gap: 4px;
+    max-height: none;
+    flex-wrap: nowrap;
+  }
+
+  .feed_mobile .order_list :global .text_type_digits-default {
+    font-size: 22px;
+    line-height: 24px;
+  }
+
+  .feed_mobile .order_bignumber {
+    font-size: 72px;
+    line-height: 80px;
+  }
+}

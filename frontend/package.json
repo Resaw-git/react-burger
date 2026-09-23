@@ -6,7 +6,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "vite",
     "start": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",

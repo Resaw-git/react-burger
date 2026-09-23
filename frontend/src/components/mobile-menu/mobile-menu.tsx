@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./mobile-menu.module.css";
 import ReactDOM from "react-dom";
 import {NavLink, useNavigate, useLocation} from "react-router-dom";

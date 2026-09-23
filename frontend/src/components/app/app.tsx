@@ -13,6 +13,9 @@ import { ILocationState } from "../../utils/types";
 import { FeedDetails } from "../feed-details/feed-details";
 import { Orders } from "../../pages/orders";
 import MobileMenu from "../mobile-menu/mobile-menu";
+import MobileModal from "../modal/mobile-modal";
+import { useIsMobile } from "../../hooks/use-media-query";
+import MobileOrderDetails from "../order-details/mobile-order-details";
 
 const App: FC = () => {
   const navigate = useNavigate();
@@ -20,6 +23,7 @@ const App: FC = () => {
   const background = (location.state as ILocationState | null)?.background;
   const { modalOpen, mobileMenu } = useSelectorHook((store) => store.modal);
   const dispatch = useDispatchHook();
+  const isMobile = useIsMobile();
 
 
   const modalClose = () => {
@@ -52,9 +56,15 @@ const App: FC = () => {
             <>
               <Constructor />
               {modalOpen && (
-                <Modal onClose={modalCloseOrd}>
-                  <OrderDetails />
-                </Modal>
+                isMobile ? (
+                  <MobileModal onClose={modalCloseOrd} title="Заказ оформлен">
+                    <MobileOrderDetails />
+                  </MobileModal>
+                ) : (
+                  <Modal onClose={modalCloseOrd}>
+                    <OrderDetails />
+                  </Modal>
+                )
               )}
             </>
           }
@@ -99,9 +109,15 @@ const App: FC = () => {
             element={
               <>
                 <Feed />
-                <Modal onClose={modalClose}>
-                  <FeedDetails bg={true} path={location.pathname} />
-                </Modal>
+                {isMobile ? (
+                  <MobileModal onClose={modalClose} title="Детали заказа">
+                    <FeedDetails bg={true} path={location.pathname} />
+                  </MobileModal>
+                ) : (
+                  <Modal onClose={modalClose}>
+                    <FeedDetails bg={true} path={location.pathname} />
+                  </Modal>
+                )}
               </>
             }
           />
@@ -110,9 +126,15 @@ const App: FC = () => {
             element={
               <>
                 <Constructor />
-                <Modal onClose={modalClose}>
-                  <IngredientDetails bg={true} />
-                </Modal>
+                {isMobile ? (
+                  <MobileModal onClose={modalClose}>
+                    <IngredientDetails bg={true} />
+                  </MobileModal>
+                ) : (
+                  <Modal onClose={modalClose}>
+                    <IngredientDetails bg={true} />
+                  </Modal>
+                )}
               </>
             }
           />
@@ -121,9 +143,15 @@ const App: FC = () => {
             element={
               <>
                 <Orders />
-                <Modal onClose={modalClose}>
-                  <FeedDetails bg={true} path={location.pathname} />
-                </Modal>
+                {isMobile ? (
+                  <MobileModal onClose={modalClose} title="Детали заказа">
+                    <FeedDetails bg={true} path={location.pathname} />
+                  </MobileModal>
+                ) : (
+                  <Modal onClose={modalClose}>
+                    <FeedDetails bg={true} path={location.pathname} />
+                  </Modal>
+                )}
               </>
             }
           />

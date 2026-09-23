@@ -77,7 +77,7 @@ export const Register = () => {
         )}
         {userFailed && (
           <form className={styles.form} onSubmit={sendForm}>
-            <p className="text text_type_main-medium">Регистрация</p>
+            <p className={styles.form_title}>Регистрация</p>
             <div className={"mb-6"} />
             <Input
               type={"text"}
@@ -129,7 +129,7 @@ export const Register = () => {
               Зарегистрироваться
             </Button>
             <div className={"mb-20"} />
-            <p className={"text text_color_inactive text_type_main-default"}>
+            <p className={styles.hint + " text text_color_inactive text_type_main-default"}>
               Уже зарегистрированы?
               <Link to="/login">
                 <button className={styles.button}>Войти</button>

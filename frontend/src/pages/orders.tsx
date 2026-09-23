@@ -52,6 +52,7 @@ export const Orders: FC = () => {
   return (
     <main className={styles.main}>
       <div className={styles.profile}>
+        <h1 className={styles.page_title + " text"}>История заказов</h1>
         <div className={styles.box}>
           <NavLink
             to="/profile"

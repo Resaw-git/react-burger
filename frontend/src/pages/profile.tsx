@@ -37,6 +37,7 @@ export const Profile: FC = () => {
       dispatch(refreshToken());
     }
     if (editSuccess) {
+      setValues({ ...values, password: "" });
       setTimeout(() => {
         hideMessage(dispatch);
       }, 2000);
@@ -50,7 +51,7 @@ export const Profile: FC = () => {
   };
 
   const cancelChange = () => {
-    setValues({ ...values, name: userName, email: userEmail });
+    setValues({ ...values, name: userName, email: userEmail, password: "" });
   };
 
   const saveChange = (e: FormEvent) => {
@@ -65,6 +66,7 @@ export const Profile: FC = () => {
   return (
     <main className={styles.main}>
       <div className={styles.profile}>
+        <h1 className={styles.page_title + " text"}>Профиль</h1>
         <div className={styles.box}>
           <NavLink
             to="/profile"
@@ -125,7 +127,7 @@ export const Profile: FC = () => {
             name={"password"}
           />
           <div className={"mb-6"} />
-          {(values.name !== userName || values.email !== userEmail) && (
+          {(values.name !== userName || values.email !== userEmail || values.password !== "") && (
             <div className={styles.buttons}>
               <Button onClick={cancelChange} type="secondary" size="medium" htmlType="reset">
                 Отмена

@@ -1,0 +1,41 @@
+.modal {
+    position: fixed;
+    z-index: 3;
+    background: #1c1c21;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.cross {
+    position: absolute;
+    top: 23px;
+    right: 11px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.title_bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 16px 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.title_text {
+    font-family: "Jet Brains Mono", sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 32px;
+    color: var(--text-primary);
+}
+
+.title_cross {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}

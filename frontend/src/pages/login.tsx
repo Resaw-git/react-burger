@@ -62,7 +62,7 @@ export const Login: FC = () => {
         )}
         {userFailed && (
           <form className={styles.form} onSubmit={auth}>
-            <p className="text text_type_main-medium">Войти</p>
+            <p className={styles.form_title}>Войти</p>
             <div className={"mb-6"} />
             <Input
               type={"text"}
@@ -94,14 +94,14 @@ export const Login: FC = () => {
               Войти
             </Button>
             <div className={"mb-20"} />
-            <p className={"text text_color_inactive text_type_main-default"}>
+            <p className={styles.hint + " text text_color_inactive text_type_main-default"}>
               Вы — новый пользователь?
               <Link to="/register">
                 <button className={styles.button}>Зарегистрироваться</button>
               </Link>
             </p>
             <div className={"mb-4"} />
-            <p className={"text text_color_inactive text_type_main-default"}>
+            <p className={styles.hint + " text text_color_inactive text_type_main-default"}>
               Забыли пароль?
               <Link to="/forgot-password">
                 <button className={styles.button}>Восстановить пароль</button>

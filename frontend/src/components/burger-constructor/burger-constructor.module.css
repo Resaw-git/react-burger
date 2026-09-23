@@ -1,46 +1,58 @@
 .main {
-    display: flex;
-    margin-top: 100px;
-    justify-content: center;
+  display: flex;
+  margin-top: 100px;
+  justify-content: center;
 }
 
 .elements {
-    display: flex; 
-    flex-direction: column; 
-    gap: 15px;
-    max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
 }
 
 .block {
-    margin-top: 15px;
-    width: 568px;
-    height: 80px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-  }
+  margin-top: 15px;
+  width: 568px;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
 
 .bigIcon {
-    transform: scale(1.5);
+  transform: scale(1.5);
+}
+
+.noscroll {
+  display: grid;
+  gap: 18px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  scrollbar-color: #8585AD #2F2F37;
+  scrollbar-width: thin;
 }
 
 .scroll {
-    display: grid;
-    gap: 18px;
-    max-height: 475px;
-    overflow-y: scroll;
-    scrollbar-color: #8585AD #2F2F37;
-    scrollbar-width: thin;
-  }
-  
-  .scroll::-webkit-scrollbar {
-    width: 8px;
-    
-  }
-  .scroll::-webkit-scrollbar-track {
-    background: #2F2F37;
-  }
-  .scroll::-webkit-scrollbar-thumb {
-    background-color: #8585AD;
-  }
+  display: grid;
+  gap: 18px;
+  max-height: 375px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-color: #8585AD #2F2F37;
+  scrollbar-width: thin;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}

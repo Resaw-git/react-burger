@@ -6,9 +6,10 @@ import {CloseIcon} from "../shared";
 interface IComponentProps {
     children: React.ReactNode
     onClose: () => void;
+    title?: string;
 }
 
-const MobileModal: FC<IComponentProps> = ({ onClose, children }) => {
+const MobileModal: FC<IComponentProps> = ({ onClose, children, title }) => {
 
 
     const escapeModal = (e: KeyboardEvent) => {
@@ -27,9 +28,18 @@ const MobileModal: FC<IComponentProps> = ({ onClose, children }) => {
 
     return ReactDOM.createPortal(
         <div className={styles.modal}>
-            <div className={styles.cross}>
-                <CloseIcon type="primary" onClick={onClose} />
-            </div>
+            {title ? (
+                <div className={styles.title_bar}>
+                    <h2 className={styles.title_text}>{title}</h2>
+                    <div className={styles.title_cross}>
+                        <CloseIcon type="primary" onClick={onClose} />
+                    </div>
+                </div>
+            ) : (
+                <div className={styles.cross}>
+                    <CloseIcon type="primary" onClick={onClose} />
+                </div>
+            )}
             {children}
         </div>,
         document.getElementById("mobile-modal") as HTMLElement

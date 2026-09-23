@@ -114,3 +114,93 @@
 .scroll::-webkit-scrollbar-thumb {
     background-color: #8585AD;
 }
+
+@media screen and (max-width: 1279px) {
+    .container {
+        width: 100%;
+    }
+
+    .wrap {
+        width: 100%;
+    }
+
+    .content {
+        max-width: 480px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 16px;
+        margin: 0 auto;
+    }
+
+    .text_left {
+        margin-top: 0;
+    }
+
+    .content :global .text_type_digits-default {
+        font-size: 22px;
+        line-height: 24px;
+    }
+
+    .content h2 {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .small_img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .img_ing {
+        scale: 0.4;
+        left: -18px;
+        top: 2px;
+    }
+
+    .item_info {
+        padding: 8px 0;
+    }
+
+    .item_description {
+        gap: 8px;
+    }
+
+    .name p {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .price {
+        font-size: 22px;
+        line-height: 24px;
+        margin-right: 0;
+    }
+
+    .scroll {
+        gap: 8px;
+        min-height: 120px;
+        max-height: calc(100vh - 430px);
+    }
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--modal-bg);
+        padding: 8px 16px;
+        margin: 0;
+    }
+
+    .footer :global .text_type_main-default {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .total_price {
+        font-size: 22px;
+        line-height: 24px;
+        align-items: center;
+    }
+}

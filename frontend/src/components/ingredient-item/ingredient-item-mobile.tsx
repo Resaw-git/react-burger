@@ -4,6 +4,7 @@ import { Button, Counter, CurrencyIcon } from "../shared";
 import { IIngredient } from "../../utils/types";
 import { useDispatchHook, useSelectorHook } from "../../hooks/redux";
 import { addBun, addIngredient } from "../../services/actions/constructor";
+import { useLocation, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 interface IComponentProps {
@@ -12,6 +13,8 @@ interface IComponentProps {
 
 const IngredientItemMobile: FC<IComponentProps> = ({ id }) => {
   const dispatch = useDispatchHook();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { ingredientsArray } = useSelectorHook((store) => store.ingredients);
   const { constructorBun, constructorIng } = useSelectorHook((store) => store.constructorList);
 
@@ -24,6 +27,10 @@ const IngredientItemMobile: FC<IComponentProps> = ({ id }) => {
     } else {
       addIngredient({...element, id: uuidv4()}, dispatch);
     }
+  };
+
+  const showDetails = () => {
+    navigate(`/ingredients/${id}`, { state: { background: location } });
   };
 
   const counter = React.useMemo(() => {
@@ -48,7 +55,7 @@ const IngredientItemMobile: FC<IComponentProps> = ({ id }) => {
   return (
     <div className={styles.block}>
       {counter !== 0 && <Counter count={counter} size="default" />}
-      <div className={styles.desc}>
+      <div className={styles.desc} onClick={showDetails}>
         <img alt={element?.name} src={element?.image_mobile} className={styles.img} />
         <div className={styles.price}>
           <p className="text text_type_digits-default pr-2">{element?.price}</p>

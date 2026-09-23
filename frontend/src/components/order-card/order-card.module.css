@@ -61,3 +61,55 @@
     background-color: rgba(0,0,0,0.7);
 }
 
+@media screen and (max-width: 1279px) {
+    .order_box {
+        padding: 16px;
+        gap: 16px;
+        min-height: auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .order_title :global .text_type_digits-default,
+    .order_price :global .text_type_digits-default {
+        font-size: 22px;
+        line-height: 24px;
+    }
+
+    .order_date {
+        white-space: pre-line;
+        text-align: right;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .order_box :global .text_type_main-medium {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .order_status {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .small_img {
+        height: 32px;
+        width: 32px;
+        margin-right: -8px;
+    }
+
+    .img_ing {
+        top: 2px;
+        left: -18px;
+        scale: 0.4;
+    }
+
+    .count {
+        height: 32px;
+        width: 32px;
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+

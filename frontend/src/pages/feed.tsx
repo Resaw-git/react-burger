@@ -1,12 +1,16 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { OrderCard } from "../components/order-card/order-card";
 import { useDispatchHook, useSelectorHook } from "../hooks/redux";
 import { connectWsFeed, disconnectWsFeed } from "../services/actions/ws-feed";
+import { useIsMobile } from "../hooks/use-media-query";
+import { Tab } from "../utils/UI";
 
 export const Feed: FC = () => {
   const dispatch = useDispatchHook();
   const { data } = useSelectorHook((store) => store.feed);
+  const isMobile = useIsMobile();
+  const [tab, setTab] = useState<string>("orders");
 
   useEffect(() => {
     connectWsFeed(dispatch);
@@ -35,6 +39,64 @@ export const Feed: FC = () => {
     ) : null
   );
 
+  const statsBlock = (
+    <div className={styles.main_right}>
+      <div className={styles.order_state}>
+        <div className={styles.order_numbers}>
+          <h2 className={styles.stats_title + " text text_type_main-medium mb-6"}>Готовы:</h2>
+          <ul className={styles.order_list}>
+            {doneOrders}
+          </ul>
+        </div>
+        <div className={styles.order_numbers}>
+          <h2 className={styles.stats_title + " text text_type_main-medium mb-6"}>В работе:</h2>
+          <ul className={styles.order_list}>
+            {pendingOrders}
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h2 className={styles.stats_title + " text text_type_main-medium mb-6"}>
+          Выполнено за все время:
+        </h2>
+        <p className={styles.order_bignumber}>{data.total}</p>
+      </div>
+      <div>
+        <h2 className={styles.stats_title + " text text_type_main-medium mb-6"}>
+          Выполнено за сегодня:
+        </h2>
+        <p className={styles.order_bignumber}>{data.totalToday}</p>
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <div className={styles.main}>
+        <div className={styles.feed_mobile}>
+          <h1 className={styles.feed_title + " text"}>Лента заказов</h1>
+          <div className={styles.feed_tabs}>
+            <Tab value="orders" active={tab === "orders"} onClick={setTab}>
+              <p className="text text_type_main-small">Заказы</p>
+            </Tab>
+            <Tab value="stats" active={tab === "stats"} onClick={setTab}>
+              <p className="text text_type_main-small">Статистика</p>
+            </Tab>
+          </div>
+          {tab === "orders" ? (
+            <div className={styles.scroll}>
+              {data.orders.map((el) => (
+                <OrderCard key={el._id} item={el} />
+              ))}
+            </div>
+          ) : (
+            statsBlock
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.main}>
       <div className={styles.container}>
@@ -52,34 +114,7 @@ export const Feed: FC = () => {
         </div>
         <div className="mr-15" />
         <div className={styles.warp}>
-          <div className={styles.main_right}>
-            <div className={styles.order_state}>
-              <div className={styles.order_numbers}>
-                <h2 className="text text_type_main-medium mb-6">Готовы:</h2>
-                <ul className={styles.order_list}>
-                  {doneOrders}
-                </ul>
-              </div>
-              <div className={styles.order_numbers}>
-                <h2 className="text text_type_main-medium mb-6">В работе:</h2>
-                <ul className={styles.order_list}>
-                  {pendingOrders}
-                </ul>
-              </div>
-            </div>
-            <div>
-              <h2 className="text text_type_main-medium mb-6">
-                Выполнено за все время:
-              </h2>
-              <p className={styles.order_bignumber}>{data.total}</p>
-            </div>
-            <div>
-              <h2 className="text text_type_main-medium mb-6">
-                Выполнено за сегодня:
-              </h2>
-              <p className={styles.order_bignumber}>{data.totalToday}</p>
-            </div>
-          </div>
+          {statsBlock}
         </div>
       </div>
     </div>

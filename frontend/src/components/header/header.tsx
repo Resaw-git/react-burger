@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "../shared";
 import desktop from "./header.desktop.module.css";
 import mobile from "./header.mobile.module.css";
@@ -6,17 +6,12 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { isActiveText } from "../../lib/active-text";
 import { openMobileMenu } from "../../services/actions/modal";
 import { useDispatchHook } from "../../hooks/redux";
+import { useIsMobile } from "../../hooks/use-media-query";
 
 const Header: FC = () => {
   const location = useLocation();
-  const [width, setWidth] = useState(window.innerWidth);
+  const isMobile = useIsMobile();
   const dispatch = useDispatchHook();
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      setWidth(window.innerWidth);
-    });
-  }, [window.innerWidth]);
 
   const handleMenu = () => {
     openMobileMenu(dispatch);
@@ -24,7 +19,7 @@ const Header: FC = () => {
 
   return (
     <header className={desktop.header}>
-      {width >= 1280 ? (
+      {!isMobile ? (
         <nav className={desktop.nav}>
           <div className={desktop.leftside}>
             <NavLink

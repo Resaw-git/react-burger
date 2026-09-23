@@ -73,7 +73,7 @@ export const ResetPassword = () => {
         )}
         {userFailed && (
           <form className={styles.form} onSubmit={changePassword}>
-            <p className="text text_type_main-medium">Восстановление пароля</p>
+            <p className={styles.form_title}>Восстановление пароля</p>
             <div className={"mb-6"} />
             <Input
               type={"text"}
@@ -106,7 +106,7 @@ export const ResetPassword = () => {
               Сохранить
             </Button>
             <div className={"mb-20"} />
-            <p className={"text text_color_inactive text_type_main-default"}>
+            <p className={styles.hint + " text text_color_inactive text_type_main-default"}>
               Вспомнили пароль?
               <Link to="/login">
                 <button className={styles.button}>Войти</button>

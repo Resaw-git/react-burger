@@ -74,7 +74,7 @@ const BurgerConstructor: FC = () => {
     <div className={styles.main} ref={dragRef}>
       <div className={styles.elements} data-test={'dropfield'}>
         <ConstructorItem index={0} position={"top"} />
-        <div className={styles.scroll}>
+        <div className={constructorIng.length > 4 ? styles.scroll : styles.noscroll}>
           {(constructorIng.length > 0 &&
             constructorIng.map((e: IIngredient, index: number) => (
               <ConstructorItem

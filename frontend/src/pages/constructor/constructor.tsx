@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode } from "react";
 import { DndProvider } from "react-dnd";
 import {useDispatchHook, useSelectorHook} from "../../hooks/redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -10,12 +10,13 @@ import mobile from "./container.mobile.module.css";
 import { Tab } from "../../utils/UI";
 import { useInView } from "react-intersection-observer";
 import { IIngredient } from "../../utils/types";
-import IngredientItemMobile from "../../components/ingredient-item-mobile/ingredient-item-mobile";
+import IngredientItemMobile from "../../components/ingredient-item/ingredient-item-mobile";
 import { Button, CurrencyIcon } from "../../components/shared";
-import MobileModal from "../../components/mobile-modal/mobile-modal";
+import MobileModal from "../../components/modal/mobile-modal";
 import {closeMobileModal, openMobileModal} from "../../services/actions/modal";
-import MobileConstructor from "../../components/mobile-constructor/mobile-constructor";
-import { v4 as uuidv4 } from "uuid";
+import MobileConstructor from "../../components/burger-constructor/mobile-constructor";
+
+import { useIsMobile } from "../../hooks/use-media-query";
 
 export const Constructor: FC = () => {
   const { ingredientsArray, ingredientsFailed, ingredientsRequest } = useSelectorHook((store) => store.ingredients);
@@ -23,6 +24,7 @@ export const Constructor: FC = () => {
   const { constructorIng, constructorBun } = useSelectorHook((store) => store.constructorList);
   const { mobileModal } = useSelectorHook((store) => store.modal);
   const dispatch = useDispatchHook();
+  const isMobile = useIsMobile();
   const getTotalSum = (ingredients: IIngredient[], bun: IIngredient[]) => {
     const arr = [...ingredients, ...bun];
     return arr.reduce(
@@ -38,13 +40,6 @@ export const Constructor: FC = () => {
   const openModal = () => {
     openMobileModal(dispatch)
   }
-
-  const [width, setWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      setWidth(window.innerWidth);
-    });
-  }, [window.innerWidth]);
 
   const [bunRef, inViewBun] = useInView({
     threshold: 0.5,
@@ -70,7 +65,7 @@ export const Constructor: FC = () => {
     const type =
       (category === "Булки" && "bun") || (category === "Соусы" && "sauce") || (category === "Начинки" && "main");
 
-    const result = ingredients.map((e) => e.type === type && <IngredientItemMobile key={uuidv4()} id={e._id} />);
+    const result = ingredients.map((e) => e.type === type && <IngredientItemMobile key={e._id} id={e._id} />);
 
     return (
       <>
@@ -82,7 +77,7 @@ export const Constructor: FC = () => {
 
   return (
     <>
-      {width >= 1280 ? (
+      {!isMobile ? (
         <main className={desktop.main}>
           <div className={desktop.container}>
             {ingredientsRequest && (

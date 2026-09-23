@@ -22,3 +22,35 @@
     margin-top: 60px;
 }
 
+@media screen and (max-width: 1279px) {
+    .main {
+        padding-top: 24px;
+        max-width: 480px;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .number {
+        font-size: 72px;
+        line-height: 80px;
+        color: var(--accent);
+    }
+
+    .main :global .text_type_main-medium {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .main :global .text_type_main-default {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .mark_icon {
+        margin-top: 48px;
+        margin-bottom: 48px;
+    }
+}
+

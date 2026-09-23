@@ -68,17 +68,18 @@ export const OrderCard: FC<IComponentProps> = ({ item }) => {
     <div className={styles.order_box} onClick={showDetails}>
       <div className={styles.order_title}>
         <div className="text text_type_digits-default">#{item.number}</div>
-        <p className="text text_type_main-default text_color_inactive">{formatOrderData(item.createdAt)}</p>
+        <p className={styles.order_date + " text text_type_main-default text_color_inactive"}>{formatOrderData(item.createdAt).replace(", ", ",\n")}</p>
       </div>
 
       <div className="text text_type_main-medium">{item.name}</div>
       {location.pathname.indexOf("feed") === -1 && (
         <p
           className={
-            item?.status === "done" ? "text text_type_main-default text_color_success" : "text text_type_main-default"
+            styles.order_status + " text text_type_main-default" +
+            (item?.status === "done" ? " text_color_success" : item?.status === "cancelled" ? " text_color_error" : "")
           }
         >
-          {item?.status === "done" ? "Выполнен" : "Готовится"}
+          {item?.status === "done" ? "Выполнен" : item?.status === "cancelled" ? "Отменен" : "Готовится"}
         </p>
       )}
 

@@ -13,7 +13,6 @@ import {
   connectWsUserFeed,
   disconnectWsUserFeed,
 } from "../../services/actions/ws-user-feed";
-import { v4 as uuidv4 } from "uuid";
 
 interface IComponentProps {
   bg?: boolean;
@@ -93,7 +92,7 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
   const renderItem = () => {
     return ingredients?.map((el) => {
       return (
-        <div className={styles.item_info} key={uuidv4()}>
+        <div className={styles.item_info} key={el._id}>
           <div className={styles.item_description}>
             <div className={styles.small_img}>
               <img
@@ -108,7 +107,7 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
           </div>
 
           <div className={styles.price}>
-            {`${1} x ${2}`}
+            {`${el.count} x ${el.price}`}
             <div className="mr-2" />
             <CurrencyIcon type="primary" />
           </div>
@@ -142,7 +141,7 @@ export const FeedDetails: FC<IComponentProps> = ({ bg, path }) => {
             </div>
 
             <h2 className="text_type_main-medium mb-3">{order?.name}</h2>
-            <p className="text text_type_main-default text_color_success mb-15">
+            <p className={"text text_type_main-default mb-15" + (order?.status === "done" ? " text_color_success" : "")}>
               {order?.status === "done" ? "Выполнен" : "В работе"}
             </p>
 
